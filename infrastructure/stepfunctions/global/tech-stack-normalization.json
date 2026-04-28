@@ -1,0 +1,482 @@
+{
+  "Comment": "App-ModEx Tech Stack Normalization Workflow V2 - Production-Ready with Comprehensive Error Handling",
+  "StartAt": "UpdateStatusProcessing",
+  "States": {
+    "UpdateStatusProcessing": {
+      "Type": "Task",
+      "Comment": "Update process tracking status to PROCESSING",
+      "Resource": "{{NORMALIZATION_STATUS_TRACKER_ARN}}",
+      "Parameters": {
+        "projectId.$": "$.projectId",
+        "processId.$": "$.processId",
+        "status": "PROCESSING",
+        "metadata": {
+          "stage": "normalization-started",
+          "s3Key.$": "$.s3Key",
+          "filename.$": "$.filename"
+        }
+      },
+      "ResultPath": "$.statusUpdate",
+      "Next": "ExtractAllUniqueValues",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "ResultPath": "$.error",
+          "Next": "HandleError"
+        }
+      ],
+      "Retry": [
+        {
+          "ErrorEquals": ["States.TaskFailed"],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 2,
+          "BackoffRate": 2.0
+        }
+      ]
+    },
+    "ExtractAllUniqueValues": {
+      "Type": "Task",
+      "Comment": "Extract unique values from all 5 columns in a single pass",
+      "Resource": "{{BATCH_EXTRACTOR_ARN}}",
+      "Parameters": {
+        "projectId.$": "$.projectId",
+        "processId.$": "$.processId",
+        "originalTimestamp.$": "$.originalTimestamp",
+        "s3Key.$": "$.s3Key",
+        "filename.$": "$.filename"
+      },
+      "ResultPath": "$.extractionResult",
+      "Next": "CheckIfValuesExist",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "ResultPath": "$.error",
+          "Next": "HandleError"
+        }
+      ],
+      "Retry": [
+        {
+          "ErrorEquals": ["States.TaskFailed"],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        }
+      ]
+    },
+    "CheckIfValuesExist": {
+      "Type": "Choice",
+      "Comment": "Check if any unique values were extracted",
+      "Choices": [
+        {
+          "Variable": "$.extractionResult.totalUniqueValues",
+          "NumericGreaterThan": 0,
+          "Next": "AthenaLookup"
+        }
+      ],
+      "Default": "NoValuesToNormalize"
+    },
+    "NoValuesToNormalize": {
+      "Type": "Pass",
+      "Comment": "No values to normalize - skip to completion",
+      "Result": {
+        "message": "No unique values found to normalize"
+      },
+      "ResultPath": "$.skipReason",
+      "Next": "UpdateStatusCompleted"
+    },
+    "AthenaLookup": {
+      "Type": "Task",
+      "Comment": "Single Athena query to validate all values across all column types",
+      "Resource": "{{ATHENA_LOOKUP_SERVICE_ARN}}",
+      "Parameters": {
+        "projectId.$": "$.projectId",
+        "processId.$": "$.processId",
+        "originalTimestamp.$": "$.originalTimestamp",
+        "s3Key.$": "$.s3Key",
+        "filename.$": "$.filename",
+        "uniqueValues.$": "$.extractionResult.uniqueValues"
+      },
+      "ResultPath": "$.lookupResult",
+      "Next": "CheckIfNormalizationNeeded",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "ResultPath": "$.error",
+          "Next": "HandleError"
+        }
+      ],
+      "Retry": [
+        {
+          "ErrorEquals": ["States.TaskFailed"],
+          "IntervalSeconds": 3,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        }
+      ]
+    },
+    "CheckIfNormalizationNeeded": {
+      "Type": "Choice",
+      "Comment": "Check if any unknown values need normalization",
+      "Choices": [
+        {
+          "Variable": "$.lookupResult.totalUnknown",
+          "NumericGreaterThan": 0,
+          "Next": "ParallelNormalization"
+        }
+      ],
+      "Default": "AllValuesKnown"
+    },
+    "AllValuesKnown": {
+      "Type": "Pass",
+      "Comment": "All values are already known - skip normalization",
+      "Result": {
+        "message": "All values already normalized"
+      },
+      "ResultPath": "$.skipReason",
+      "Next": "UpdateStatusCompleted"
+    },
+    "ParallelNormalization": {
+      "Type": "Parallel",
+      "Comment": "Normalize unknown values for each column type in parallel",
+      "Branches": [
+        {
+          "StartAt": "CheckRuntimesNormalization",
+          "States": {
+            "CheckRuntimesNormalization": {
+              "Type": "Choice",
+              "Choices": [
+                {
+                  "Variable": "$.lookupResult.lookupResults.runtimes.unknown",
+                  "NumericGreaterThan": 0,
+                  "Next": "NormalizeRuntimes"
+                }
+              ],
+              "Default": "SkipRuntimes"
+            },
+            "NormalizeRuntimes": {
+              "Type": "Task",
+              "Resource": "{{BEDROCK_NORMALIZER_ARN}}",
+              "Parameters": {
+                "columnType": "runtimes",
+                "projectId.$": "$.projectId",
+                "processId.$": "$.processId",
+                "originalTimestamp.$": "$.originalTimestamp",
+                "s3Key.$": "$.s3Key",
+                "filename.$": "$.filename",
+                "unknownValues.$": "$.lookupResult.lookupResults.runtimes.unknownValues"
+              },
+              "End": true,
+              "Retry": [
+                {
+                  "ErrorEquals": ["States.TaskFailed"],
+                  "IntervalSeconds": 5,
+                  "MaxAttempts": 3,
+                  "BackoffRate": 2.0
+                }
+              ]
+            },
+            "SkipRuntimes": {
+              "Type": "Pass",
+              "Result": {
+                "columnType": "runtimes",
+                "normalizedMappings": [],
+                "processedCount": 0
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "CheckFrameworksNormalization",
+          "States": {
+            "CheckFrameworksNormalization": {
+              "Type": "Choice",
+              "Choices": [
+                {
+                  "Variable": "$.lookupResult.lookupResults.frameworks.unknown",
+                  "NumericGreaterThan": 0,
+                  "Next": "NormalizeFrameworks"
+                }
+              ],
+              "Default": "SkipFrameworks"
+            },
+            "NormalizeFrameworks": {
+              "Type": "Task",
+              "Resource": "{{BEDROCK_NORMALIZER_ARN}}",
+              "Parameters": {
+                "columnType": "frameworks",
+                "projectId.$": "$.projectId",
+                "processId.$": "$.processId",
+                "originalTimestamp.$": "$.originalTimestamp",
+                "s3Key.$": "$.s3Key",
+                "filename.$": "$.filename",
+                "unknownValues.$": "$.lookupResult.lookupResults.frameworks.unknownValues"
+              },
+              "End": true,
+              "Retry": [
+                {
+                  "ErrorEquals": ["States.TaskFailed"],
+                  "IntervalSeconds": 5,
+                  "MaxAttempts": 3,
+                  "BackoffRate": 2.0
+                }
+              ]
+            },
+            "SkipFrameworks": {
+              "Type": "Pass",
+              "Result": {
+                "columnType": "frameworks",
+                "normalizedMappings": [],
+                "processedCount": 0
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "CheckDatabasesNormalization",
+          "States": {
+            "CheckDatabasesNormalization": {
+              "Type": "Choice",
+              "Choices": [
+                {
+                  "Variable": "$.lookupResult.lookupResults.databases.unknown",
+                  "NumericGreaterThan": 0,
+                  "Next": "NormalizeDatabases"
+                }
+              ],
+              "Default": "SkipDatabases"
+            },
+            "NormalizeDatabases": {
+              "Type": "Task",
+              "Resource": "{{BEDROCK_NORMALIZER_ARN}}",
+              "Parameters": {
+                "columnType": "databases",
+                "projectId.$": "$.projectId",
+                "processId.$": "$.processId",
+                "originalTimestamp.$": "$.originalTimestamp",
+                "s3Key.$": "$.s3Key",
+                "filename.$": "$.filename",
+                "unknownValues.$": "$.lookupResult.lookupResults.databases.unknownValues"
+              },
+              "End": true,
+              "Retry": [
+                {
+                  "ErrorEquals": ["States.TaskFailed"],
+                  "IntervalSeconds": 5,
+                  "MaxAttempts": 3,
+                  "BackoffRate": 2.0
+                }
+              ]
+            },
+            "SkipDatabases": {
+              "Type": "Pass",
+              "Result": {
+                "columnType": "databases",
+                "normalizedMappings": [],
+                "processedCount": 0
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "CheckIntegrationsNormalization",
+          "States": {
+            "CheckIntegrationsNormalization": {
+              "Type": "Choice",
+              "Choices": [
+                {
+                  "Variable": "$.lookupResult.lookupResults.integrations.unknown",
+                  "NumericGreaterThan": 0,
+                  "Next": "NormalizeIntegrations"
+                }
+              ],
+              "Default": "SkipIntegrations"
+            },
+            "NormalizeIntegrations": {
+              "Type": "Task",
+              "Resource": "{{BEDROCK_NORMALIZER_ARN}}",
+              "Parameters": {
+                "columnType": "integrations",
+                "projectId.$": "$.projectId",
+                "processId.$": "$.processId",
+                "originalTimestamp.$": "$.originalTimestamp",
+                "s3Key.$": "$.s3Key",
+                "filename.$": "$.filename",
+                "unknownValues.$": "$.lookupResult.lookupResults.integrations.unknownValues"
+              },
+              "End": true,
+              "Retry": [
+                {
+                  "ErrorEquals": ["States.TaskFailed"],
+                  "IntervalSeconds": 5,
+                  "MaxAttempts": 3,
+                  "BackoffRate": 2.0
+                }
+              ]
+            },
+            "SkipIntegrations": {
+              "Type": "Pass",
+              "Result": {
+                "columnType": "integrations",
+                "normalizedMappings": [],
+                "processedCount": 0
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "CheckStoragesNormalization",
+          "States": {
+            "CheckStoragesNormalization": {
+              "Type": "Choice",
+              "Choices": [
+                {
+                  "Variable": "$.lookupResult.lookupResults.storages.unknown",
+                  "NumericGreaterThan": 0,
+                  "Next": "NormalizeStorages"
+                }
+              ],
+              "Default": "SkipStorages"
+            },
+            "NormalizeStorages": {
+              "Type": "Task",
+              "Resource": "{{BEDROCK_NORMALIZER_ARN}}",
+              "Parameters": {
+                "columnType": "storages",
+                "projectId.$": "$.projectId",
+                "processId.$": "$.processId",
+                "originalTimestamp.$": "$.originalTimestamp",
+                "s3Key.$": "$.s3Key",
+                "filename.$": "$.filename",
+                "unknownValues.$": "$.lookupResult.lookupResults.storages.unknownValues"
+              },
+              "End": true,
+              "Retry": [
+                {
+                  "ErrorEquals": ["States.TaskFailed"],
+                  "IntervalSeconds": 5,
+                  "MaxAttempts": 3,
+                  "BackoffRate": 2.0
+                }
+              ]
+            },
+            "SkipStorages": {
+              "Type": "Pass",
+              "Result": {
+                "columnType": "storages",
+                "normalizedMappings": [],
+                "processedCount": 0
+              },
+              "End": true
+            }
+          }
+        }
+      ],
+      "ResultPath": "$.normalizationResults",
+      "Next": "AggregateMappings",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "ResultPath": "$.error",
+          "Next": "HandleError"
+        }
+      ]
+    },
+    "AggregateMappings": {
+      "Type": "Task",
+      "Comment": "Aggregate and persist all normalized mappings",
+      "Resource": "{{MAPPING_AGGREGATOR_ARN}}",
+      "InputPath": "$.normalizationResults",
+      "ResultPath": "$.aggregationResult",
+      "Next": "PublishMetrics",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "ResultPath": "$.error",
+          "Next": "HandleError"
+        }
+      ],
+      "Retry": [
+        {
+          "ErrorEquals": ["States.TaskFailed"],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        }
+      ]
+    },
+    "PublishMetrics": {
+      "Type": "Task",
+      "Comment": "Publish CloudWatch metrics for monitoring",
+      "Resource": "{{NORMALIZATION_METRICS_ARN}}",
+      "Parameters": {
+        "projectId.$": "$.projectId",
+        "processId.$": "$.processId",
+        "aggregationResults.$": "$.aggregationResult.aggregationResults",
+        "totalNewMappings.$": "$.aggregationResult.totalNewMappings",
+        "startTime.$": "$.originalTimestamp"
+      },
+      "ResultPath": "$.metricsResult",
+      "Next": "UpdateStatusCompleted",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "ResultPath": null,
+          "Next": "UpdateStatusCompleted"
+        }
+      ]
+    },
+    "UpdateStatusCompleted": {
+      "Type": "Task",
+      "Comment": "Update process tracking status to COMPLETED",
+      "Resource": "{{NORMALIZATION_STATUS_TRACKER_ARN}}",
+      "Parameters": {
+        "projectId.$": "$.projectId",
+        "processId.$": "$.processId",
+        "status": "COMPLETED",
+        "metadata": {
+          "stage": "normalization-completed",
+          "totalNewMappings.$": "$.aggregationResult.totalNewMappings"
+        }
+      },
+      "ResultPath": "$.finalStatusUpdate",
+      "End": true
+    },
+    "HandleError": {
+      "Type": "Task",
+      "Comment": "Centralized error handling",
+      "Resource": "{{NORMALIZATION_ERROR_HANDLER_ARN}}",
+      "Parameters": {
+        "projectId.$": "$.projectId",
+        "processId.$": "$.processId",
+        "s3Key.$": "$.s3Key",
+        "filename.$": "$.filename",
+        "error.$": "$.error"
+      },
+      "ResultPath": "$.errorHandlingResult",
+      "Next": "UpdateStatusFailed"
+    },
+    "UpdateStatusFailed": {
+      "Type": "Task",
+      "Comment": "Update process tracking status to FAILED",
+      "Resource": "{{NORMALIZATION_STATUS_TRACKER_ARN}}",
+      "Parameters": {
+        "projectId.$": "$.projectId",
+        "processId.$": "$.processId",
+        "status": "FAILED",
+        "errorDetails.$": "$.error"
+      },
+      "ResultPath": "$.finalStatusUpdate",
+      "Next": "NormalizationFailed"
+    },
+    "NormalizationFailed": {
+      "Type": "Fail",
+      "Comment": "Normalization workflow failed",
+      "Error": "NormalizationWorkflowFailed",
+      "Cause": "The normalization workflow encountered an error and could not complete"
+    }
+  }
+}

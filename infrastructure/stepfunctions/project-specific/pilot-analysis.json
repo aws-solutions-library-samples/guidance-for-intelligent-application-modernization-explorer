@@ -1,0 +1,482 @@
+{
+    "Comment": "App-ModEx Pilot Analysis Workflow - Simplified Architecture (All Sizes Use Large Dataset Flow) - FIXED ERROR HANDLING",
+    "StartAt": "UpdateProcessToProcessing",
+    "States": {
+        "UpdateProcessToProcessing": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::dynamodb:updateItem",
+            "Parameters": {
+                "TableName.$": "$.processTableName",
+                "Key": {
+                    "processId": {
+                        "S.$": "$.processId"
+                    }
+                },
+                "UpdateExpression": "SET #status = :status, updatedAt = :updatedAt",
+                "ExpressionAttributeNames": {
+                    "#status": "status"
+                },
+                "ExpressionAttributeValues": {
+                    ":status": {
+                        "S": "PROCESSING"
+                    },
+                    ":updatedAt": {
+                        "S.$": "$$.State.EnteredTime"
+                    }
+                }
+            },
+            "ResultPath": null,
+            "Next": "PrepareApplicationDataQuery",
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.error",
+                    "Next": "UpdateProcessToFailed"
+                }
+            ]
+        },
+        "PrepareApplicationDataQuery": {
+            "Type": "Pass",
+            "Parameters": {
+                "templateId": "pilot-analysis-applications",
+                "projectId.$": "$.projectId",
+                "jobId.$": "$.jobId",
+                "processId.$": "$.processId",
+                "processTableName.$": "$.processTableName",
+                "criteria.$": "$.criteria"
+            },
+            "ResultPath": "$.dataQueryParams",
+            "Next": "ExecuteDatasetQuery"
+        },
+        "ExecuteDatasetQuery": {
+            "Type": "Task",
+            "Resource": "arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-athena-s3-wrapper-${props.projectId}",
+            "Parameters": {
+                "body.$": "States.JsonToString($.dataQueryParams)",
+                "httpMethod": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                }
+            },
+            "ResultPath": "$.athena_result",
+            "Next": "ParseDatasetResponse",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 30,
+                    "MaxAttempts": 2,
+                    "BackoffRate": 2.0
+                }
+            ],
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.error",
+                    "Next": "UpdateProcessToFailed"
+                }
+            ]
+        },
+        "ParseDatasetResponse": {
+            "Type": "Pass",
+            "Parameters": {
+                "projectId.$": "$.projectId",
+                "jobId.$": "$.jobId",
+                "processId.$": "$.processId",
+                "processTableName.$": "$.processTableName",
+                "criteria.$": "$.criteria",
+                "queryParams.$": "$.dataQueryParams",
+                "s3_data_info.$": "States.StringToJson($.athena_result.body)",
+                "dataStoredInS3": true
+            },
+            "Next": "PartitionPilotDataset"
+        },
+        "PartitionPilotDataset": {
+            "Type": "Task",
+            "Resource": "arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-pilot-partition-${props.projectId}",
+            "Parameters": {
+                "projectId.$": "$.projectId",
+                "jobId.$": "$.jobId",
+                "processId.$": "$.processId",
+                "processTableName.$": "$.processTableName",
+                "criteria.$": "$.criteria",
+                "s3_data_info.$": "$.s3_data_info",
+                "jobsTableName": "pilotAnalysisJobsTable.tableName",
+                "resultsTableName": "pilotCandidatesResultsTable.tableName"
+            },
+            "ResultPath": "$.partition_result",
+            "Next": "ProcessPilotPartitions",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 10,
+                    "MaxAttempts": 2,
+                    "BackoffRate": 2.0
+                }
+            ],
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.error",
+                    "Next": "UpdateProcessToFailed"
+                }
+            ]
+        },
+        "ProcessPilotPartitions": {
+            "Type": "Map",
+            "ItemsPath": "$.partition_result.partitions",
+            "MaxConcurrency": 50,
+            "Iterator": {
+                "StartAt": "ProcessSinglePilotPartition",
+                "States": {
+                    "ProcessSinglePilotPartition": {
+                        "Type": "Task",
+                        "Resource": "arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-pilot-process-${props.projectId}",
+                        "End": true,
+                        "Retry": [
+                            {
+                                "ErrorEquals": [
+                                    "States.TaskFailed"
+                                ],
+                                "IntervalSeconds": 10,
+                                "MaxAttempts": 2,
+                                "BackoffRate": 2.0
+                            }
+                        ]
+                    }
+                }
+            },
+            "ResultPath": "$.partition_results",
+            "Next": "AggregatePilotResults",
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.error",
+                    "Next": "UpdateProcessToFailed"
+                }
+            ]
+        },
+        "AggregatePilotResults": {
+            "Type": "Task",
+            "Resource": "arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-pilot-aggregate-${props.projectId}",
+            "Parameters": {
+                "projectId.$": "$.projectId",
+                "jobId.$": "$.jobId",
+                "processId.$": "$.processId",
+                "processTableName.$": "$.processTableName",
+                "criteria.$": "$.criteria",
+                "partition_results.$": "$.partition_results",
+                "jobsTableName": "pilotAnalysisJobsTable.tableName",
+                "resultsTableName": "pilotCandidatesResultsTable.tableName"
+            },
+            "ResultPath": "$.aggregation_result",
+            "Next": "GatherContextData",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 10,
+                    "MaxAttempts": 2,
+                    "BackoffRate": 2.0
+                }
+            ],
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.error",
+                    "Next": "UpdateProcessToFailed"
+                }
+            ]
+        },
+        "GatherContextData": {
+            "Type": "Task",
+            "Resource": "arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-gather-context-data",
+            "Parameters": {
+                "projectId.$": "$.projectId",
+                "jobId.$": "$.jobId",
+                "processId.$": "$.processId",
+                "processTableName.$": "$.processTableName",
+                "criteria.$": "$.criteria"
+            },
+            "ResultPath": "$.context_data",
+            "Next": "CreateAIPartitions",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 10,
+                    "MaxAttempts": 2,
+                    "BackoffRate": 2.0
+                }
+            ],
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.aiError",
+                    "Next": "SkipAIEnhancement"
+                }
+            ]
+        },
+        "CreateAIPartitions": {
+            "Type": "Pass",
+            "Comment": "Create partitions for parallel AI processing (10 apps per partition)",
+            "Parameters": {
+                "projectId.$": "$.projectId",
+                "jobId.$": "$.jobId",
+                "processId.$": "$.processId",
+                "processTableName.$": "$.processTableName",
+                "criteria.$": "$.criteria",
+                "contextData.$": "$.context_data",
+                "top_candidates.$": "$.aggregation_result.top_candidates",
+                "statistics.$": "$.aggregation_result.statistics",
+                "total_applications.$": "$.aggregation_result.total_applications",
+                "ai_partitions.$": "States.ArrayPartition($.aggregation_result.top_candidates, 10)"
+            },
+            "Next": "ProcessAIPartitions"
+        },
+        "ProcessAIPartitions": {
+            "Type": "Map",
+            "ItemsPath": "$.ai_partitions",
+            "MaxConcurrency": 10,
+            "Comment": "Process AI enhancement in parallel (10 concurrent partitions)",
+            "Parameters": {
+                "partition.$": "$$.Map.Item.Value",
+                "projectId.$": "$.projectId",
+                "jobId.$": "$.jobId",
+                "criteria.$": "$.criteria",
+                "contextData.$": "$.contextData"
+            },
+            "Iterator": {
+                "StartAt": "ProcessSingleAIPartition",
+                "States": {
+                    "ProcessSingleAIPartition": {
+                        "Type": "Task",
+                        "Resource": "arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-ai-enhance-scores",
+                        "Parameters": {
+                            "projectId.$": "$.projectId",
+                            "jobId.$": "$.jobId",
+                            "applications.$": "$.partition",
+                            "criteria.$": "$.criteria",
+                            "contextData.$": "$.contextData"
+                        },
+                        "End": true,
+                        "Retry": [
+                            {
+                                "ErrorEquals": [
+                                    "States.TaskFailed"
+                                ],
+                                "IntervalSeconds": 30,
+                                "MaxAttempts": 2,
+                                "BackoffRate": 2.0
+                            }
+                        ]
+                    }
+                }
+            },
+            "ResultPath": "$.ai_partition_results",
+            "Next": "AggregateAIResults",
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.aiError",
+                    "Next": "SkipAIEnhancement"
+                }
+            ]
+        },
+        "AggregateAIResults": {
+            "Type": "Pass",
+            "Comment": "Prepare data for score combination - partition results will be flattened by combine-scores Lambda",
+            "Parameters": {
+                "projectId.$": "$.projectId",
+                "jobId.$": "$.jobId",
+                "processId.$": "$.processId",
+                "processTableName.$": "$.processTableName",
+                "criteria.$": "$.criteria",
+                "top_candidates.$": "$.top_candidates",
+                "statistics.$": "$.statistics",
+                "total_applications.$": "$.total_applications",
+                "ai_partition_results.$": "$.ai_partition_results"
+            },
+            "Next": "CombineScores"
+        },
+        "CombineScores": {
+            "Type": "Task",
+            "Resource": "arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-combine-scores",
+            "Parameters": {
+                "projectId.$": "$.projectId",
+                "jobId.$": "$.jobId",
+                "ai_partition_results.$": "$.ai_partition_results",
+                "criteria.$": "$.criteria"
+            },
+            "ResultPath": "$.combined_result",
+            "Next": "PrepareRankingInput",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 10,
+                    "MaxAttempts": 2,
+                    "BackoffRate": 2.0
+                }
+            ],
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.aiError",
+                    "Next": "SkipAIEnhancement"
+                }
+            ]
+        },
+        "SkipAIEnhancement": {
+            "Type": "Pass",
+            "Comment": "AI enhancement failed or was skipped, continue with rule-based results only",
+            "Parameters": {
+                "projectId.$": "$.projectId",
+                "jobId.$": "$.jobId",
+                "processId.$": "$.processId",
+                "processTableName.$": "$.processTableName",
+                "criteria.$": "$.criteria",
+                "top_candidates.$": "$.aggregation_result.top_candidates",
+                "statistics.$": "$.aggregation_result.statistics",
+                "total_applications.$": "$.aggregation_result.total_applications"
+            },
+            "Next": "RankPilotCandidates"
+        },
+        "PrepareRankingInput": {
+            "Type": "Pass",
+            "Comment": "Prepare input for ranking with consolidated results",
+            "Parameters": {
+                "projectId.$": "$.projectId",
+                "jobId.$": "$.jobId",
+                "processId.$": "$.processId",
+                "processTableName.$": "$.processTableName",
+                "criteria.$": "$.criteria",
+                "top_candidates.$": "$.combined_result.applications",
+                "statistics.$": "$.statistics",
+                "total_applications.$": "$.total_applications"
+            },
+            "Next": "RankPilotCandidates"
+        },
+        "RankPilotCandidates": {
+            "Type": "Task",
+            "Resource": "arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-pilot-rank-${props.projectId}",
+            "Parameters": {
+                "projectId.$": "$.projectId",
+                "jobId.$": "$.jobId",
+                "processId.$": "$.processId",
+                "processTableName.$": "$.processTableName",
+                "criteria.$": "$.criteria",
+                "top_candidates.$": "$.top_candidates",
+                "statistics.$": "$.statistics",
+                "total_applications.$": "$.total_applications",
+                "jobsTableName": "pilotAnalysisJobsTable.tableName",
+                "resultsTableName": "pilotCandidatesResultsTable.tableName"
+            },
+            "ResultPath": "$.ranking_result",
+            "Next": "UpdateProcessToCompleted",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 10,
+                    "MaxAttempts": 2,
+                    "BackoffRate": 2.0
+                }
+            ],
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.error",
+                    "Next": "UpdateProcessToFailed"
+                }
+            ]
+        },
+        "UpdateProcessToCompleted": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::dynamodb:updateItem",
+            "Parameters": {
+                "TableName.$": "$.processTableName",
+                "Key": {
+                    "processId": {
+                        "S.$": "$.processId"
+                    }
+                },
+                "UpdateExpression": "SET #status = :status, updatedAt = :updatedAt",
+                "ExpressionAttributeNames": {
+                    "#status": "status"
+                },
+                "ExpressionAttributeValues": {
+                    ":status": {
+                        "S": "COMPLETED"
+                    },
+                    ":updatedAt": {
+                        "S.$": "$$.State.EnteredTime"
+                    }
+                }
+            },
+            "ResultPath": null,
+            "Next": "AnalysisComplete"
+        },
+        "AnalysisComplete": {
+            "Type": "Succeed"
+        },
+        "UpdateProcessToFailed": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::dynamodb:updateItem",
+            "Parameters": {
+                "TableName.$": "$.processTableName",
+                "Key": {
+                    "processId": {
+                        "S.$": "$.processId"
+                    }
+                },
+                "UpdateExpression": "SET #status = :status, updatedAt = :updatedAt, errorMessage = :errorMessage",
+                "ExpressionAttributeNames": {
+                    "#status": "status"
+                },
+                "ExpressionAttributeValues": {
+                    ":status": {
+                        "S": "FAILED"
+                    },
+                    ":updatedAt": {
+                        "S.$": "$$.State.EnteredTime"
+                    },
+                    ":errorMessage": {
+                        "S.$": "States.Format('Error: {}', $.error.Error)"
+                    }
+                }
+            },
+            "ResultPath": null,
+            "Next": "AnalysisFailed"
+        },
+        "AnalysisFailed": {
+            "Type": "Fail",
+            "Cause": "Pilot analysis failed"
+        }
+    }
+}

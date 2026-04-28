@@ -1,0 +1,231 @@
+{
+    "Comment": "App-ModEx Skill Importance Scoring Workflow - FIXED ERROR HANDLING",
+    "StartAt": "UpdateProcessToProcessing",
+    "States": {
+        "UpdateProcessToProcessing": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::dynamodb:updateItem",
+            "Parameters": {
+                "TableName.$": "$.processTableName",
+                "Key": {
+                    "processId": {
+                        "S.$": "$.processId"
+                    }
+                },
+                "UpdateExpression": "SET #status = :status, updatedAt = :updatedAt",
+                "ExpressionAttributeNames": {
+                    "#status": "status"
+                },
+                "ExpressionAttributeValues": {
+                    ":status": {
+                        "S": "PROCESSING"
+                    },
+                    ":updatedAt": {
+                        "S.$": "$$.State.EnteredTime"
+                    }
+                }
+            },
+            "ResultPath": null,
+            "Next": "OrchestrateSkillScoring",
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.error",
+                    "Next": "UpdateProcessToFailed"
+                }
+            ]
+        },
+        "OrchestrateSkillScoring": {
+            "Type": "Task",
+            "Resource": "arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-skill-importance-orchestrator-${props.projectId}",
+            "ResultPath": "$.orchestration",
+            "Next": "CheckTeamsExist",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 10,
+                    "MaxAttempts": 2,
+                    "BackoffRate": 2.0
+                }
+            ],
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.error",
+                    "Next": "UpdateProcessToFailed"
+                }
+            ]
+        },
+        "CheckTeamsExist": {
+            "Type": "Choice",
+            "Choices": [
+                {
+                    "Variable": "$.orchestration.totalTeams",
+                    "NumericGreaterThan": 0,
+                    "Next": "ProcessTeamsInParallel"
+                }
+            ],
+            "Default": "NoTeamsToProcess"
+        },
+        "NoTeamsToProcess": {
+            "Type": "Pass",
+            "Comment": "No teams with skills found to process - mark as completed with metadata",
+            "Result": {
+                "message": "No teams with skills found to process",
+                "reason": "NO_DATA"
+            },
+            "ResultPath": "$.noDataResult",
+            "Next": "UpdateProcessToCompletedNoData"
+        },
+        "UpdateProcessToCompletedNoData": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::dynamodb:updateItem",
+            "Parameters": {
+                "TableName.$": "$.processTableName",
+                "Key": {
+                    "processId": {
+                        "S.$": "$.processId"
+                    }
+                },
+                "UpdateExpression": "SET #status = :status, updatedAt = :updatedAt, metadata = :metadata",
+                "ExpressionAttributeNames": {
+                    "#status": "status"
+                },
+                "ExpressionAttributeValues": {
+                    ":status": {
+                        "S": "COMPLETED"
+                    },
+                    ":updatedAt": {
+                        "S.$": "$$.State.EnteredTime"
+                    },
+                    ":metadata": {
+                        "M": {
+                            "reason": {
+                                "S": "NO_DATA"
+                            },
+                            "message": {
+                                "S": "No teams with skills found to process"
+                            }
+                        }
+                    }
+                }
+            },
+            "ResultPath": null,
+            "Next": "ScoringComplete"
+        },
+        "ProcessTeamsInParallel": {
+            "Type": "Map",
+            "ItemsPath": "$.orchestration.teams",
+            "MaxConcurrency": 5,
+            "Parameters": {
+                "teamName.$": "$$.Map.Item.Value.teamName",
+                "weights.$": "$$.Map.Item.Value.weights",
+                "skills.$": "$$.Map.Item.Value.skills",
+                "projectId.$": "$.projectId",
+                "processId.$": "$.processId",
+                "s3OutputBucket.$": "$.orchestration.s3OutputBucket",
+                "s3OutputPrefix.$": "$.orchestration.s3OutputPrefix",
+                "processTableName.$": "$.processTableName"
+            },
+            "Iterator": {
+                "StartAt": "ScoreTeamSkills",
+                "States": {
+                    "ScoreTeamSkills": {
+                        "Type": "Task",
+                        "Resource": "arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-skill-importance-scorer-${props.projectId}",
+                        "End": true,
+                        "Retry": [
+                            {
+                                "ErrorEquals": [
+                                    "States.TaskFailed"
+                                ],
+                                "IntervalSeconds": 30,
+                                "MaxAttempts": 3,
+                                "BackoffRate": 2.0
+                            }
+                        ]
+                    }
+                }
+            },
+            "ResultPath": "$.teamResults",
+            "Next": "UpdateProcessToCompleted",
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.error",
+                    "Next": "UpdateProcessToFailed"
+                }
+            ]
+        },
+        "UpdateProcessToCompleted": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::dynamodb:updateItem",
+            "Parameters": {
+                "TableName.$": "$.processTableName",
+                "Key": {
+                    "processId": {
+                        "S.$": "$.processId"
+                    }
+                },
+                "UpdateExpression": "SET #status = :status, updatedAt = :updatedAt",
+                "ExpressionAttributeNames": {
+                    "#status": "status"
+                },
+                "ExpressionAttributeValues": {
+                    ":status": {
+                        "S": "COMPLETED"
+                    },
+                    ":updatedAt": {
+                        "S.$": "$$.State.EnteredTime"
+                    }
+                }
+            },
+            "ResultPath": null,
+            "Next": "ScoringComplete"
+        },
+        "ScoringComplete": {
+            "Type": "Succeed"
+        },
+        "UpdateProcessToFailed": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::dynamodb:updateItem",
+            "Parameters": {
+                "TableName.$": "$.processTableName",
+                "Key": {
+                    "processId": {
+                        "S.$": "$.processId"
+                    }
+                },
+                "UpdateExpression": "SET #status = :status, updatedAt = :updatedAt, errorMessage = :errorMessage",
+                "ExpressionAttributeNames": {
+                    "#status": "status"
+                },
+                "ExpressionAttributeValues": {
+                    ":status": {
+                        "S": "FAILED"
+                    },
+                    ":updatedAt": {
+                        "S.$": "$$.State.EnteredTime"
+                    },
+                    ":errorMessage": {
+                        "S.$": "States.Format('Error: {}', $.error.Error)"
+                    }
+                }
+            },
+            "ResultPath": null,
+            "Next": "ScoringFailed"
+        },
+        "ScoringFailed": {
+            "Type": "Fail",
+            "Cause": "Skill importance scoring failed"
+        }
+    }
+}

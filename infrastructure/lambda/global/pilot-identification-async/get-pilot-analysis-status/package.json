@@ -1,0 +1,13 @@
+{
+  "name": "get-pilot-analysis-status",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.0.0",
+    "@aws-sdk/lib-dynamodb": "^3.0.0",
+    "@aws-sdk/client-sfn": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

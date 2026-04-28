@@ -1,0 +1,33 @@
+{
+  "name": "app-modex-excel-generator",
+  "version": "1.0.0",
+  "description": "Excel generator Lambda function for AppModEx exports",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --verbose",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.0.0",
+    "exceljs": "^4.4.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ],
+    "testMatch": [
+      "**/*.test.js",
+      "**/test.js"
+    ]
+  }
+}

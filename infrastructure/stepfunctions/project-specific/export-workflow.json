@@ -1,0 +1,734 @@
+{
+  "Comment": "AppModEx Export Workflow - Parallel per-category processing (Data Sourcing + Excel Generation)",
+  "StartAt": "InitializeExport",
+  "States": {
+    "InitializeExport": {
+      "Type": "Task",
+      "Resource": "{{PROCESS_TRACKING_LAMBDA_ARN}}",
+      "Parameters": {
+        "action": "initiateProcess",
+        "projectId.$": "$.projectId",
+        "processType": "EXPORT",
+        "processName": "Data Export",
+        "metadata": {
+          "exportId.$": "$.exportId",
+          "selectedCategories.$": "$.selectedCategories",
+          "userId.$": "$.userId",
+          "startedAt.$": "$.createdAt"
+        }
+      },
+      "ResultPath": "$.processTracking",
+      "Next": "ValidateInput",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "HandleInitializationFailure",
+          "ResultPath": "$.error"
+        }
+      ]
+    },
+    "ValidateInput": {
+      "Type": "Pass",
+      "Comment": "Validate that at least one category is selected",
+      "Parameters": {
+        "projectId.$": "$.projectId",
+        "exportId.$": "$.exportId",
+        "userId.$": "$.userId",
+        "selectedCategories.$": "$.selectedCategories",
+        "hasCategories.$": "States.ArrayLength($.selectedCategories)",
+        "processTracking.$": "$.processTracking"
+      },
+      "Next": "CheckCategoriesSelected"
+    },
+    "CheckCategoriesSelected": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.hasCategories",
+          "NumericGreaterThan": 0,
+          "Next": "UpdateToProcessingStatus"
+        }
+      ],
+      "Default": "HandleValidationFailure"
+    },
+    "HandleValidationFailure": {
+      "Type": "Task",
+      "Resource": "{{PROCESS_TRACKING_LAMBDA_ARN}}",
+      "Parameters": {
+        "action": "updateProcessStatus",
+        "processId.$": "$.processTracking.processId",
+        "projectId.$": "$.projectId",
+        "status": "FAILED",
+        "errorDetails": {
+          "error": "No categories selected for export",
+          "failedAt.$": "$$.State.EnteredTime"
+        }
+      },
+      "Next": "ValidationFailed"
+    },
+    "ValidationFailed": {
+      "Type": "Fail",
+      "Cause": "No categories selected for export",
+      "Error": "ValidationError"
+    },
+    "UpdateToProcessingStatus": {
+      "Type": "Task",
+      "Resource": "{{PROCESS_TRACKING_LAMBDA_ARN}}",
+      "Parameters": {
+        "action": "updateProcessStatus",
+        "processId.$": "$.processTracking.processId",
+        "projectId.$": "$.projectId",
+        "status": "PROCESSING",
+        "metadata": {
+          "step": "starting_parallel_category_processing",
+          "selectedCategories.$": "$.selectedCategories",
+          "timestamp.$": "$$.State.EnteredTime"
+        }
+      },
+      "ResultPath": "$.statusUpdate",
+      "Next": "ParallelCategoryProcessing"
+    },
+    "ParallelCategoryProcessing": {
+      "Type": "Map",
+      "Comment": "Process each category in parallel: Data Sourcing → Excel Generation",
+      "ItemsPath": "$.selectedCategories", 
+      "MaxConcurrency": 8,
+      "Parameters": {
+        "category.$": "$$.Map.Item.Value",
+        "projectId.$": "$.projectId",
+        "exportId.$": "$.exportId", 
+        "userId.$": "$.userId",
+        "selectedCategories.$": "$.selectedCategories"
+      },
+      "Iterator": {
+        "StartAt": "SourceCategoryData",
+        "States": {
+          "SourceCategoryData": {
+            "Type": "Task",
+            "Resource": "{{DATA_SOURCING_LAMBDA_ARN}}",
+            "Parameters": {
+              "category.$": "$.category",
+              "projectId.$": "$.projectId",
+              "exportId.$": "$.exportId",
+              "selectedCategories.$": "$.selectedCategories"
+            },
+            "Next": "CheckDataSourcingSuccess",
+            "Retry": [
+              {
+                "ErrorEquals": ["States.TaskFailed", "Lambda.ServiceException", "Lambda.AWSLambdaException"],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 3,
+                "BackoffRate": 2.0
+              },
+              {
+                "ErrorEquals": ["States.Timeout"],
+                "IntervalSeconds": 1,
+                "MaxAttempts": 2,
+                "BackoffRate": 1.5
+              }
+            ],
+            "Catch": [
+              {
+                "ErrorEquals": ["States.ALL"],
+                "Next": "HandleDataSourcingException",
+                "ResultPath": "$.caughtException"
+              }
+            ]
+          },
+          "CheckDataSourcingSuccess": {
+            "Type": "Choice",
+            "Choices": [
+              {
+                "And": [
+                  {
+                    "Variable": "$.skipped",
+                    "IsPresent": true
+                  },
+                  {
+                    "Variable": "$.skipped",
+                    "BooleanEquals": true
+                  }
+                ],
+                "Next": "CategoryDataSourcingSkipped"
+              },
+              {
+                "Variable": "$.success",
+                "BooleanEquals": true,
+                "Next": "GenerateExcelForCategory"
+              },
+              {
+                "Variable": "$.success",
+                "BooleanEquals": false,
+                "Next": "LogDataSourcingFailure"
+              }
+            ],
+            "Default": "LogDataSourcingFailure"
+          },
+          "LogDataSourcingFailure": {
+            "Type": "Pass",
+            "Comment": "Capture data sourcing failure details for error tracking",
+            "Parameters": {
+              "category.$": "$.category",
+              "projectId.$": "$.projectId",
+              "exportId.$": "$.exportId",
+              "status": "FAILED",
+              "error": "Data sourcing failed",
+              "errorDetails": {
+                "errorMessage.$": "$.error",
+                "errorType.$": "$.errorType",
+                "timestamp.$": "$.timestamp"
+              }
+            },
+            "Next": "CategoryDataSourcingFailed"
+          },
+          "HandleDataSourcingException": {
+            "Type": "Pass",
+            "Comment": "Handle exceptions caught during data sourcing Lambda execution",
+            "Parameters": {
+              "category.$": "$.category",
+              "projectId.$": "$.projectId",
+              "exportId.$": "$.exportId",
+              "status": "FAILED",
+              "error": "Data sourcing exception",
+              "errorDetails": {
+                "errorMessage.$": "$.caughtException.Error",
+                "errorCause.$": "$.caughtException.Cause",
+                "errorType": "LambdaException",
+                "timestamp.$": "$$.State.EnteredTime"
+              }
+            },
+            "Next": "CategoryDataSourcingFailed"
+          },
+          "GenerateExcelForCategory": {
+            "Type": "Task",
+            "Resource": "{{EXCEL_GENERATOR_LAMBDA_ARN}}",
+            "Parameters": {
+              "projectId.$": "$.projectId",
+              "exportId.$": "$.exportId",
+              "selectedCategories.$": "States.Array($.category)",
+              "dataSourcingResults": [
+                {
+                  "category.$": "$.category",
+                  "success.$": "$.success",
+                  "data.$": "$.data",
+                  "recordCount.$": "$.recordCount"
+                }
+              ]
+            },
+            "ResultPath": "$.excelResults",
+            "Next": "CheckExcelGenerationSuccess",
+            "Retry": [
+              {
+                "ErrorEquals": ["States.TaskFailed", "Lambda.ServiceException", "Lambda.AWSLambdaException"],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 3,
+                "BackoffRate": 2.0
+              },
+              {
+                "ErrorEquals": ["States.Timeout"],
+                "IntervalSeconds": 5,
+                "MaxAttempts": 2,
+                "BackoffRate": 1.5
+              }
+            ],
+            "Catch": [
+              {
+                "ErrorEquals": ["States.ALL"],
+                "Next": "HandleExcelGenerationException",
+                "ResultPath": "$.caughtException"
+              }
+            ]
+          },
+          "CheckExcelGenerationSuccess": {
+            "Type": "Choice",
+            "Comment": "Check if Excel generation succeeded",
+            "Choices": [
+              {
+                "Variable": "$.excelResults.success",
+                "BooleanEquals": true,
+                "Next": "CategoryProcessingComplete"
+              },
+              {
+                "Variable": "$.excelResults.success",
+                "BooleanEquals": false,
+                "Next": "LogExcelGenerationFailure"
+              }
+            ],
+            "Default": "CategoryProcessingComplete"
+          },
+          "LogExcelGenerationFailure": {
+            "Type": "Pass",
+            "Comment": "Capture Excel generation failure details for error tracking",
+            "Parameters": {
+              "category.$": "$.category",
+              "projectId.$": "$.projectId",
+              "exportId.$": "$.exportId",
+              "status": "FAILED",
+              "error": "Excel generation failed",
+              "dataSourcing": {
+                "success.$": "$.success",
+                "recordCount.$": "$.recordCount"
+              },
+              "errorDetails": {
+                "errorMessage.$": "$.excelResults.error",
+                "errorType.$": "$.excelResults.errorType",
+                "timestamp.$": "$.excelResults.timestamp"
+              }
+            },
+            "Next": "CategoryExcelGenerationFailed"
+          },
+          "HandleExcelGenerationException": {
+            "Type": "Pass",
+            "Comment": "Handle exceptions caught during Excel generation Lambda execution",
+            "Parameters": {
+              "category.$": "$.category",
+              "projectId.$": "$.projectId",
+              "exportId.$": "$.exportId",
+              "status": "FAILED",
+              "error": "Excel generation exception",
+              "dataSourcing": {
+                "success.$": "$.success",
+                "recordCount.$": "$.recordCount"
+              },
+              "errorDetails": {
+                "errorMessage.$": "$.caughtException.Error",
+                "errorCause.$": "$.caughtException.Cause",
+                "errorType": "LambdaException",
+                "timestamp.$": "$$.State.EnteredTime"
+              }
+            },
+            "Next": "CategoryExcelGenerationFailed"
+          },
+          "CategoryProcessingComplete": {
+            "Type": "Pass",
+            "Parameters": {
+              "category.$": "$.category",
+              "status": "COMPLETED",
+              "dataSourcing": {
+                "success.$": "$.success",
+                "recordCount.$": "$.recordCount",
+                "data.$": "$.data"
+              },
+              "excelGeneration": {
+                "success.$": "$.excelResults.success",
+                "files.$": "$.excelResults.files",
+                "totalFiles.$": "$.excelResults.totalFiles"
+              }
+            },
+            "End": true
+          },
+          "CategoryDataSourcingSkipped": {
+            "Type": "Pass",
+            "Parameters": {
+              "category.$": "$.category",
+              "status": "SKIPPED",
+              "reason.$": "$.reason",
+              "skipped": true
+            },
+            "End": true
+          },
+          "CategoryDataSourcingFailed": {
+            "Type": "Pass",
+            "Parameters": {
+              "category.$": "$.category",
+              "status": "FAILED",
+              "error": "Data sourcing failed",
+              "errorDetails.$": "$.errorDetails"
+            },
+            "End": true
+          },
+          "CategoryExcelGenerationFailed": {
+            "Type": "Pass",
+            "Parameters": {
+              "category.$": "$.category",
+              "status": "FAILED",
+              "error": "Excel generation failed",
+              "dataSourcing": {
+                "success.$": "$.success",
+                "recordCount.$": "$.recordCount"
+              },
+              "errorDetails.$": "$.errorDetails"
+            },
+            "End": true
+          }
+        }
+      },
+      "ResultPath": "$.categoryResults",
+      "Next": "UpdateCategoryProcessingComplete",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "HandleCategoryProcessingFailure",
+          "ResultPath": "$.error"
+        }
+      ]
+    },
+    "UpdateCategoryProcessingComplete": {
+      "Type": "Task",
+      "Resource": "{{PROCESS_TRACKING_LAMBDA_ARN}}",
+      "Parameters": {
+        "action": "updateProcessStatus",
+        "processId.$": "$.processTracking.processId",
+        "projectId.$": "$.projectId",
+        "status": "PROCESSING",
+        "metadata": {
+          "step": "category_processing_complete",
+          "categoriesProcessed.$": "States.ArrayLength($.categoryResults)",
+          "timestamp.$": "$$.State.EnteredTime"
+        }
+      },
+      "ResultPath": "$.processUpdate",
+      "Next": "CheckCategoryResults"
+    },
+    "CheckCategoryResults": {
+      "Type": "Pass",
+      "Comment": "Filter successful and failed category results",
+      "Parameters": {
+        "projectId.$": "$.projectId",
+        "exportId.$": "$.exportId",
+        "processTracking.$": "$.processTracking",
+        "userId.$": "$.userId",
+        "selectedCategories.$": "$.selectedCategories",
+        "successfulCategories.$": "$.categoryResults[?(@.status == 'COMPLETED')]",
+        "failedCategories.$": "$.categoryResults[?(@.status == 'FAILED')]",
+        "skippedCategories.$": "$.categoryResults[?(@.status == 'SKIPPED')]"
+      },
+      "Next": "LogFailedCategories"
+    },
+    "LogFailedCategories": {
+      "Type": "Choice",
+      "Comment": "Check if there are any failed categories to log",
+      "Choices": [
+        {
+          "Variable": "$.failedCategories[0]",
+          "IsPresent": true,
+          "Next": "UpdateProcessTrackingWithFailures"
+        }
+      ],
+      "Default": "ValidateCategoryResults"
+    },
+    "UpdateProcessTrackingWithFailures": {
+      "Type": "Task",
+      "Resource": "{{PROCESS_TRACKING_LAMBDA_ARN}}",
+      "Parameters": {
+        "action": "updateProcessStatus",
+        "processId.$": "$.processTracking.processId",
+        "projectId.$": "$.projectId",
+        "status": "PROCESSING",
+        "metadata": {
+          "step": "category_processing_with_failures",
+          "successfulCategories.$": "States.ArrayLength($.successfulCategories)",
+          "failedCategories.$": "States.ArrayLength($.failedCategories)",
+          "skippedCategories.$": "States.ArrayLength($.skippedCategories)",
+          "failedCategoryDetails.$": "$.failedCategories",
+          "timestamp.$": "$$.State.EnteredTime"
+        }
+      },
+      "ResultPath": "$.failureUpdate",
+      "Next": "ValidateCategoryResults",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "ValidateCategoryResults",
+          "ResultPath": "$.trackingError"
+        }
+      ]
+    },
+    "ValidateCategoryResults": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.successfulCategories[0]",
+          "IsPresent": true,
+          "Next": "PrepareExcelFilesForZip"
+        }
+      ],
+      "Default": "HandleAllCategoriesFailed"
+    },
+    "HandleAllCategoriesFailed": {
+      "Type": "Task",
+      "Resource": "{{PROCESS_TRACKING_LAMBDA_ARN}}",
+      "Parameters": {
+        "action": "updateProcessStatus",
+        "processId.$": "$.processTracking.processId",
+        "projectId.$": "$.projectId",
+        "status": "FAILED",
+        "errorDetails": {
+          "error": "All category processing operations failed",
+          "failedCategories.$": "$.failedCategories",
+          "failedAt.$": "$$.State.EnteredTime"
+        }
+      },
+      "Next": "UpdateExportStatusFailed"
+    },
+    "UpdateExportStatusFailed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::dynamodb:updateItem",
+      "Parameters": {
+        "TableName": "{{EXPORT_HISTORY_TABLE_NAME}}",
+        "Key": {
+          "exportId": {
+            "S.$": "$.metadata.exportId"
+          },
+          "projectId": {
+            "S.$": "$.projectId"
+          }
+        },
+        "UpdateExpression": "SET #status = :status, updatedAt = :updatedAt, errorMessage = :errorMessage",
+        "ExpressionAttributeNames": {
+          "#status": "status"
+        },
+        "ExpressionAttributeValues": {
+          ":status": {
+            "S": "FAILED"
+          },
+          ":updatedAt": {
+            "S.$": "$$.State.EnteredTime"
+          },
+          ":errorMessage": {
+            "S": "All category processing operations failed"
+          }
+        }
+      },
+      "Next": "AllCategoriesFailed"
+    },
+    "AllCategoriesFailed": {
+      "Type": "Fail",
+      "Cause": "All category processing operations failed",
+      "Error": "CategoryProcessingError"
+    },
+    "PrepareExcelFilesForZip": {
+      "Type": "Pass",
+      "Comment": "Group successful categories by macro-category for Excel generation",
+      "Parameters": {
+        "projectId.$": "$.projectId",
+        "exportId.$": "$.exportId",
+        "processTracking.$": "$.processTracking",
+        "userId.$": "$.userId",
+        "selectedCategories.$": "$.selectedCategories",
+        "successfulCategories.$": "$.successfulCategories"
+      },
+      "Next": "GenerateMacroCategoryExcels"
+    },
+    "GenerateMacroCategoryExcels": {
+      "Type": "Task",
+      "Resource": "{{EXCEL_GENERATOR_LAMBDA_ARN}}",
+      "Parameters": {
+        "projectId.$": "$.projectId",
+        "exportId.$": "$.exportId",
+        "selectedCategories.$": "$.selectedCategories",
+        "successfulCategories.$": "$.successfulCategories",
+        "generateMacroCategoryFiles": true
+      },
+      "ResultPath": "$.excelResults",
+      "Next": "UpdateZipPackagingStatus",
+      "Retry": [
+        {
+          "ErrorEquals": ["States.TaskFailed", "Lambda.ServiceException", "Lambda.AWSLambdaException"],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        },
+        {
+          "ErrorEquals": ["States.Timeout"],
+          "IntervalSeconds": 10,
+          "MaxAttempts": 2,
+          "BackoffRate": 1.5
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "HandleExcelGenerationFailure",
+          "ResultPath": "$.error"
+        }
+      ]
+    },
+    "HandleExcelGenerationFailure": {
+      "Type": "Task",
+      "Resource": "{{PROCESS_TRACKING_LAMBDA_ARN}}",
+      "Parameters": {
+        "action": "updateProcessStatus",
+        "processId.$": "$.processTracking.processId",
+        "projectId.$": "$.projectId",
+        "status": "FAILED",
+        "errorDetails": {
+          "error.$": "$.error",
+          "step": "excel_generation_failed",
+          "failedAt.$": "$.State.EnteredTime"
+        }
+      },
+      "Next": "ExcelGenerationFailed"
+    },
+    "ExcelGenerationFailed": {
+      "Type": "Fail",
+      "Cause": "Excel generation failed",
+      "Error": "ExcelGenerationError"
+    },
+    "UpdateZipPackagingStatus": {
+      "Type": "Task",
+      "Resource": "{{PROCESS_TRACKING_LAMBDA_ARN}}",
+      "Parameters": {
+        "action": "updateProcessStatus",
+        "processId.$": "$.processTracking.processId",
+        "projectId.$": "$.projectId",
+        "status": "PROCESSING",
+        "metadata": {
+          "step": "packaging_zip_file",
+          "excelFilesGenerated.$": "States.ArrayLength($.excelResults.files)",
+          "timestamp.$": "$$.State.EnteredTime"
+        }
+      },
+      "ResultPath": "$.statusUpdate",
+      "Next": "PackageZipFile"
+    },
+    "PackageZipFile": {
+      "Type": "Task",
+      "Resource": "{{ZIP_PACKAGER_LAMBDA_ARN}}",
+      "Parameters": {
+        "projectId.$": "$.projectId",
+        "exportId.$": "$.exportId",
+        "excelFiles.$": "$.excelResults.files"
+      },
+      "ResultPath": "$.zipResults",
+      "Next": "FinalizeExport",
+      "Retry": [
+        {
+          "ErrorEquals": ["States.TaskFailed", "Lambda.ServiceException", "Lambda.AWSLambdaException"],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        },
+        {
+          "ErrorEquals": ["States.Timeout"],
+          "IntervalSeconds": 5,
+          "MaxAttempts": 2,
+          "BackoffRate": 1.5
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "HandleZipPackagingFailure",
+          "ResultPath": "$.error"
+        }
+      ]
+    },
+    "FinalizeExport": {
+      "Type": "Task",
+      "Resource": "{{PROCESS_TRACKING_LAMBDA_ARN}}",
+      "Parameters": {
+        "action": "updateProcessStatus",
+        "processId.$": "$.processTracking.processId",
+        "projectId.$": "$.projectId",
+        "status": "COMPLETED",
+        "metadata": {
+          "exportId.$": "$.exportId",
+          "zipFile.$": "$.zipResults.zipFile",
+          "fileSizeBytes.$": "$.zipResults.fileSizeBytes",
+          "totalFiles.$": "$.zipResults.totalFiles",
+          "completedAt.$": "$$.State.EnteredTime"
+        }
+      },
+      "ResultPath": "$.finalizeResults",
+      "Next": "UpdateExportStatusCompleted"
+    },
+    "UpdateExportStatusCompleted": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::dynamodb:updateItem",
+      "Parameters": {
+        "TableName": "{{EXPORT_HISTORY_TABLE_NAME}}",
+        "Key": {
+          "exportId": {
+            "S.$": "$.finalizeResults.metadata.exportId"
+          },
+          "projectId": {
+            "S.$": "$.projectId"
+          }
+        },
+        "UpdateExpression": "SET #status = :status, updatedAt = :updatedAt, zipFile = :zipFile, fileSizeBytes = :fileSizeBytes",
+        "ExpressionAttributeNames": {
+          "#status": "status"
+        },
+        "ExpressionAttributeValues": {
+          ":status": {
+            "S": "COMPLETED"
+          },
+          ":updatedAt": {
+            "S.$": "$$.State.EnteredTime"
+          },
+          ":zipFile": {
+            "S.$": "$.finalizeResults.metadata.zipFile"
+          },
+          ":fileSizeBytes": {
+            "N.$": "States.Format('{}', $.finalizeResults.metadata.fileSizeBytes)"
+          }
+        }
+      },
+      "End": true
+    },
+    "HandleInitializationFailure": {
+      "Type": "Task",
+      "Resource": "{{PROCESS_TRACKING_LAMBDA_ARN}}",
+      "Parameters": {
+        "action": "updateProcessStatus",
+        "processId.$": "$.processTracking.processId",
+        "projectId.$": "$.projectId",
+        "status": "FAILED",
+        "errorDetails": {
+          "error.$": "$.error",
+          "step": "initialization_failed",
+          "failedAt.$": "$$.State.EnteredTime"
+        }
+      },
+      "Next": "InitializationFailed"
+    },
+    "InitializationFailed": {
+      "Type": "Fail",
+      "Cause": "Export initialization failed",
+      "Error": "InitializationError"
+    },
+    "HandleCategoryProcessingFailure": {
+      "Type": "Task",
+      "Resource": "{{PROCESS_TRACKING_LAMBDA_ARN}}",
+      "Parameters": {
+        "action": "updateProcessStatus",
+        "processId.$": "$.processTracking.processId",
+        "projectId.$": "$.projectId",
+        "status": "FAILED",
+        "errorDetails": {
+          "error.$": "$.error",
+          "step": "category_processing_failed",
+          "failedAt.$": "$$.State.EnteredTime"
+        }
+      },
+      "Next": "CategoryProcessingFailed"
+    },
+    "CategoryProcessingFailed": {
+      "Type": "Fail",
+      "Cause": "Category processing workflow failed",
+      "Error": "CategoryProcessingError"
+    },
+    "HandleZipPackagingFailure": {
+      "Type": "Task",
+      "Resource": "{{PROCESS_TRACKING_LAMBDA_ARN}}",
+      "Parameters": {
+        "action": "updateProcessStatus",
+        "processId.$": "$.processTracking.processId",
+        "projectId.$": "$.projectId",
+        "status": "FAILED",
+        "errorDetails": {
+          "error.$": "$.error",
+          "step": "zip_packaging_failed",
+          "failedAt.$": "$$.State.EnteredTime"
+        }
+      },
+      "Next": "ZipPackagingFailed"
+    },
+    "ZipPackagingFailed": {
+      "Type": "Fail",
+      "Cause": "ZIP packaging failed",
+      "Error": "ZipPackagingError"
+    }
+  }
+}

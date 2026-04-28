@@ -1,0 +1,12 @@
+{
+  "name": "role-mapper",
+  "version": "1.0.0",
+  "description": "Lambda function to map Cognito users to IAM roles based on project sharing permissions",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.1048.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

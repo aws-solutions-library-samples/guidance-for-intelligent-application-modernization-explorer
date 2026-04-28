@@ -1,0 +1,11 @@
+{
+  "name": "skill-importance-orchestrator",
+  "version": "1.0.0",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.400.0",
+    "@aws-sdk/client-athena": "^3.400.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

@@ -1,0 +1,147 @@
+id,technology,quadrant,phase
+tech-1,Domain-Driven Design,Techniques,Trial
+tech-2,Microservices,Techniques,Assess
+tech-3,Event Sourcing,Techniques,Hold
+tech-4,CQRS,Techniques,Assess
+tech-5,Continuous Delivery,Techniques,Hold
+tech-6,DevOps,Techniques,Hold
+tech-7,Infrastructure as Code,Techniques,Adopt
+tech-8,Serverless Architecture,Techniques,Trial
+tech-9,API-First Design,Techniques,Assess
+tech-10,Behavior-Driven Development,Techniques,Assess
+tech-11,Test-Driven Development,Techniques,Assess
+tech-12,Feature Toggles,Techniques,Adopt
+tech-13,Zero Trust Security,Techniques,Trial
+tech-14,Chaos Engineering,Techniques,Hold
+tech-15,GitOps,Techniques,Hold
+tech-16,DataOps,Techniques,Assess
+tech-17,MLOps,Techniques,Hold
+tech-18,AIOps,Techniques,Assess
+tech-19,FinOps,Techniques,Assess
+tech-20,SecOps,Techniques,Assess
+tech-21,Site Reliability Engineering,Techniques,Adopt
+tech-22,Platform Engineering,Techniques,Adopt
+tech-23,Developer Experience,Techniques,Assess
+tech-24,Inner Source,Techniques,Trial
+tech-25,Trunk-Based Development,Techniques,Trial
+tech-26,Pair Programming,Techniques,Adopt
+tech-27,Mob Programming,Techniques,Assess
+tech-28,Code Review,Techniques,Hold
+tech-29,Continuous Integration,Techniques,Assess
+tech-30,Continuous Deployment,Techniques,Adopt
+tech-31,Blue-Green Deployment,Techniques,Adopt
+tech-32,Canary Deployment,Techniques,Adopt
+tech-33,A/B Testing,Techniques,Hold
+tech-34,Feature Flags,Techniques,Assess
+tech-35,Dark Launching,Techniques,Hold
+tech-36,Strangler Fig Pattern,Techniques,Hold
+tech-37,Backend for Frontend,Techniques,Hold
+tech-38,Docker,Tools,Trial
+tech-39,Kubernetes,Tools,Assess
+tech-40,Terraform,Tools,Hold
+tech-41,Jenkins,Tools,Adopt
+tech-42,GitHub Actions,Tools,Hold
+tech-43,Prometheus,Tools,Assess
+tech-44,Grafana,Tools,Adopt
+tech-45,ELK Stack,Tools,Assess
+tech-46,Ansible,Tools,Assess
+tech-47,SonarQube,Tools,Hold
+tech-48,Istio,Tools,Adopt
+tech-49,ArgoCD,Tools,Hold
+tech-50,Vault,Tools,Hold
+tech-51,Datadog,Tools,Hold
+tech-52,New Relic,Tools,Trial
+tech-53,Splunk,Tools,Hold
+tech-54,Helm,Tools,Trial
+tech-55,Kustomize,Tools,Adopt
+tech-56,Flux,Tools,Trial
+tech-57,Linkerd,Tools,Trial
+tech-58,Consul,Tools,Trial
+tech-59,Jaeger,Tools,Hold
+tech-60,Zipkin,Tools,Assess
+tech-61,Fluentd,Tools,Adopt
+tech-62,Logstash,Tools,Assess
+tech-63,Kibana,Tools,Hold
+tech-64,Elasticsearch,Tools,Adopt
+tech-65,Redis,Tools,Hold
+tech-66,RabbitMQ,Tools,Adopt
+tech-67,Kafka,Tools,Adopt
+tech-68,Pulsar,Tools,Trial
+tech-69,NATS,Tools,Assess
+tech-70,Envoy,Tools,Assess
+tech-71,Traefik,Tools,Trial
+tech-72,NGINX,Tools,Trial
+tech-73,HAProxy,Tools,Hold
+tech-74,Varnish,Tools,Hold
+tech-75,Squid,Tools,Assess
+tech-76,AWS,Platforms,Hold
+tech-77,Azure,Platforms,Adopt
+tech-78,Google Cloud,Platforms,Hold
+tech-79,Heroku,Platforms,Trial
+tech-80,OpenShift,Platforms,Adopt
+tech-81,VMware,Platforms,Adopt
+tech-82,Snowflake,Platforms,Trial
+tech-83,Databricks,Platforms,Trial
+tech-84,MongoDB Atlas,Platforms,Assess
+tech-85,Confluent Cloud,Platforms,Adopt
+tech-86,Vercel,Platforms,Hold
+tech-87,Netlify,Platforms,Adopt
+tech-88,Digital Ocean,Platforms,Trial
+tech-89,Firebase,Platforms,Adopt
+tech-90,Cloudflare,Platforms,Adopt
+tech-91,Akamai,Platforms,Trial
+tech-92,Fastly,Platforms,Hold
+tech-93,Linode,Platforms,Trial
+tech-94,Vultr,Platforms,Trial
+tech-95,OVHcloud,Platforms,Assess
+tech-96,Hetzner,Platforms,Hold
+tech-97,Scaleway,Platforms,Hold
+tech-98,Oracle Cloud,Platforms,Hold
+tech-99,IBM Cloud,Platforms,Assess
+tech-100,Alibaba Cloud,Platforms,Trial
+tech-101,Tencent Cloud,Platforms,Assess
+tech-102,Salesforce,Platforms,Assess
+tech-103,ServiceNow,Platforms,Assess
+tech-104,Workday,Platforms,Assess
+tech-105,SAP,Platforms,Adopt
+tech-106,Adobe Experience Cloud,Platforms,Hold
+tech-107,Contentful,Platforms,Assess
+tech-108,Strapi,Platforms,Hold
+tech-109,Sanity,Platforms,Adopt
+tech-110,React,Languages & Frameworks,Trial
+tech-111,Angular,Languages & Frameworks,Adopt
+tech-112,Vue.js,Languages & Frameworks,Hold
+tech-113,Node.js,Languages & Frameworks,Adopt
+tech-114,Spring Boot,Languages & Frameworks,Assess
+tech-115,Django,Languages & Frameworks,Hold
+tech-116,Flask,Languages & Frameworks,Hold
+tech-117,Ruby on Rails,Languages & Frameworks,Adopt
+tech-118,ASP.NET Core,Languages & Frameworks,Adopt
+tech-119,Laravel,Languages & Frameworks,Trial
+tech-120,Express,Languages & Frameworks,Adopt
+tech-121,GraphQL,Languages & Frameworks,Hold
+tech-122,TypeScript,Languages & Frameworks,Adopt
+tech-123,Kotlin,Languages & Frameworks,Trial
+tech-124,Rust,Languages & Frameworks,Hold
+tech-125,Go,Languages & Frameworks,Trial
+tech-126,Swift,Languages & Frameworks,Adopt
+tech-127,Flutter,Languages & Frameworks,Hold
+tech-128,React Native,Languages & Frameworks,Hold
+tech-129,Xamarin,Languages & Frameworks,Trial
+tech-130,Ionic,Languages & Frameworks,Hold
+tech-131,NativeScript,Languages & Frameworks,Hold
+tech-132,Electron,Languages & Frameworks,Trial
+tech-133,Tauri,Languages & Frameworks,Adopt
+tech-134,Next.js,Languages & Frameworks,Hold
+tech-135,Nuxt.js,Languages & Frameworks,Trial
+tech-136,Gatsby,Languages & Frameworks,Hold
+tech-137,Remix,Languages & Frameworks,Trial
+tech-138,SvelteKit,Languages & Frameworks,Hold
+tech-139,Astro,Languages & Frameworks,Assess
+tech-140,Qwik,Languages & Frameworks,Assess
+tech-141,Solid.js,Languages & Frameworks,Adopt
+tech-142,Preact,Languages & Frameworks,Hold
+tech-143,Lit,Languages & Frameworks,Assess
+tech-144,Stencil,Languages & Frameworks,Adopt
+tech-145,Web Components,Languages & Frameworks,Trial
+tech-146,Blazor,Languages & Frameworks,Hold

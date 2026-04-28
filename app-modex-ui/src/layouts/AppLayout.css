@@ -1,0 +1,54 @@
+/* Custom styles for the AppLayout component */
+
+/* Override Cloudscape styles to reduce spacing */
+[data-awsui-side-navigation-section-group] {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+[data-awsui-side-navigation-section-group] > li {
+  margin-bottom: 0 !important;
+}
+
+[data-awsui-side-navigation-link] {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  min-height: 22px !important;
+}
+
+[data-awsui-side-navigation-section-header] {
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+  min-height: 22px !important;
+}
+
+/* Ensure the navigation doesn't add extra padding */
+.awsui-side-navigation {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Fix for Cloudscape AppLayout navigation panel */
+[data-awsui-layout-panel="navigation"] {
+  position: relative !important;
+  padding-bottom: 0 !important;
+  overflow: hidden !important;
+}
+
+[data-awsui-layout-panel="navigation"] > div {
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+/* Fix for Cloudscape AppLayout to ensure proper height calculations */
+.awsui-app-layout {
+  height: calc(100vh - 40px); /* Subtract top navigation height */
+}
+
+/* Ensure the sidebar container has the correct height */
+[data-awsui-layout-panel="navigation"] > div > div {
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+

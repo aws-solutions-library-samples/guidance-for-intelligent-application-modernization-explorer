@@ -1,0 +1,151 @@
+id,applicationName,department,criticality,purpose
+1,Procurement Management System 1,Procurement,High,Benefits enrollment and administration
+2,Legal Gateway 2,Legal,High,Vendor and supplier management
+3,Analytics Platform 3,Analytics,Low,Content management and publishing
+4,Risk Management Engine 4,Risk Management,Low,Product information management
+5,Procurement Service 5,Procurement,Medium,Content management and publishing
+6,Marketing Application,Marketing,High,Product information management
+7,Customer Service Gateway,Customer Service,High,Content management and publishing
+8,Sales Gateway,Sales,High,Supply chain process management
+9,Finance Dashboard,Finance,High,Employee management and administration
+10,Engineering Engine,Engineering,Medium,Marketing campaign management
+11,E-Commerce Management System,E-Commerce,Low,Content management and publishing
+12,IT Application,IT,High,Project tracking and collaboration
+13,IT Controller,IT,Low,Benefits enrollment and administration
+14,Risk Management Controller,Risk Management,Medium,Customer-facing application for account management
+15,Sales Engine 15,Sales,Medium,Asset tracking and management
+16,Sales Dashboard,Sales,Medium,Business intelligence and analytics
+17,Manufacturing Portal 17,Manufacturing,Medium,Asset tracking and management
+18,Customer Service Dashboard,Customer Service,High,Internal system for tracking and management
+19,Business Development Platform,Business Development,High,Document storage and management
+20,Manufacturing Tool,Manufacturing,Medium,Marketing campaign management
+21,Finance Tracker,Finance,Medium,Supply chain process management
+22,Legal Monitor 22,Legal,Low,Customer-facing application for account management
+23,R&D Gateway,R&D,High,Product information management
+24,Product Portal 24,Product,Medium,Benefits enrollment and administration
+25,Sales Tool,Sales,Medium,Project tracking and collaboration
+26,Manufacturing Controller,Manufacturing,Medium,Benefits enrollment and administration
+27,Compliance Processor,Compliance,Low,E-commerce and online sales
+28,Analytics Controller,Analytics,Low,Business intelligence and analytics
+29,HR Monitor,HR,Medium,Business intelligence and analytics
+30,Legal Application,Legal,Medium,Regulatory compliance monitoring
+31,Quality Assurance Processor,Quality Assurance,Low,Training and certification tracking
+32,Risk Management Processor 32,Risk Management,Medium,Training and certification tracking
+33,Manufacturing Monitor 33,Manufacturing,Low,Asset tracking and management
+34,Manufacturing Service,Manufacturing,Medium,Internal system for tracking and management
+35,Procurement Controller,Procurement,Medium,Business intelligence and analytics
+36,Product Controller,Product,Low,Marketing campaign management
+37,Engineering Gateway,Engineering,Low,Time and attendance tracking
+38,Engineering Service,Engineering,High,Product information management
+39,Business Development Gateway,Business Development,Medium,Project tracking and collaboration
+40,Quality Assurance Tracker,Quality Assurance,Medium,Content management and publishing
+41,Analytics Application,Analytics,Low,Marketing campaign management
+42,R&D Portal 42,R&D,Medium,Project tracking and collaboration
+43,Manufacturing Tool,Manufacturing,Medium,Document storage and management
+44,R&D Tracker,R&D,Low,Support ticket management system
+45,R&D Management System 45,R&D,High,Support ticket management system
+46,Customer Service Platform,Customer Service,High,Customer-facing application for account management
+47,Analytics Hub,Analytics,Medium,Project tracking and collaboration
+48,E-Commerce Controller,E-Commerce,High,Document storage and management
+49,Marketing Dashboard,Marketing,Low,Business intelligence and analytics
+50,Legal Dashboard,Legal,High,Internal system for tracking and management
+51,HR Tracker,HR,Medium,Product information management
+52,Business Development Gateway,Business Development,Low,Content management and publishing
+53,Product Engine,Product,High,Time and attendance tracking
+54,Operations Service,Operations,Medium,Customer-facing application for account management
+55,Legal Tracker,Legal,Low,Asset tracking and management
+56,Sales Platform,Sales,Low,Supply chain process management
+57,IT Engine,IT,Low,Document storage and management
+58,Business Development Hub,Business Development,Medium,Product information management
+59,Finance Analyzer,Finance,Low,Financial reporting and analytics
+60,Engineering Service,Engineering,High,Content management and publishing
+61,Procurement Monitor,Procurement,High,Document storage and management
+62,E-Commerce Dashboard 62,E-Commerce,Medium,Content management and publishing
+63,HR Platform,HR,High,Customer-facing application for account management
+64,Product Management System 64,Product,High,Business intelligence and analytics
+65,IT Tracker,IT,Medium,Product information management
+66,Finance Controller 66,Finance,Medium,Project tracking and collaboration
+67,Engineering Hub,Engineering,Medium,Training and certification tracking
+68,E-Commerce Hub,E-Commerce,High,Training and certification tracking
+69,Legal Hub,Legal,Medium,Supply chain process management
+70,Product Dashboard 70,Product,High,E-commerce and online sales
+71,Legal Application 71,Legal,Medium,Time and attendance tracking
+72,Finance Controller 72,Finance,High,Internal system for tracking and management
+73,HR Controller,HR,Medium,Asset tracking and management
+74,Business Development Service,Business Development,High,Marketing campaign management
+75,Procurement Controller,Procurement,Medium,Vendor and supplier management
+76,Sales Portal,Sales,Medium,Project tracking and collaboration
+77,R&D Portal,R&D,Medium,Project tracking and collaboration
+78,Supply Chain Dashboard,Supply Chain,Low,Customer-facing application for account management
+79,Risk Management Controller,Risk Management,Low,Customer-facing application for account management
+80,Legal Application,Legal,Low,Support ticket management system
+81,Legal Processor,Legal,Low,Customer relationship management
+82,Sales Dashboard,Sales,Medium,Employee management and administration
+83,Operations Service 83,Operations,Medium,Vendor and supplier management
+84,Supply Chain Engine,Supply Chain,Medium,Content management and publishing
+85,Marketing Platform,Marketing,Low,Supply chain process management
+86,Quality Assurance Analyzer,Quality Assurance,Medium,Benefits enrollment and administration
+87,Finance Tool 87,Finance,Low,Supply chain process management
+88,Operations Tool,Operations,High,Vendor and supplier management
+89,Legal Tracker 89,Legal,Low,Product information management
+90,Sales Hub,Sales,Low,Customer-facing application for account management
+91,Procurement Gateway 91,Procurement,Medium,Financial reporting and analytics
+92,Finance Service,Finance,High,Business intelligence and analytics
+93,Quality Assurance Engine,Quality Assurance,Medium,Product information management
+94,Supply Chain Controller 94,Supply Chain,High,Employee management and administration
+95,Marketing Analyzer,Marketing,Low,Product information management
+96,Customer Service Application,Customer Service,High,Asset tracking and management
+97,Marketing Application 97,Marketing,Low,Document storage and management
+98,Procurement Processor 98,Procurement,Low,Support ticket management system
+99,E-Commerce Tool,E-Commerce,Medium,Vendor and supplier management
+100,Product Engine,Product,Medium,Product information management
+101,Operations Processor 101,Operations,Low,Support ticket management system
+102,Engineering Platform,Engineering,High,Employee management and administration
+103,Operations Tracker,Operations,Low,E-commerce and online sales
+104,Marketing Monitor,Marketing,High,Document storage and management
+105,Compliance Platform,Compliance,Medium,Benefits enrollment and administration
+106,R&D Controller,R&D,Low,Support ticket management system
+107,Business Development Analyzer,Business Development,Low,Asset tracking and management
+108,Compliance Monitor,Compliance,Low,Marketing campaign management
+109,Legal Engine,Legal,High,Customer relationship management
+110,Manufacturing Engine,Manufacturing,High,Employee management and administration
+111,Procurement Engine,Procurement,Low,Product information management
+112,Engineering Processor 112,Engineering,Medium,Regulatory compliance monitoring
+113,Procurement Tracker,Procurement,Medium,Regulatory compliance monitoring
+114,Manufacturing Management System 114,Manufacturing,Medium,Regulatory compliance monitoring
+115,R&D Processor,R&D,Low,Vendor and supplier management
+116,Legal Engine,Legal,Low,Internal system for tracking and management
+117,Risk Management Service 117,Risk Management,High,Time and attendance tracking
+118,Product Gateway,Product,Medium,Customer relationship management
+119,Engineering Monitor,Engineering,Low,Project tracking and collaboration
+120,Customer Service Portal,Customer Service,Low,Support ticket management system
+121,Product Processor 121,Product,High,Asset tracking and management
+122,Risk Management Service,Risk Management,Low,Financial reporting and analytics
+123,IT Dashboard,IT,Low,Business intelligence and analytics
+124,Customer Service Analyzer,Customer Service,High,Business intelligence and analytics
+125,Marketing Dashboard,Marketing,Low,Support ticket management system
+126,Product Hub 126,Product,Low,Support ticket management system
+127,Sales Tracker,Sales,Low,Internal system for tracking and management
+128,Business Development Monitor 128,Business Development,Low,Vendor and supplier management
+129,Analytics Platform 129,Analytics,Medium,Asset tracking and management
+130,IT Engine 130,IT,High,Financial reporting and analytics
+131,Operations Processor,Operations,High,Vendor and supplier management
+132,Marketing Dashboard,Marketing,High,Business intelligence and analytics
+133,HR Engine,HR,High,Asset tracking and management
+134,Customer Service Management System,Customer Service,Medium,Employee management and administration
+135,R&D Gateway,R&D,High,Customer-facing application for account management
+136,Manufacturing Tool,Manufacturing,High,Internal system for tracking and management
+137,Engineering Dashboard 137,Engineering,Low,Support ticket management system
+138,IT Controller 138,IT,Medium,Product information management
+139,Operations Management System 139,Operations,Medium,Financial reporting and analytics
+140,Legal Service,Legal,Low,Training and certification tracking
+141,R&D Gateway,R&D,High,Asset tracking and management
+142,Legal Engine,Legal,Low,Training and certification tracking
+143,Quality Assurance Platform,Quality Assurance,High,Customer relationship management
+144,Supply Chain Service,Supply Chain,Low,Product information management
+145,Procurement Application 145,Procurement,Medium,Support ticket management system
+146,Product Processor,Product,Medium,Internal system for tracking and management
+147,Finance Analyzer,Finance,Medium,Regulatory compliance monitoring
+148,E-Commerce Management System,E-Commerce,Medium,Regulatory compliance monitoring
+149,Finance Management System,Finance,Low,Product information management
+150,Marketing Gateway,Marketing,Low,Training and certification tracking

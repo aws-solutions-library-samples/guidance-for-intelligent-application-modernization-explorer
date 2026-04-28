@@ -1,0 +1,14 @@
+{
+  "name": "app-modex-process-tracking",
+  "version": "1.0.0",
+  "description": "Process tracking Lambda function for App-ModEx platform",
+  "main": "index.js",
+  "dependencies": {
+    "uuid": "^8.3.2"
+  },
+  "author": "App-ModEx Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

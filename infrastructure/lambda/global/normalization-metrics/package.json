@@ -1,0 +1,9 @@
+{
+  "name": "app-modex-normalization-metrics",
+  "version": "1.0.0",
+  "description": "Publish CloudWatch metrics for normalization workflow",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-cloudwatch": "^3.700.0"
+  }
+}

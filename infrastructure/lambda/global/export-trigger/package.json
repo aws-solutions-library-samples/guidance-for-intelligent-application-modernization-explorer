@@ -1,0 +1,17 @@
+{
+  "name": "app-modex-export-trigger",
+  "version": "1.0.0",
+  "description": "Export trigger Lambda function for AppModEx",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.0.0",
+    "@aws-sdk/lib-dynamodb": "^3.0.0",
+    "@aws-sdk/client-s3": "^3.0.0",
+    "@aws-sdk/s3-request-presigner": "^3.0.0",
+    "@aws-sdk/client-sfn": "^3.0.0",
+    "uuid": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

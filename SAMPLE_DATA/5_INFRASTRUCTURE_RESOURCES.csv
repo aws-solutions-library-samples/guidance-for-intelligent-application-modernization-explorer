@@ -1,0 +1,887 @@
+id,applicationName,serverName,serverType,cpu,memory,storage,region,environment,notes,osType,osVersion,dbEngineVersion,dbClusterId,dbClusterType,orchestrationPlatform
+infra-1,Procurement Management System 1,procurement-management-system-1-frontend-srv-1,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2,PostgreSQL 14,db-cluster-660,Multi-AZ,EKS
+infra-2,Procurement Management System 1,procurement-management-system-1-frontend-srv-2,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-921,Active/Active,None
+infra-3,Procurement Management System 1,procurement-management-system-1-backend-srv-3,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2023,MongoDB 6.0,db-cluster-851,Active/Backup,None
+infra-4,Procurement Management System 1,procurement-management-system-1-backend-srv-4,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-629,Single Instance,None
+infra-5,Procurement Management System 1,procurement-management-system-1-backend-srv-5,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,PostgreSQL 14,db-cluster-836,Active/Backup,Kubernetes
+infra-6,Procurement Management System 1,procurement-management-system-1-backend-srv-6,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,DynamoDB,db-cluster-199,Single Instance,EKS
+infra-7,Procurement Management System 1,procurement-management-system-1-frontend-srv-7,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2023,Aurora PostgreSQL 14,db-cluster-244,Multi-AZ,None
+infra-8,Procurement Management System 1,procurement-management-system-1-frontend-srv-8,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,PostgreSQL 14,db-cluster-783,Active/Active,ECS
+infra-9,Legal Gateway 2,legal-gateway-2-worker-srv-9,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2023,PostgreSQL 13,db-cluster-755,Active/Active,None
+infra-10,Legal Gateway 2,legal-gateway-2-worker-srv-10,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,MongoDB 6.0,db-cluster-751,Single Instance,Kubernetes
+infra-11,Legal Gateway 2,legal-gateway-2-api-srv-11,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-608,Single Instance,Kubernetes
+infra-12,Legal Gateway 2,legal-gateway-2-api-srv-12,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2023,Redis 7.0,db-cluster-240,Multi-AZ,ECS
+infra-13,Legal Gateway 2,legal-gateway-2-processor-srv-13,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,Primary instance,Windows,Amazon Linux 2,PostgreSQL 13,db-cluster-777,Active/Backup,None
+infra-14,Legal Gateway 2,legal-gateway-2-processor-srv-14,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,PostgreSQL 15,db-cluster-623,Active/Active,None
+infra-15,Legal Gateway 2,legal-gateway-2-processor-srv-15,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Production,,Windows,Ubuntu 22.04,Aurora MySQL 8.0,db-cluster-161,Active/Backup,None
+infra-16,Legal Gateway 2,legal-gateway-2-processor-srv-16,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,MySQL 8.0,db-cluster-750,Single Instance,EKS
+infra-17,Legal Gateway 2,legal-gateway-2-api-srv-17,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2,MySQL 8.0,db-cluster-852,Active/Active,EKS
+infra-18,Legal Gateway 2,legal-gateway-2-api-srv-18,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,PostgreSQL 15,db-cluster-964,Multi-AZ,ECS
+infra-19,Analytics Platform 3,analytics-platform-3-processor-srv-19,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2,PostgreSQL 13,db-cluster-322,Active/Backup,ECS
+infra-20,Analytics Platform 3,analytics-platform-3-processor-srv-20,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,PostgreSQL 13,db-cluster-665,Single Instance,EKS
+infra-21,Analytics Platform 3,analytics-platform-3-service-srv-21,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Production,Primary instance,Windows,Amazon Linux 2023,MongoDB 6.0,db-cluster-327,Single Instance,EKS
+infra-22,Analytics Platform 3,analytics-platform-3-service-srv-22,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,PostgreSQL 13,db-cluster-193,Multi-AZ,Kubernetes
+infra-23,Analytics Platform 3,analytics-platform-3-service-srv-23,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Production,Primary instance,Linux,Ubuntu 22.04,Aurora MySQL 8.0,db-cluster-627,Multi-AZ,None
+infra-24,Analytics Platform 3,analytics-platform-3-service-srv-24,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Staging,,Windows,Windows Server 2019,DynamoDB,db-cluster-458,Single Instance,Kubernetes
+infra-25,Analytics Platform 3,analytics-platform-3-worker-srv-25,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Production,Primary instance,Windows,Windows Server 2022,PostgreSQL 14,db-cluster-170,Multi-AZ,None
+infra-26,Analytics Platform 3,analytics-platform-3-worker-srv-26,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-986,Single Instance,ECS
+infra-27,Risk Management Engine 4,risk-management-engine-4-srv-27,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-136,Multi-AZ,EKS
+infra-28,Risk Management Engine 4,risk-management-engine-4-srv-28,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-774,Single Instance,ECS
+infra-29,Procurement Service 5,procurement-service-5-srv-29,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Production,,Windows,Ubuntu 20.04,Redis 7.0,db-cluster-436,Single Instance,None
+infra-30,Procurement Service 5,procurement-service-5-srv-30,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,MySQL 8.0,db-cluster-261,Single Instance,None
+infra-31,Marketing Application,marketing-application-backend-srv-31,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,DynamoDB,db-cluster-239,Single Instance,None
+infra-32,Marketing Application,marketing-application-backend-srv-32,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,PostgreSQL 15,db-cluster-119,Multi-AZ,ECS
+infra-33,Marketing Application,marketing-application-api-srv-33,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-261,Single Instance,Kubernetes
+infra-34,Marketing Application,marketing-application-api-srv-34,m5.large,2 vCPU,8 GB,100 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,PostgreSQL 15,db-cluster-886,Active/Backup,EKS
+infra-35,Marketing Application,marketing-application-worker-srv-35,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Production,,Windows,Ubuntu 20.04,PostgreSQL 14,db-cluster-433,Active/Active,EKS
+infra-36,Marketing Application,marketing-application-worker-srv-36,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,Aurora MySQL 8.0,db-cluster-720,Multi-AZ,None
+infra-37,Marketing Application,marketing-application-processor-srv-37,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,DynamoDB,db-cluster-907,Active/Backup,ECS
+infra-38,Marketing Application,marketing-application-processor-srv-38,m5.large,2 vCPU,8 GB,100 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2023,PostgreSQL 13,db-cluster-669,Multi-AZ,None
+infra-39,Marketing Application,marketing-application-processor-srv-39,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Production,,Linux,Ubuntu 20.04,DynamoDB,db-cluster-476,Multi-AZ,Kubernetes
+infra-40,Marketing Application,marketing-application-processor-srv-40,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-452,Active/Active,Kubernetes
+infra-41,Customer Service Gateway,customer-service-gateway-worker-srv-41,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Production,Primary instance,Linux,Ubuntu 20.04,PostgreSQL 14,db-cluster-175,Single Instance,None
+infra-42,Customer Service Gateway,customer-service-gateway-worker-srv-42,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-269,Active/Backup,None
+infra-43,Customer Service Gateway,customer-service-gateway-api-srv-43,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Production,,Windows,Windows Server 2022,Aurora MySQL 8.0,db-cluster-501,Single Instance,Kubernetes
+infra-44,Customer Service Gateway,customer-service-gateway-api-srv-44,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,PostgreSQL 15,db-cluster-355,Single Instance,ECS
+infra-45,Sales Gateway,sales-gateway-processor-srv-45,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,Redis 7.0,db-cluster-309,Single Instance,None
+infra-46,Sales Gateway,sales-gateway-processor-srv-46,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,Redis 7.0,db-cluster-897,Active/Backup,ECS
+infra-47,Sales Gateway,sales-gateway-frontend-srv-47,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Production,Primary instance,Windows,Amazon Linux 2,Redis 7.0,db-cluster-409,Single Instance,ECS
+infra-48,Sales Gateway,sales-gateway-frontend-srv-48,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,MySQL 8.0,db-cluster-931,Active/Backup,None
+infra-49,Sales Gateway,sales-gateway-frontend-srv-49,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2023,DynamoDB,db-cluster-571,Active/Backup,None
+infra-50,Sales Gateway,sales-gateway-frontend-srv-50,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,MySQL 8.0,db-cluster-123,Active/Backup,None
+infra-51,Finance Dashboard,finance-dashboard-api-srv-51,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-638,Active/Active,EKS
+infra-52,Finance Dashboard,finance-dashboard-api-srv-52,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,Aurora MySQL 8.0,db-cluster-593,Active/Backup,ECS
+infra-53,Finance Dashboard,finance-dashboard-processor-srv-53,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Production,Primary instance,Linux,Ubuntu 20.04,PostgreSQL 13,db-cluster-661,Single Instance,EKS
+infra-54,Finance Dashboard,finance-dashboard-processor-srv-54,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-763,Active/Backup,ECS
+infra-55,Finance Dashboard,finance-dashboard-service-srv-55,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2023,PostgreSQL 13,db-cluster-305,Active/Backup,EKS
+infra-56,Finance Dashboard,finance-dashboard-service-srv-56,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,MongoDB 6.0,db-cluster-789,Multi-AZ,EKS
+infra-57,Finance Dashboard,finance-dashboard-frontend-srv-57,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,MySQL 8.0,db-cluster-719,Active/Active,EKS
+infra-58,Finance Dashboard,finance-dashboard-frontend-srv-58,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Staging,,Windows,Windows Server 2022,MongoDB 6.0,db-cluster-555,Active/Active,Kubernetes
+infra-59,Engineering Engine,engineering-engine-processor-srv-59,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2023,MongoDB 6.0,db-cluster-223,Multi-AZ,None
+infra-60,Engineering Engine,engineering-engine-processor-srv-60,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2023,Redis 7.0,db-cluster-710,Single Instance,ECS
+infra-61,Engineering Engine,engineering-engine-backend-srv-61,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Production,,Windows,Windows Server 2022,PostgreSQL 15,db-cluster-713,Active/Active,Kubernetes
+infra-62,Engineering Engine,engineering-engine-backend-srv-62,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,PostgreSQL 14,db-cluster-624,Active/Active,EKS
+infra-63,E-Commerce Management System,e-commerce-management-system-srv-63,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Production,,Windows,Windows Server 2019,Aurora MySQL 8.0,db-cluster-548,Active/Active,None
+infra-64,E-Commerce Management System,e-commerce-management-system-srv-64,m5.large,2 vCPU,8 GB,100 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,DynamoDB,db-cluster-139,Active/Active,EKS
+infra-65,IT Application,it-application-backend-srv-65,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,PostgreSQL 14,db-cluster-850,Single Instance,EKS
+infra-66,IT Application,it-application-backend-srv-66,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-560,Active/Backup,EKS
+infra-67,IT Application,it-application-processor-srv-67,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2023,MySQL 8.0,db-cluster-301,Multi-AZ,ECS
+infra-68,IT Application,it-application-processor-srv-68,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,MySQL 8.0,db-cluster-298,Active/Active,Kubernetes
+infra-69,IT Controller,it-controller-frontend-srv-69,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,MySQL 8.0,db-cluster-839,Active/Active,Kubernetes
+infra-70,IT Controller,it-controller-frontend-srv-70,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Staging,,Windows,Windows Server 2019,PostgreSQL 15,db-cluster-829,Multi-AZ,ECS
+infra-71,IT Controller,it-controller-service-srv-71,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Production,,Windows,Windows Server 2022,MySQL 8.0,db-cluster-227,Active/Backup,EKS
+infra-72,IT Controller,it-controller-service-srv-72,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,PostgreSQL 14,db-cluster-877,Single Instance,EKS
+infra-73,IT Controller,it-controller-backend-srv-73,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,DynamoDB,db-cluster-753,Active/Backup,Kubernetes
+infra-74,IT Controller,it-controller-backend-srv-74,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,MySQL 8.0,db-cluster-166,Active/Active,Kubernetes
+infra-75,Risk Management Controller,risk-management-controller-worker-srv-75,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2,PostgreSQL 15,db-cluster-487,Active/Active,None
+infra-76,Risk Management Controller,risk-management-controller-worker-srv-76,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,PostgreSQL 15,db-cluster-879,Multi-AZ,ECS
+infra-77,Risk Management Controller,risk-management-controller-api-srv-77,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2,MongoDB 6.0,db-cluster-893,Multi-AZ,ECS
+infra-78,Risk Management Controller,risk-management-controller-api-srv-78,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,PostgreSQL 13,db-cluster-906,Multi-AZ,ECS
+infra-79,Risk Management Controller,risk-management-controller-backend-srv-79,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2023,MySQL 8.0,db-cluster-868,Single Instance,ECS
+infra-80,Risk Management Controller,risk-management-controller-backend-srv-80,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-114,Active/Backup,ECS
+infra-81,Risk Management Controller,risk-management-controller-processor-srv-81,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2023,MySQL 8.0,db-cluster-123,Active/Backup,ECS
+infra-82,Risk Management Controller,risk-management-controller-processor-srv-82,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,DynamoDB,db-cluster-835,Single Instance,None
+infra-83,Risk Management Controller,risk-management-controller-backend-srv-83,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-328,Single Instance,Kubernetes
+infra-84,Risk Management Controller,risk-management-controller-backend-srv-84,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,Redis 7.0,db-cluster-754,Single Instance,ECS
+infra-85,Sales Engine 15,sales-engine-15-processor-srv-85,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2023,PostgreSQL 15,db-cluster-139,Single Instance,None
+infra-86,Sales Engine 15,sales-engine-15-processor-srv-86,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-935,Multi-AZ,EKS
+infra-87,Sales Engine 15,sales-engine-15-backend-srv-87,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-179,Active/Active,EKS
+infra-88,Sales Engine 15,sales-engine-15-backend-srv-88,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,DynamoDB,db-cluster-764,Active/Backup,EKS
+infra-89,Sales Engine 15,sales-engine-15-frontend-srv-89,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Production,,Windows,Windows Server 2022,MySQL 8.0,db-cluster-447,Active/Backup,None
+infra-90,Sales Engine 15,sales-engine-15-frontend-srv-90,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2023,Redis 7.0,db-cluster-336,Active/Backup,ECS
+infra-91,Sales Engine 15,sales-engine-15-api-srv-91,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 22.04,PostgreSQL 15,db-cluster-205,Active/Active,EKS
+infra-92,Sales Engine 15,sales-engine-15-api-srv-92,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2,MySQL 8.0,db-cluster-838,Single Instance,ECS
+infra-93,Sales Engine 15,sales-engine-15-backend-srv-93,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Production,Primary instance,Windows,Windows Server 2019,Aurora MySQL 8.0,db-cluster-339,Active/Active,ECS
+infra-94,Sales Engine 15,sales-engine-15-backend-srv-94,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,PostgreSQL 15,db-cluster-321,Multi-AZ,Kubernetes
+infra-95,Sales Dashboard,sales-dashboard-srv-95,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Production,,Windows,Windows Server 2022,PostgreSQL 15,db-cluster-107,Multi-AZ,EKS
+infra-96,Sales Dashboard,sales-dashboard-srv-96,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,PostgreSQL 13,db-cluster-730,Active/Backup,EKS
+infra-97,Manufacturing Portal 17,manufacturing-portal-17-service-srv-97,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 22.04,PostgreSQL 15,db-cluster-195,Multi-AZ,EKS
+infra-98,Manufacturing Portal 17,manufacturing-portal-17-service-srv-98,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,PostgreSQL 14,db-cluster-404,Active/Active,Kubernetes
+infra-99,Manufacturing Portal 17,manufacturing-portal-17-backend-srv-99,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2,MySQL 8.0,db-cluster-232,Active/Active,ECS
+infra-100,Manufacturing Portal 17,manufacturing-portal-17-backend-srv-100,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Staging,,Windows,Windows Server 2019,Redis 7.0,db-cluster-394,Multi-AZ,None
+infra-101,Manufacturing Portal 17,manufacturing-portal-17-service-srv-101,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Production,,Windows,Windows Server 2019,PostgreSQL 15,db-cluster-321,Multi-AZ,ECS
+infra-102,Manufacturing Portal 17,manufacturing-portal-17-service-srv-102,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,DynamoDB,db-cluster-882,Single Instance,Kubernetes
+infra-103,Manufacturing Portal 17,manufacturing-portal-17-worker-srv-103,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Production,,Windows,Windows Server 2022,Aurora MySQL 8.0,db-cluster-253,Multi-AZ,None
+infra-104,Manufacturing Portal 17,manufacturing-portal-17-worker-srv-104,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Staging,,Windows,Windows Server 2019,PostgreSQL 14,db-cluster-425,Active/Backup,EKS
+infra-105,Manufacturing Portal 17,manufacturing-portal-17-api-srv-105,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Production,Primary instance,Windows,Windows Server 2019,Aurora PostgreSQL 14,db-cluster-463,Multi-AZ,None
+infra-106,Manufacturing Portal 17,manufacturing-portal-17-api-srv-106,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,PostgreSQL 13,db-cluster-663,Active/Backup,ECS
+infra-107,Customer Service Dashboard,customer-service-dashboard-service-srv-107,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Production,,Windows,Windows Server 2022,MongoDB 6.0,db-cluster-919,Single Instance,EKS
+infra-108,Customer Service Dashboard,customer-service-dashboard-service-srv-108,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,PostgreSQL 14,db-cluster-585,Single Instance,Kubernetes
+infra-109,Customer Service Dashboard,customer-service-dashboard-processor-srv-109,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 22.04,Aurora MySQL 8.0,db-cluster-115,Active/Backup,ECS
+infra-110,Customer Service Dashboard,customer-service-dashboard-processor-srv-110,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2023,PostgreSQL 13,db-cluster-134,Active/Active,EKS
+infra-111,Customer Service Dashboard,customer-service-dashboard-service-srv-111,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2,PostgreSQL 15,db-cluster-253,Active/Active,None
+infra-112,Customer Service Dashboard,customer-service-dashboard-service-srv-112,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,PostgreSQL 15,db-cluster-754,Single Instance,None
+infra-113,Customer Service Dashboard,customer-service-dashboard-worker-srv-113,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,PostgreSQL 14,db-cluster-355,Active/Backup,EKS
+infra-114,Customer Service Dashboard,customer-service-dashboard-worker-srv-114,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2,PostgreSQL 15,db-cluster-325,Multi-AZ,ECS
+infra-115,Customer Service Dashboard,customer-service-dashboard-frontend-srv-115,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,Redis 7.0,db-cluster-951,Active/Active,Kubernetes
+infra-116,Customer Service Dashboard,customer-service-dashboard-frontend-srv-116,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,PostgreSQL 13,db-cluster-674,Active/Backup,ECS
+infra-117,Business Development Platform,business-development-platform-backend-srv-117,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Production,,Windows,Windows Server 2019,MongoDB 6.0,db-cluster-137,Multi-AZ,ECS
+infra-118,Business Development Platform,business-development-platform-backend-srv-118,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Staging,,Windows,Windows Server 2022,PostgreSQL 13,db-cluster-611,Single Instance,None
+infra-119,Business Development Platform,business-development-platform-service-srv-119,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,MySQL 8.0,db-cluster-598,Active/Backup,EKS
+infra-120,Business Development Platform,business-development-platform-service-srv-120,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,MySQL 8.0,db-cluster-937,Multi-AZ,None
+infra-121,Business Development Platform,business-development-platform-frontend-srv-121,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Production,Primary instance,Windows,Amazon Linux 2023,Aurora PostgreSQL 14,db-cluster-533,Active/Active,Kubernetes
+infra-122,Business Development Platform,business-development-platform-frontend-srv-122,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,Redis 7.0,db-cluster-758,Single Instance,ECS
+infra-123,Manufacturing Tool,manufacturing-tool-service-srv-123,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-101,Multi-AZ,EKS
+infra-124,Manufacturing Tool,manufacturing-tool-service-srv-124,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-442,Single Instance,Kubernetes
+infra-125,Manufacturing Tool,manufacturing-tool-api-srv-125,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Production,,Windows,Windows Server 2022,MongoDB 6.0,db-cluster-396,Active/Backup,ECS
+infra-126,Manufacturing Tool,manufacturing-tool-api-srv-126,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2023,DynamoDB,db-cluster-697,Single Instance,Kubernetes
+infra-127,Finance Tracker,finance-tracker-api-srv-127,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,MongoDB 6.0,db-cluster-166,Active/Backup,EKS
+infra-128,Finance Tracker,finance-tracker-api-srv-128,c5.large,2 vCPU,4 GB,80 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-624,Multi-AZ,Kubernetes
+infra-129,Finance Tracker,finance-tracker-service-srv-129,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2,MongoDB 6.0,db-cluster-345,Active/Active,EKS
+infra-130,Finance Tracker,finance-tracker-service-srv-130,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-815,Single Instance,EKS
+infra-131,Finance Tracker,finance-tracker-processor-srv-131,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2023,Redis 7.0,db-cluster-214,Multi-AZ,EKS
+infra-132,Finance Tracker,finance-tracker-processor-srv-132,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,DynamoDB,db-cluster-736,Single Instance,ECS
+infra-133,Finance Tracker,finance-tracker-worker-srv-133,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-650,Active/Active,None
+infra-134,Finance Tracker,finance-tracker-worker-srv-134,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Staging,,Windows,Windows Server 2022,Aurora PostgreSQL 14,db-cluster-814,Active/Backup,Kubernetes
+infra-135,Legal Monitor 22,legal-monitor-22-frontend-srv-135,m5.large,2 vCPU,8 GB,100 GB SSD,us-east-1,Production,,Windows,Ubuntu 20.04,PostgreSQL 14,db-cluster-339,Active/Active,None
+infra-136,Legal Monitor 22,legal-monitor-22-frontend-srv-136,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Staging,,Windows,Windows Server 2022,DynamoDB,db-cluster-459,Single Instance,None
+infra-137,Legal Monitor 22,legal-monitor-22-processor-srv-137,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,MongoDB 6.0,db-cluster-267,Active/Backup,Kubernetes
+infra-138,Legal Monitor 22,legal-monitor-22-processor-srv-138,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,Aurora PostgreSQL 14,db-cluster-275,Active/Backup,None
+infra-139,Legal Monitor 22,legal-monitor-22-processor-srv-139,c5.large,2 vCPU,4 GB,80 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,MongoDB 6.0,db-cluster-229,Active/Active,Kubernetes
+infra-140,Legal Monitor 22,legal-monitor-22-processor-srv-140,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-849,Single Instance,EKS
+infra-141,Legal Monitor 22,legal-monitor-22-api-srv-141,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 20.04,MongoDB 6.0,db-cluster-714,Active/Backup,None
+infra-142,Legal Monitor 22,legal-monitor-22-api-srv-142,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-569,Active/Active,ECS
+infra-143,Legal Monitor 22,legal-monitor-22-service-srv-143,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,DynamoDB,db-cluster-600,Active/Backup,ECS
+infra-144,Legal Monitor 22,legal-monitor-22-service-srv-144,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,DynamoDB,db-cluster-349,Active/Active,EKS
+infra-145,R&D Gateway,r&d-gateway-api-srv-145,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Production,,Windows,Windows Server 2019,DynamoDB,db-cluster-679,Single Instance,ECS
+infra-146,R&D Gateway,r&d-gateway-api-srv-146,c5.large,2 vCPU,4 GB,80 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2023,PostgreSQL 14,db-cluster-803,Active/Backup,ECS
+infra-147,R&D Gateway,r&d-gateway-frontend-srv-147,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2023,Aurora PostgreSQL 14,db-cluster-888,Active/Backup,Kubernetes
+infra-148,R&D Gateway,r&d-gateway-frontend-srv-148,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,MongoDB 6.0,db-cluster-440,Multi-AZ,Kubernetes
+infra-149,R&D Gateway,r&d-gateway-worker-srv-149,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,PostgreSQL 14,db-cluster-436,Active/Active,Kubernetes
+infra-150,R&D Gateway,r&d-gateway-worker-srv-150,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,MongoDB 6.0,db-cluster-259,Multi-AZ,ECS
+infra-151,R&D Gateway,r&d-gateway-service-srv-151,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,DynamoDB,db-cluster-525,Single Instance,None
+infra-152,R&D Gateway,r&d-gateway-service-srv-152,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,Aurora PostgreSQL 14,db-cluster-921,Multi-AZ,EKS
+infra-153,Product Portal 24,product-portal-24-frontend-srv-153,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,MySQL 8.0,db-cluster-519,Active/Active,Kubernetes
+infra-154,Product Portal 24,product-portal-24-frontend-srv-154,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,PostgreSQL 14,db-cluster-378,Multi-AZ,ECS
+infra-155,Product Portal 24,product-portal-24-frontend-srv-155,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Production,,Linux,Ubuntu 22.04,PostgreSQL 13,db-cluster-931,Single Instance,ECS
+infra-156,Product Portal 24,product-portal-24-frontend-srv-156,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,PostgreSQL 14,db-cluster-923,Multi-AZ,None
+infra-157,Product Portal 24,product-portal-24-backend-srv-157,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-298,Single Instance,ECS
+infra-158,Product Portal 24,product-portal-24-backend-srv-158,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,PostgreSQL 13,db-cluster-511,Active/Active,ECS
+infra-159,Product Portal 24,product-portal-24-worker-srv-159,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,Redis 7.0,db-cluster-251,Active/Backup,Kubernetes
+infra-160,Product Portal 24,product-portal-24-worker-srv-160,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,DynamoDB,db-cluster-356,Active/Active,EKS
+infra-161,Sales Tool,sales-tool-backend-srv-161,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2,DynamoDB,db-cluster-884,Multi-AZ,EKS
+infra-162,Sales Tool,sales-tool-backend-srv-162,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,MongoDB 6.0,db-cluster-477,Single Instance,Kubernetes
+infra-163,Sales Tool,sales-tool-worker-srv-163,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2,PostgreSQL 13,db-cluster-856,Multi-AZ,None
+infra-164,Sales Tool,sales-tool-worker-srv-164,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,PostgreSQL 15,db-cluster-665,Active/Active,EKS
+infra-165,Sales Tool,sales-tool-worker-srv-165,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Production,,Windows,Ubuntu 22.04,Redis 7.0,db-cluster-185,Active/Backup,ECS
+infra-166,Sales Tool,sales-tool-worker-srv-166,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,DynamoDB,db-cluster-988,Active/Active,ECS
+infra-167,Manufacturing Controller,manufacturing-controller-srv-167,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-east-1,Production,Primary instance,Windows,Ubuntu 20.04,DynamoDB,db-cluster-118,Active/Backup,ECS
+infra-168,Manufacturing Controller,manufacturing-controller-srv-168,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,PostgreSQL 15,db-cluster-309,Single Instance,EKS
+infra-169,Compliance Processor,compliance-processor-processor-srv-169,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Production,Primary instance,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-551,Multi-AZ,ECS
+infra-170,Compliance Processor,compliance-processor-processor-srv-170,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,PostgreSQL 15,db-cluster-491,Single Instance,ECS
+infra-171,Compliance Processor,compliance-processor-api-srv-171,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,Redis 7.0,db-cluster-405,Multi-AZ,Kubernetes
+infra-172,Compliance Processor,compliance-processor-api-srv-172,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,MySQL 8.0,db-cluster-746,Active/Backup,EKS
+infra-173,Analytics Controller,analytics-controller-service-srv-173,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Production,,Linux,Ubuntu 20.04,DynamoDB,db-cluster-824,Multi-AZ,Kubernetes
+infra-174,Analytics Controller,analytics-controller-service-srv-174,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,MongoDB 6.0,db-cluster-853,Single Instance,None
+infra-175,Analytics Controller,analytics-controller-frontend-srv-175,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Production,Primary instance,Windows,Amazon Linux 2,MongoDB 6.0,db-cluster-940,Active/Active,EKS
+infra-176,Analytics Controller,analytics-controller-frontend-srv-176,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,MySQL 8.0,db-cluster-292,Multi-AZ,Kubernetes
+infra-177,Analytics Controller,analytics-controller-worker-srv-177,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,PostgreSQL 13,db-cluster-134,Multi-AZ,Kubernetes
+infra-178,Analytics Controller,analytics-controller-worker-srv-178,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-996,Single Instance,Kubernetes
+infra-179,Analytics Controller,analytics-controller-api-srv-179,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Production,,Linux,Ubuntu 22.04,Redis 7.0,db-cluster-257,Active/Backup,ECS
+infra-180,Analytics Controller,analytics-controller-api-srv-180,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-168,Active/Active,None
+infra-181,HR Monitor,hr-monitor-worker-srv-181,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-737,Single Instance,Kubernetes
+infra-182,HR Monitor,hr-monitor-worker-srv-182,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,DynamoDB,db-cluster-292,Active/Active,Kubernetes
+infra-183,HR Monitor,hr-monitor-service-srv-183,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Production,,Windows,Ubuntu 22.04,PostgreSQL 15,db-cluster-397,Multi-AZ,Kubernetes
+infra-184,HR Monitor,hr-monitor-service-srv-184,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,Redis 7.0,db-cluster-999,Active/Active,ECS
+infra-185,Legal Application,legal-application-api-srv-185,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Production,,Windows,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-663,Active/Active,EKS
+infra-186,Legal Application,legal-application-api-srv-186,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-725,Active/Active,None
+infra-187,Legal Application,legal-application-backend-srv-187,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-867,Multi-AZ,ECS
+infra-188,Legal Application,legal-application-backend-srv-188,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-290,Single Instance,None
+infra-189,Quality Assurance Processor,quality-assurance-processor-worker-srv-189,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2023,Redis 7.0,db-cluster-869,Active/Backup,Kubernetes
+infra-190,Quality Assurance Processor,quality-assurance-processor-worker-srv-190,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,Aurora MySQL 8.0,db-cluster-998,Single Instance,ECS
+infra-191,Quality Assurance Processor,quality-assurance-processor-frontend-srv-191,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Production,,Windows,Ubuntu 22.04,Redis 7.0,db-cluster-881,Active/Active,Kubernetes
+infra-192,Quality Assurance Processor,quality-assurance-processor-frontend-srv-192,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,PostgreSQL 15,db-cluster-644,Active/Active,EKS
+infra-193,Risk Management Processor 32,risk-management-processor-32-backend-srv-193,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Production,,Windows,Windows Server 2019,Aurora PostgreSQL 14,db-cluster-657,Active/Active,EKS
+infra-194,Risk Management Processor 32,risk-management-processor-32-backend-srv-194,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,PostgreSQL 13,db-cluster-154,Active/Active,None
+infra-195,Risk Management Processor 32,risk-management-processor-32-api-srv-195,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Production,Primary instance,Windows,Windows Server 2019,Aurora PostgreSQL 14,db-cluster-158,Active/Backup,None
+infra-196,Risk Management Processor 32,risk-management-processor-32-api-srv-196,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,DynamoDB,db-cluster-321,Single Instance,None
+infra-197,Risk Management Processor 32,risk-management-processor-32-api-srv-197,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2023,PostgreSQL 13,db-cluster-734,Multi-AZ,None
+infra-198,Risk Management Processor 32,risk-management-processor-32-api-srv-198,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,MongoDB 6.0,db-cluster-652,Active/Active,None
+infra-199,Risk Management Processor 32,risk-management-processor-32-processor-srv-199,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2,Redis 7.0,db-cluster-677,Active/Backup,EKS
+infra-200,Risk Management Processor 32,risk-management-processor-32-processor-srv-200,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,PostgreSQL 15,db-cluster-930,Active/Active,None
+infra-201,Risk Management Processor 32,risk-management-processor-32-api-srv-201,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,Redis 7.0,db-cluster-964,Single Instance,EKS
+infra-202,Risk Management Processor 32,risk-management-processor-32-api-srv-202,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,Redis 7.0,db-cluster-976,Single Instance,EKS
+infra-203,Manufacturing Monitor 33,manufacturing-monitor-33-service-srv-203,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Production,Primary instance,Windows,Ubuntu 22.04,DynamoDB,db-cluster-212,Single Instance,Kubernetes
+infra-204,Manufacturing Monitor 33,manufacturing-monitor-33-service-srv-204,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,MongoDB 6.0,db-cluster-765,Multi-AZ,ECS
+infra-205,Manufacturing Monitor 33,manufacturing-monitor-33-backend-srv-205,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2023,MySQL 8.0,db-cluster-927,Active/Active,ECS
+infra-206,Manufacturing Monitor 33,manufacturing-monitor-33-backend-srv-206,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-973,Single Instance,None
+infra-207,Manufacturing Monitor 33,manufacturing-monitor-33-frontend-srv-207,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-239,Active/Backup,Kubernetes
+infra-208,Manufacturing Monitor 33,manufacturing-monitor-33-frontend-srv-208,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,MongoDB 6.0,db-cluster-712,Single Instance,Kubernetes
+infra-209,Manufacturing Monitor 33,manufacturing-monitor-33-service-srv-209,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Production,Primary instance,Windows,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-170,Multi-AZ,Kubernetes
+infra-210,Manufacturing Monitor 33,manufacturing-monitor-33-service-srv-210,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-685,Active/Active,EKS
+infra-211,Manufacturing Monitor 33,manufacturing-monitor-33-service-srv-211,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2023,Redis 7.0,db-cluster-577,Active/Backup,None
+infra-212,Manufacturing Monitor 33,manufacturing-monitor-33-service-srv-212,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2023,PostgreSQL 15,db-cluster-411,Single Instance,ECS
+infra-213,Manufacturing Service,manufacturing-service-api-srv-213,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,Primary instance,Windows,Amazon Linux 2,PostgreSQL 14,db-cluster-856,Single Instance,EKS
+infra-214,Manufacturing Service,manufacturing-service-api-srv-214,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,Redis 7.0,db-cluster-404,Active/Active,None
+infra-215,Manufacturing Service,manufacturing-service-service-srv-215,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-454,Multi-AZ,ECS
+infra-216,Manufacturing Service,manufacturing-service-service-srv-216,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,PostgreSQL 13,db-cluster-709,Multi-AZ,EKS
+infra-217,Manufacturing Service,manufacturing-service-worker-srv-217,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-573,Active/Backup,EKS
+infra-218,Manufacturing Service,manufacturing-service-worker-srv-218,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,Redis 7.0,db-cluster-779,Multi-AZ,None
+infra-219,Procurement Controller,procurement-controller-worker-srv-219,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2,DynamoDB,db-cluster-305,Single Instance,ECS
+infra-220,Procurement Controller,procurement-controller-worker-srv-220,m5.large,2 vCPU,8 GB,100 GB SSD,us-east-1,Staging,,Windows,Windows Server 2019,PostgreSQL 14,db-cluster-200,Active/Backup,None
+infra-221,Procurement Controller,procurement-controller-api-srv-221,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Production,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-836,Active/Backup,EKS
+infra-222,Procurement Controller,procurement-controller-api-srv-222,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,MySQL 8.0,db-cluster-251,Single Instance,ECS
+infra-223,Procurement Controller,procurement-controller-service-srv-223,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 22.04,DynamoDB,db-cluster-197,Single Instance,EKS
+infra-224,Procurement Controller,procurement-controller-service-srv-224,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,PostgreSQL 15,db-cluster-554,Multi-AZ,ECS
+infra-225,Procurement Controller,procurement-controller-worker-srv-225,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-186,Active/Backup,Kubernetes
+infra-226,Procurement Controller,procurement-controller-worker-srv-226,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,PostgreSQL 14,db-cluster-882,Active/Backup,ECS
+infra-227,Procurement Controller,procurement-controller-backend-srv-227,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2023,DynamoDB,db-cluster-235,Multi-AZ,Kubernetes
+infra-228,Procurement Controller,procurement-controller-backend-srv-228,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-426,Multi-AZ,None
+infra-229,Product Controller,product-controller-service-srv-229,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-736,Multi-AZ,None
+infra-230,Product Controller,product-controller-service-srv-230,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,MongoDB 6.0,db-cluster-392,Active/Active,Kubernetes
+infra-231,Product Controller,product-controller-frontend-srv-231,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Production,,Linux,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-257,Single Instance,ECS
+infra-232,Product Controller,product-controller-frontend-srv-232,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,Aurora MySQL 8.0,db-cluster-690,Multi-AZ,ECS
+infra-233,Product Controller,product-controller-backend-srv-233,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2023,PostgreSQL 14,db-cluster-516,Active/Backup,EKS
+infra-234,Product Controller,product-controller-backend-srv-234,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2023,PostgreSQL 14,db-cluster-890,Active/Active,None
+infra-235,Product Controller,product-controller-frontend-srv-235,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,Redis 7.0,db-cluster-937,Active/Active,ECS
+infra-236,Product Controller,product-controller-frontend-srv-236,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,PostgreSQL 15,db-cluster-535,Active/Backup,Kubernetes
+infra-237,Product Controller,product-controller-backend-srv-237,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,Aurora PostgreSQL 14,db-cluster-143,Single Instance,Kubernetes
+infra-238,Product Controller,product-controller-backend-srv-238,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,PostgreSQL 15,db-cluster-163,Active/Backup,EKS
+infra-239,Engineering Gateway,engineering-gateway-worker-srv-239,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-916,Multi-AZ,None
+infra-240,Engineering Gateway,engineering-gateway-worker-srv-240,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,Aurora MySQL 8.0,db-cluster-213,Active/Active,None
+infra-241,Engineering Gateway,engineering-gateway-backend-srv-241,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Production,,Windows,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-652,Active/Active,Kubernetes
+infra-242,Engineering Gateway,engineering-gateway-backend-srv-242,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-east-1,Staging,,Windows,Windows Server 2019,PostgreSQL 13,db-cluster-219,Multi-AZ,None
+infra-243,Engineering Gateway,engineering-gateway-worker-srv-243,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-324,Multi-AZ,EKS
+infra-244,Engineering Gateway,engineering-gateway-worker-srv-244,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,PostgreSQL 13,db-cluster-491,Multi-AZ,EKS
+infra-245,Engineering Gateway,engineering-gateway-worker-srv-245,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Production,Primary instance,Windows,Amazon Linux 2023,DynamoDB,db-cluster-628,Multi-AZ,None
+infra-246,Engineering Gateway,engineering-gateway-worker-srv-246,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,PostgreSQL 14,db-cluster-233,Active/Backup,Kubernetes
+infra-247,Engineering Service,engineering-service-srv-247,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-552,Active/Backup,None
+infra-248,Engineering Service,engineering-service-srv-248,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-427,Active/Active,ECS
+infra-249,Business Development Gateway,business-development-gateway-frontend-srv-249,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Production,,Linux,Amazon Linux 2023,Aurora PostgreSQL 14,db-cluster-303,Active/Active,Kubernetes
+infra-250,Business Development Gateway,business-development-gateway-frontend-srv-250,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,Aurora PostgreSQL 14,db-cluster-491,Active/Active,None
+infra-251,Business Development Gateway,business-development-gateway-backend-srv-251,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-962,Multi-AZ,ECS
+infra-252,Business Development Gateway,business-development-gateway-backend-srv-252,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-464,Multi-AZ,Kubernetes
+infra-253,Business Development Gateway,business-development-gateway-api-srv-253,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Production,,Windows,Windows Server 2022,MongoDB 6.0,db-cluster-465,Active/Active,Kubernetes
+infra-254,Business Development Gateway,business-development-gateway-api-srv-254,c5.large,2 vCPU,4 GB,80 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,DynamoDB,db-cluster-430,Single Instance,ECS
+infra-255,Quality Assurance Tracker,quality-assurance-tracker-api-srv-255,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,Primary instance,Windows,Windows Server 2022,Aurora PostgreSQL 14,db-cluster-627,Active/Backup,None
+infra-256,Quality Assurance Tracker,quality-assurance-tracker-api-srv-256,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,PostgreSQL 14,db-cluster-534,Multi-AZ,Kubernetes
+infra-257,Quality Assurance Tracker,quality-assurance-tracker-worker-srv-257,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,MySQL 8.0,db-cluster-378,Single Instance,ECS
+infra-258,Quality Assurance Tracker,quality-assurance-tracker-worker-srv-258,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,Redis 7.0,db-cluster-621,Single Instance,Kubernetes
+infra-259,Quality Assurance Tracker,quality-assurance-tracker-service-srv-259,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Production,Primary instance,Windows,Ubuntu 22.04,PostgreSQL 13,db-cluster-784,Active/Active,EKS
+infra-260,Quality Assurance Tracker,quality-assurance-tracker-service-srv-260,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-430,Active/Backup,Kubernetes
+infra-261,Quality Assurance Tracker,quality-assurance-tracker-api-srv-261,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,PostgreSQL 14,db-cluster-459,Active/Active,EKS
+infra-262,Quality Assurance Tracker,quality-assurance-tracker-api-srv-262,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2023,Redis 7.0,db-cluster-351,Single Instance,EKS
+infra-263,Analytics Application,analytics-application-service-srv-263,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,Redis 7.0,db-cluster-840,Active/Backup,EKS
+infra-264,Analytics Application,analytics-application-service-srv-264,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,Redis 7.0,db-cluster-876,Active/Active,ECS
+infra-265,Analytics Application,analytics-application-api-srv-265,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2023,PostgreSQL 13,db-cluster-429,Active/Active,EKS
+infra-266,Analytics Application,analytics-application-api-srv-266,m5.large,2 vCPU,8 GB,100 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,DynamoDB,db-cluster-568,Multi-AZ,ECS
+infra-267,Analytics Application,analytics-application-backend-srv-267,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,Primary instance,Windows,Amazon Linux 2,PostgreSQL 14,db-cluster-278,Multi-AZ,None
+infra-268,Analytics Application,analytics-application-backend-srv-268,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-428,Multi-AZ,None
+infra-269,Analytics Application,analytics-application-api-srv-269,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2023,Aurora PostgreSQL 14,db-cluster-183,Single Instance,None
+infra-270,Analytics Application,analytics-application-api-srv-270,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,MongoDB 6.0,db-cluster-253,Active/Active,ECS
+infra-271,R&D Portal 42,r&d-portal-42-service-srv-271,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Production,Primary instance,Windows,Windows Server 2019,Redis 7.0,db-cluster-107,Single Instance,Kubernetes
+infra-272,R&D Portal 42,r&d-portal-42-service-srv-272,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,DynamoDB,db-cluster-608,Active/Active,ECS
+infra-273,R&D Portal 42,r&d-portal-42-backend-srv-273,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-835,Active/Backup,ECS
+infra-274,R&D Portal 42,r&d-portal-42-backend-srv-274,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Staging,,Windows,Windows Server 2022,DynamoDB,db-cluster-154,Active/Active,None
+infra-275,R&D Portal 42,r&d-portal-42-worker-srv-275,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Production,,Windows,Windows Server 2022,MongoDB 6.0,db-cluster-216,Active/Active,ECS
+infra-276,R&D Portal 42,r&d-portal-42-worker-srv-276,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2023,DynamoDB,db-cluster-418,Active/Active,Kubernetes
+infra-277,R&D Portal 42,r&d-portal-42-service-srv-277,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,PostgreSQL 13,db-cluster-783,Active/Backup,None
+infra-278,R&D Portal 42,r&d-portal-42-service-srv-278,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,PostgreSQL 13,db-cluster-566,Active/Backup,Kubernetes
+infra-279,R&D Portal 42,r&d-portal-42-worker-srv-279,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Production,,Linux,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-235,Single Instance,ECS
+infra-280,R&D Portal 42,r&d-portal-42-worker-srv-280,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,MongoDB 6.0,db-cluster-520,Single Instance,EKS
+infra-281,Manufacturing Tool,manufacturing-tool-worker-srv-281,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,Redis 7.0,db-cluster-526,Active/Backup,Kubernetes
+infra-282,Manufacturing Tool,manufacturing-tool-worker-srv-282,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,PostgreSQL 15,db-cluster-980,Active/Backup,ECS
+infra-283,Manufacturing Tool,manufacturing-tool-api-srv-283,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Production,,Windows,Ubuntu 20.04,MySQL 8.0,db-cluster-921,Active/Backup,EKS
+infra-284,Manufacturing Tool,manufacturing-tool-api-srv-284,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-402,Multi-AZ,Kubernetes
+infra-285,R&D Tracker,r&d-tracker-backend-srv-285,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,DynamoDB,db-cluster-285,Multi-AZ,EKS
+infra-286,R&D Tracker,r&d-tracker-backend-srv-286,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,PostgreSQL 13,db-cluster-970,Single Instance,None
+infra-287,R&D Tracker,r&d-tracker-backend-srv-287,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Production,,Windows,Windows Server 2022,Aurora PostgreSQL 14,db-cluster-808,Single Instance,None
+infra-288,R&D Tracker,r&d-tracker-backend-srv-288,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,PostgreSQL 14,db-cluster-693,Multi-AZ,ECS
+infra-289,R&D Tracker,r&d-tracker-frontend-srv-289,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,MongoDB 6.0,db-cluster-855,Multi-AZ,ECS
+infra-290,R&D Tracker,r&d-tracker-frontend-srv-290,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,Aurora PostgreSQL 14,db-cluster-204,Multi-AZ,None
+infra-291,R&D Tracker,r&d-tracker-backend-srv-291,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Production,,Windows,Windows Server 2022,Redis 7.0,db-cluster-704,Multi-AZ,Kubernetes
+infra-292,R&D Tracker,r&d-tracker-backend-srv-292,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,DynamoDB,db-cluster-723,Active/Active,ECS
+infra-293,R&D Management System 45,r&d-management-system-45-api-srv-293,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Production,,Windows,Windows Server 2022,MongoDB 6.0,db-cluster-449,Multi-AZ,Kubernetes
+infra-294,R&D Management System 45,r&d-management-system-45-api-srv-294,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,PostgreSQL 14,db-cluster-381,Active/Backup,Kubernetes
+infra-295,R&D Management System 45,r&d-management-system-45-api-srv-295,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,PostgreSQL 15,db-cluster-499,Single Instance,EKS
+infra-296,R&D Management System 45,r&d-management-system-45-api-srv-296,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-361,Multi-AZ,Kubernetes
+infra-297,Customer Service Platform,customer-service-platform-frontend-srv-297,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Production,Primary instance,Windows,Amazon Linux 2023,MySQL 8.0,db-cluster-669,Multi-AZ,Kubernetes
+infra-298,Customer Service Platform,customer-service-platform-frontend-srv-298,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,PostgreSQL 13,db-cluster-588,Active/Backup,Kubernetes
+infra-299,Customer Service Platform,customer-service-platform-backend-srv-299,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Production,Primary instance,Windows,Ubuntu 20.04,PostgreSQL 13,db-cluster-771,Multi-AZ,Kubernetes
+infra-300,Customer Service Platform,customer-service-platform-backend-srv-300,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2023,MySQL 8.0,db-cluster-835,Multi-AZ,Kubernetes
+infra-301,Analytics Hub,analytics-hub-srv-301,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Production,Primary instance,Linux,Ubuntu 22.04,MongoDB 6.0,db-cluster-267,Active/Backup,None
+infra-302,Analytics Hub,analytics-hub-srv-302,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,MongoDB 6.0,db-cluster-820,Single Instance,Kubernetes
+infra-303,E-Commerce Controller,e-commerce-controller-processor-srv-303,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Production,Primary instance,Windows,Windows Server 2019,MySQL 8.0,db-cluster-334,Multi-AZ,ECS
+infra-304,E-Commerce Controller,e-commerce-controller-processor-srv-304,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Staging,,Windows,Windows Server 2019,PostgreSQL 14,db-cluster-470,Multi-AZ,Kubernetes
+infra-305,E-Commerce Controller,e-commerce-controller-service-srv-305,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,Primary instance,Windows,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-398,Active/Backup,ECS
+infra-306,E-Commerce Controller,e-commerce-controller-service-srv-306,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Staging,,Windows,Amazon Linux 2,PostgreSQL 14,db-cluster-364,Active/Active,Kubernetes
+infra-307,E-Commerce Controller,e-commerce-controller-api-srv-307,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-233,Active/Backup,ECS
+infra-308,E-Commerce Controller,e-commerce-controller-api-srv-308,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,Redis 7.0,db-cluster-763,Active/Backup,Kubernetes
+infra-309,Marketing Dashboard,marketing-dashboard-api-srv-309,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Production,,Windows,Windows Server 2019,DynamoDB,db-cluster-910,Active/Backup,EKS
+infra-310,Marketing Dashboard,marketing-dashboard-api-srv-310,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,PostgreSQL 13,db-cluster-826,Multi-AZ,ECS
+infra-311,Marketing Dashboard,marketing-dashboard-backend-srv-311,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,Redis 7.0,db-cluster-422,Single Instance,EKS
+infra-312,Marketing Dashboard,marketing-dashboard-backend-srv-312,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,MongoDB 6.0,db-cluster-572,Single Instance,EKS
+infra-313,Marketing Dashboard,marketing-dashboard-frontend-srv-313,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-716,Active/Active,None
+infra-314,Marketing Dashboard,marketing-dashboard-frontend-srv-314,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,MongoDB 6.0,db-cluster-567,Active/Active,ECS
+infra-315,Marketing Dashboard,marketing-dashboard-processor-srv-315,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Production,,Windows,Ubuntu 20.04,MySQL 8.0,db-cluster-798,Multi-AZ,EKS
+infra-316,Marketing Dashboard,marketing-dashboard-processor-srv-316,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-805,Active/Active,ECS
+infra-317,Marketing Dashboard,marketing-dashboard-backend-srv-317,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Production,Primary instance,Linux,Ubuntu 20.04,PostgreSQL 14,db-cluster-213,Single Instance,None
+infra-318,Marketing Dashboard,marketing-dashboard-backend-srv-318,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,MySQL 8.0,db-cluster-489,Multi-AZ,ECS
+infra-319,Legal Dashboard,legal-dashboard-backend-srv-319,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2023,PostgreSQL 14,db-cluster-112,Active/Active,Kubernetes
+infra-320,Legal Dashboard,legal-dashboard-backend-srv-320,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,PostgreSQL 15,db-cluster-526,Multi-AZ,EKS
+infra-321,Legal Dashboard,legal-dashboard-worker-srv-321,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Production,,Linux,Ubuntu 22.04,PostgreSQL 15,db-cluster-327,Multi-AZ,None
+infra-322,Legal Dashboard,legal-dashboard-worker-srv-322,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,Redis 7.0,db-cluster-317,Multi-AZ,EKS
+infra-323,Legal Dashboard,legal-dashboard-worker-srv-323,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 22.04,MongoDB 6.0,db-cluster-773,Multi-AZ,EKS
+infra-324,Legal Dashboard,legal-dashboard-worker-srv-324,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2023,Aurora PostgreSQL 14,db-cluster-635,Single Instance,None
+infra-325,HR Tracker,hr-tracker-worker-srv-325,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2023,PostgreSQL 13,db-cluster-873,Multi-AZ,EKS
+infra-326,HR Tracker,hr-tracker-worker-srv-326,c5.large,2 vCPU,4 GB,80 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-357,Single Instance,None
+infra-327,HR Tracker,hr-tracker-frontend-srv-327,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2023,Aurora PostgreSQL 14,db-cluster-808,Single Instance,EKS
+infra-328,HR Tracker,hr-tracker-frontend-srv-328,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,MySQL 8.0,db-cluster-613,Multi-AZ,Kubernetes
+infra-329,Business Development Gateway,business-development-gateway-frontend-srv-329,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,MongoDB 6.0,db-cluster-993,Active/Backup,None
+infra-330,Business Development Gateway,business-development-gateway-frontend-srv-330,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,DynamoDB,db-cluster-982,Single Instance,ECS
+infra-331,Business Development Gateway,business-development-gateway-service-srv-331,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Production,,Windows,Windows Server 2019,MongoDB 6.0,db-cluster-482,Single Instance,None
+infra-332,Business Development Gateway,business-development-gateway-service-srv-332,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,PostgreSQL 15,db-cluster-568,Active/Backup,Kubernetes
+infra-333,Business Development Gateway,business-development-gateway-worker-srv-333,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Production,Primary instance,Windows,Windows Server 2022,PostgreSQL 15,db-cluster-384,Active/Active,Kubernetes
+infra-334,Business Development Gateway,business-development-gateway-worker-srv-334,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,PostgreSQL 15,db-cluster-228,Single Instance,None
+infra-335,Business Development Gateway,business-development-gateway-worker-srv-335,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2,MongoDB 6.0,db-cluster-448,Single Instance,Kubernetes
+infra-336,Business Development Gateway,business-development-gateway-worker-srv-336,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-765,Multi-AZ,None
+infra-337,Product Engine,product-engine-srv-337,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Production,,Windows,Windows Server 2022,Redis 7.0,db-cluster-244,Multi-AZ,ECS
+infra-338,Product Engine,product-engine-srv-338,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,MongoDB 6.0,db-cluster-607,Active/Backup,ECS
+infra-339,Operations Service,operations-service-srv-339,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Production,,Windows,Windows Server 2022,MySQL 8.0,db-cluster-299,Multi-AZ,EKS
+infra-340,Operations Service,operations-service-srv-340,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2,MongoDB 6.0,db-cluster-349,Active/Backup,EKS
+infra-341,Legal Tracker,legal-tracker-backend-srv-341,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Production,Primary instance,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-566,Active/Backup,ECS
+infra-342,Legal Tracker,legal-tracker-backend-srv-342,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,PostgreSQL 15,db-cluster-323,Active/Backup,EKS
+infra-343,Legal Tracker,legal-tracker-service-srv-343,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 20.04,PostgreSQL 13,db-cluster-825,Multi-AZ,None
+infra-344,Legal Tracker,legal-tracker-service-srv-344,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2023,MySQL 8.0,db-cluster-385,Single Instance,None
+infra-345,Legal Tracker,legal-tracker-worker-srv-345,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Production,,Windows,Windows Server 2019,DynamoDB,db-cluster-830,Active/Backup,None
+infra-346,Legal Tracker,legal-tracker-worker-srv-346,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,MySQL 8.0,db-cluster-157,Active/Backup,None
+infra-347,Legal Tracker,legal-tracker-frontend-srv-347,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,PostgreSQL 13,db-cluster-480,Multi-AZ,None
+infra-348,Legal Tracker,legal-tracker-frontend-srv-348,m5.large,2 vCPU,8 GB,100 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,DynamoDB,db-cluster-273,Single Instance,Kubernetes
+infra-349,Sales Platform,sales-platform-processor-srv-349,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,PostgreSQL 13,db-cluster-904,Single Instance,EKS
+infra-350,Sales Platform,sales-platform-processor-srv-350,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-928,Active/Backup,EKS
+infra-351,Sales Platform,sales-platform-frontend-srv-351,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2023,DynamoDB,db-cluster-178,Active/Active,Kubernetes
+infra-352,Sales Platform,sales-platform-frontend-srv-352,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-792,Active/Active,None
+infra-353,Sales Platform,sales-platform-service-srv-353,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-878,Single Instance,None
+infra-354,Sales Platform,sales-platform-service-srv-354,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,Redis 7.0,db-cluster-597,Active/Backup,ECS
+infra-355,IT Engine,it-engine-api-srv-355,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Production,,Windows,Ubuntu 20.04,MongoDB 6.0,db-cluster-272,Active/Active,None
+infra-356,IT Engine,it-engine-api-srv-356,m5.large,2 vCPU,8 GB,100 GB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,PostgreSQL 14,db-cluster-209,Multi-AZ,ECS
+infra-357,IT Engine,it-engine-frontend-srv-357,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Production,,Linux,Amazon Linux 2023,PostgreSQL 13,db-cluster-596,Single Instance,ECS
+infra-358,IT Engine,it-engine-frontend-srv-358,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2023,DynamoDB,db-cluster-274,Active/Active,EKS
+infra-359,IT Engine,it-engine-service-srv-359,m5.large,2 vCPU,8 GB,100 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-828,Single Instance,Kubernetes
+infra-360,IT Engine,it-engine-service-srv-360,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,PostgreSQL 13,db-cluster-497,Multi-AZ,EKS
+infra-361,IT Engine,it-engine-frontend-srv-361,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Production,,Windows,Windows Server 2019,PostgreSQL 15,db-cluster-733,Active/Active,None
+infra-362,IT Engine,it-engine-frontend-srv-362,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,PostgreSQL 13,db-cluster-415,Multi-AZ,ECS
+infra-363,Business Development Hub,business-development-hub-frontend-srv-363,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-103,Single Instance,ECS
+infra-364,Business Development Hub,business-development-hub-frontend-srv-364,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,PostgreSQL 13,db-cluster-260,Single Instance,EKS
+infra-365,Business Development Hub,business-development-hub-backend-srv-365,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Production,,Windows,Ubuntu 20.04,Redis 7.0,db-cluster-331,Active/Active,Kubernetes
+infra-366,Business Development Hub,business-development-hub-backend-srv-366,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-383,Active/Active,Kubernetes
+infra-367,Business Development Hub,business-development-hub-frontend-srv-367,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,,Windows,Ubuntu 20.04,MySQL 8.0,db-cluster-638,Active/Active,Kubernetes
+infra-368,Business Development Hub,business-development-hub-frontend-srv-368,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Staging,,Windows,Windows Server 2022,PostgreSQL 13,db-cluster-793,Active/Backup,EKS
+infra-369,Business Development Hub,business-development-hub-processor-srv-369,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Production,,Windows,Windows Server 2022,MySQL 8.0,db-cluster-932,Active/Backup,EKS
+infra-370,Business Development Hub,business-development-hub-processor-srv-370,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,Redis 7.0,db-cluster-999,Single Instance,ECS
+infra-371,Finance Analyzer,finance-analyzer-srv-371,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Production,,Windows,Windows Server 2022,PostgreSQL 13,db-cluster-425,Single Instance,Kubernetes
+infra-372,Finance Analyzer,finance-analyzer-srv-372,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,PostgreSQL 14,db-cluster-988,Active/Active,Kubernetes
+infra-373,Engineering Service,engineering-service-api-srv-373,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,Primary instance,Windows,Windows Server 2019,PostgreSQL 14,db-cluster-179,Active/Active,EKS
+infra-374,Engineering Service,engineering-service-api-srv-374,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,MySQL 8.0,db-cluster-389,Single Instance,None
+infra-375,Engineering Service,engineering-service-worker-srv-375,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Production,,Windows,Ubuntu 20.04,MySQL 8.0,db-cluster-848,Active/Backup,ECS
+infra-376,Engineering Service,engineering-service-worker-srv-376,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Staging,,Windows,Windows Server 2022,Aurora MySQL 8.0,db-cluster-682,Active/Backup,ECS
+infra-377,Engineering Service,engineering-service-frontend-srv-377,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-690,Active/Active,EKS
+infra-378,Engineering Service,engineering-service-frontend-srv-378,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2,PostgreSQL 13,db-cluster-308,Single Instance,None
+infra-379,Procurement Monitor,procurement-monitor-backend-srv-379,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Production,,Windows,Windows Server 2019,MongoDB 6.0,db-cluster-229,Multi-AZ,Kubernetes
+infra-380,Procurement Monitor,procurement-monitor-backend-srv-380,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,MongoDB 6.0,db-cluster-595,Multi-AZ,ECS
+infra-381,Procurement Monitor,procurement-monitor-processor-srv-381,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2,Redis 7.0,db-cluster-741,Multi-AZ,Kubernetes
+infra-382,Procurement Monitor,procurement-monitor-processor-srv-382,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,MySQL 8.0,db-cluster-721,Active/Active,None
+infra-383,Procurement Monitor,procurement-monitor-backend-srv-383,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Production,Primary instance,Windows,Windows Server 2022,PostgreSQL 15,db-cluster-922,Active/Active,None
+infra-384,Procurement Monitor,procurement-monitor-backend-srv-384,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Staging,,Windows,Amazon Linux 2023,MySQL 8.0,db-cluster-265,Active/Active,Kubernetes
+infra-385,E-Commerce Dashboard 62,e-commerce-dashboard-62-processor-srv-385,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Production,Primary instance,Windows,Windows Server 2019,MySQL 8.0,db-cluster-952,Active/Active,None
+infra-386,E-Commerce Dashboard 62,e-commerce-dashboard-62-processor-srv-386,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,PostgreSQL 13,db-cluster-867,Active/Active,Kubernetes
+infra-387,E-Commerce Dashboard 62,e-commerce-dashboard-62-api-srv-387,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-515,Single Instance,ECS
+infra-388,E-Commerce Dashboard 62,e-commerce-dashboard-62-api-srv-388,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,Redis 7.0,db-cluster-327,Active/Active,Kubernetes
+infra-389,E-Commerce Dashboard 62,e-commerce-dashboard-62-processor-srv-389,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Production,,Windows,Amazon Linux 2023,PostgreSQL 15,db-cluster-265,Active/Backup,Kubernetes
+infra-390,E-Commerce Dashboard 62,e-commerce-dashboard-62-processor-srv-390,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2,PostgreSQL 14,db-cluster-382,Single Instance,ECS
+infra-391,E-Commerce Dashboard 62,e-commerce-dashboard-62-worker-srv-391,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-920,Multi-AZ,None
+infra-392,E-Commerce Dashboard 62,e-commerce-dashboard-62-worker-srv-392,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,MongoDB 6.0,db-cluster-927,Active/Active,Kubernetes
+infra-393,E-Commerce Dashboard 62,e-commerce-dashboard-62-worker-srv-393,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,MongoDB 6.0,db-cluster-303,Single Instance,EKS
+infra-394,E-Commerce Dashboard 62,e-commerce-dashboard-62-worker-srv-394,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-160,Multi-AZ,Kubernetes
+infra-395,HR Platform,hr-platform-service-srv-395,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-215,Single Instance,None
+infra-396,HR Platform,hr-platform-service-srv-396,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,Redis 7.0,db-cluster-682,Active/Backup,ECS
+infra-397,HR Platform,hr-platform-processor-srv-397,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2,DynamoDB,db-cluster-980,Active/Active,Kubernetes
+infra-398,HR Platform,hr-platform-processor-srv-398,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,PostgreSQL 14,db-cluster-178,Single Instance,Kubernetes
+infra-399,Product Management System 64,product-management-system-64-srv-399,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Production,,Windows,Ubuntu 22.04,Redis 7.0,db-cluster-646,Multi-AZ,EKS
+infra-400,Product Management System 64,product-management-system-64-srv-400,m5.large,2 vCPU,8 GB,100 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,MongoDB 6.0,db-cluster-499,Single Instance,ECS
+infra-401,IT Tracker,it-tracker-worker-srv-401,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Production,Primary instance,Windows,Amazon Linux 2023,DynamoDB,db-cluster-276,Active/Active,ECS
+infra-402,IT Tracker,it-tracker-worker-srv-402,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,PostgreSQL 13,db-cluster-284,Multi-AZ,Kubernetes
+infra-403,IT Tracker,it-tracker-frontend-srv-403,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Production,,Windows,Ubuntu 22.04,PostgreSQL 13,db-cluster-396,Multi-AZ,None
+infra-404,IT Tracker,it-tracker-frontend-srv-404,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,DynamoDB,db-cluster-265,Multi-AZ,EKS
+infra-405,IT Tracker,it-tracker-worker-srv-405,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2023,MySQL 8.0,db-cluster-762,Active/Backup,None
+infra-406,IT Tracker,it-tracker-worker-srv-406,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-393,Single Instance,ECS
+infra-407,IT Tracker,it-tracker-worker-srv-407,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Production,Primary instance,Windows,Windows Server 2022,Aurora MySQL 8.0,db-cluster-316,Active/Backup,EKS
+infra-408,IT Tracker,it-tracker-worker-srv-408,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,Redis 7.0,db-cluster-373,Single Instance,ECS
+infra-409,Finance Controller 66,finance-controller-66-worker-srv-409,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,MongoDB 6.0,db-cluster-633,Single Instance,Kubernetes
+infra-410,Finance Controller 66,finance-controller-66-worker-srv-410,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,PostgreSQL 14,db-cluster-289,Active/Backup,EKS
+infra-411,Finance Controller 66,finance-controller-66-worker-srv-411,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,PostgreSQL 13,db-cluster-710,Active/Active,EKS
+infra-412,Finance Controller 66,finance-controller-66-worker-srv-412,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,DynamoDB,db-cluster-713,Single Instance,EKS
+infra-413,Finance Controller 66,finance-controller-66-frontend-srv-413,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Production,,Windows,Ubuntu 22.04,Redis 7.0,db-cluster-591,Active/Backup,EKS
+infra-414,Finance Controller 66,finance-controller-66-frontend-srv-414,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-770,Active/Active,Kubernetes
+infra-415,Engineering Hub,engineering-hub-frontend-srv-415,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 22.04,PostgreSQL 13,db-cluster-782,Active/Backup,Kubernetes
+infra-416,Engineering Hub,engineering-hub-frontend-srv-416,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,MySQL 8.0,db-cluster-916,Active/Backup,ECS
+infra-417,Engineering Hub,engineering-hub-api-srv-417,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,Primary instance,Windows,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-107,Multi-AZ,ECS
+infra-418,Engineering Hub,engineering-hub-api-srv-418,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,PostgreSQL 14,db-cluster-184,Active/Backup,ECS
+infra-419,E-Commerce Hub,e-commerce-hub-service-srv-419,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,PostgreSQL 14,db-cluster-739,Active/Backup,EKS
+infra-420,E-Commerce Hub,e-commerce-hub-service-srv-420,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,Redis 7.0,db-cluster-544,Active/Active,EKS
+infra-421,E-Commerce Hub,e-commerce-hub-api-srv-421,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-904,Active/Backup,ECS
+infra-422,E-Commerce Hub,e-commerce-hub-api-srv-422,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,MySQL 8.0,db-cluster-148,Active/Active,Kubernetes
+infra-423,E-Commerce Hub,e-commerce-hub-processor-srv-423,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-596,Active/Active,Kubernetes
+infra-424,E-Commerce Hub,e-commerce-hub-processor-srv-424,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,MySQL 8.0,db-cluster-859,Single Instance,ECS
+infra-425,E-Commerce Hub,e-commerce-hub-service-srv-425,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2023,PostgreSQL 14,db-cluster-945,Single Instance,ECS
+infra-426,E-Commerce Hub,e-commerce-hub-service-srv-426,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,MySQL 8.0,db-cluster-580,Multi-AZ,None
+infra-427,E-Commerce Hub,e-commerce-hub-service-srv-427,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-586,Single Instance,ECS
+infra-428,E-Commerce Hub,e-commerce-hub-service-srv-428,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,MongoDB 6.0,db-cluster-368,Active/Active,Kubernetes
+infra-429,Legal Hub,legal-hub-api-srv-429,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Production,,Linux,Ubuntu 20.04,MySQL 8.0,db-cluster-734,Active/Active,None
+infra-430,Legal Hub,legal-hub-api-srv-430,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,MySQL 8.0,db-cluster-622,Single Instance,Kubernetes
+infra-431,Legal Hub,legal-hub-processor-srv-431,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-589,Active/Active,Kubernetes
+infra-432,Legal Hub,legal-hub-processor-srv-432,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,PostgreSQL 14,db-cluster-234,Multi-AZ,ECS
+infra-433,Legal Hub,legal-hub-worker-srv-433,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Production,Primary instance,Windows,Ubuntu 22.04,MySQL 8.0,db-cluster-188,Multi-AZ,None
+infra-434,Legal Hub,legal-hub-worker-srv-434,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,Redis 7.0,db-cluster-107,Multi-AZ,None
+infra-435,Legal Hub,legal-hub-api-srv-435,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Production,,Windows,Windows Server 2019,PostgreSQL 15,db-cluster-467,Active/Backup,EKS
+infra-436,Legal Hub,legal-hub-api-srv-436,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,PostgreSQL 13,db-cluster-205,Active/Backup,EKS
+infra-437,Legal Hub,legal-hub-api-srv-437,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-369,Single Instance,None
+infra-438,Legal Hub,legal-hub-api-srv-438,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,Aurora PostgreSQL 14,db-cluster-482,Single Instance,None
+infra-439,Product Dashboard 70,product-dashboard-70-srv-439,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2023,PostgreSQL 13,db-cluster-362,Multi-AZ,Kubernetes
+infra-440,Product Dashboard 70,product-dashboard-70-srv-440,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,Aurora PostgreSQL 14,db-cluster-375,Active/Active,EKS
+infra-441,Legal Application 71,legal-application-71-srv-441,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2023,PostgreSQL 15,db-cluster-774,Single Instance,ECS
+infra-442,Legal Application 71,legal-application-71-srv-442,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,MongoDB 6.0,db-cluster-834,Active/Active,ECS
+infra-443,Finance Controller 72,finance-controller-72-processor-srv-443,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-east-1,Production,,Windows,Ubuntu 20.04,PostgreSQL 13,db-cluster-961,Active/Active,None
+infra-444,Finance Controller 72,finance-controller-72-processor-srv-444,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2023,PostgreSQL 15,db-cluster-906,Multi-AZ,Kubernetes
+infra-445,Finance Controller 72,finance-controller-72-frontend-srv-445,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 20.04,MongoDB 6.0,db-cluster-954,Active/Active,None
+infra-446,Finance Controller 72,finance-controller-72-frontend-srv-446,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,MongoDB 6.0,db-cluster-778,Multi-AZ,ECS
+infra-447,Finance Controller 72,finance-controller-72-frontend-srv-447,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2023,PostgreSQL 15,db-cluster-683,Multi-AZ,None
+infra-448,Finance Controller 72,finance-controller-72-frontend-srv-448,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,Redis 7.0,db-cluster-854,Single Instance,EKS
+infra-449,Finance Controller 72,finance-controller-72-service-srv-449,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2,Redis 7.0,db-cluster-325,Single Instance,EKS
+infra-450,Finance Controller 72,finance-controller-72-service-srv-450,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Staging,,Windows,Windows Server 2019,PostgreSQL 13,db-cluster-315,Single Instance,EKS
+infra-451,HR Controller,hr-controller-service-srv-451,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Production,,Linux,Ubuntu 22.04,Aurora MySQL 8.0,db-cluster-978,Multi-AZ,EKS
+infra-452,HR Controller,hr-controller-service-srv-452,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2023,PostgreSQL 15,db-cluster-328,Active/Backup,ECS
+infra-453,HR Controller,hr-controller-service-srv-453,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-756,Multi-AZ,ECS
+infra-454,HR Controller,hr-controller-service-srv-454,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-246,Single Instance,ECS
+infra-455,HR Controller,hr-controller-service-srv-455,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Production,,Windows,Windows Server 2022,PostgreSQL 15,db-cluster-437,Active/Active,Kubernetes
+infra-456,HR Controller,hr-controller-service-srv-456,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,Aurora PostgreSQL 14,db-cluster-699,Multi-AZ,ECS
+infra-457,HR Controller,hr-controller-service-srv-457,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2023,Aurora PostgreSQL 14,db-cluster-871,Multi-AZ,ECS
+infra-458,HR Controller,hr-controller-service-srv-458,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,PostgreSQL 14,db-cluster-467,Active/Backup,None
+infra-459,Business Development Service,business-development-service-api-srv-459,c5.large,2 vCPU,4 GB,80 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2023,PostgreSQL 15,db-cluster-535,Active/Active,EKS
+infra-460,Business Development Service,business-development-service-api-srv-460,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Staging,,Windows,Windows Server 2019,DynamoDB,db-cluster-557,Active/Backup,ECS
+infra-461,Business Development Service,business-development-service-api-srv-461,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Production,Primary instance,Windows,Ubuntu 20.04,Redis 7.0,db-cluster-342,Active/Backup,EKS
+infra-462,Business Development Service,business-development-service-api-srv-462,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-598,Multi-AZ,EKS
+infra-463,Business Development Service,business-development-service-worker-srv-463,m5.large,2 vCPU,8 GB,100 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,Aurora MySQL 8.0,db-cluster-459,Multi-AZ,ECS
+infra-464,Business Development Service,business-development-service-worker-srv-464,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,Redis 7.0,db-cluster-563,Single Instance,ECS
+infra-465,Procurement Controller,procurement-controller-worker-srv-465,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Production,Primary instance,Windows,Windows Server 2022,DynamoDB,db-cluster-209,Single Instance,None
+infra-466,Procurement Controller,procurement-controller-worker-srv-466,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,Aurora MySQL 8.0,db-cluster-354,Single Instance,None
+infra-467,Procurement Controller,procurement-controller-worker-srv-467,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Production,Primary instance,Windows,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-437,Multi-AZ,None
+infra-468,Procurement Controller,procurement-controller-worker-srv-468,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2,PostgreSQL 15,db-cluster-251,Single Instance,None
+infra-469,Procurement Controller,procurement-controller-backend-srv-469,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Production,,Windows,Windows Server 2019,PostgreSQL 15,db-cluster-929,Single Instance,Kubernetes
+infra-470,Procurement Controller,procurement-controller-backend-srv-470,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,DynamoDB,db-cluster-427,Active/Active,None
+infra-471,Sales Portal,sales-portal-worker-srv-471,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Production,,Windows,Windows Server 2022,PostgreSQL 14,db-cluster-442,Multi-AZ,Kubernetes
+infra-472,Sales Portal,sales-portal-worker-srv-472,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,PostgreSQL 14,db-cluster-432,Multi-AZ,Kubernetes
+infra-473,Sales Portal,sales-portal-service-srv-473,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Production,,Windows,Ubuntu 20.04,Redis 7.0,db-cluster-708,Active/Backup,None
+infra-474,Sales Portal,sales-portal-service-srv-474,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-594,Active/Active,Kubernetes
+infra-475,Sales Portal,sales-portal-processor-srv-475,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Production,,Windows,Ubuntu 22.04,PostgreSQL 15,db-cluster-650,Active/Backup,ECS
+infra-476,Sales Portal,sales-portal-processor-srv-476,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,MongoDB 6.0,db-cluster-522,Active/Active,None
+infra-477,R&D Portal,r&d-portal-api-srv-477,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-124,Active/Active,None
+infra-478,R&D Portal,r&d-portal-api-srv-478,m5.large,2 vCPU,8 GB,100 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,PostgreSQL 15,db-cluster-830,Active/Backup,None
+infra-479,R&D Portal,r&d-portal-worker-srv-479,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,MySQL 8.0,db-cluster-449,Single Instance,Kubernetes
+infra-480,R&D Portal,r&d-portal-worker-srv-480,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,PostgreSQL 13,db-cluster-491,Active/Active,Kubernetes
+infra-481,R&D Portal,r&d-portal-processor-srv-481,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Production,,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-527,Multi-AZ,ECS
+infra-482,R&D Portal,r&d-portal-processor-srv-482,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,PostgreSQL 14,db-cluster-467,Single Instance,Kubernetes
+infra-483,R&D Portal,r&d-portal-service-srv-483,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-648,Active/Active,Kubernetes
+infra-484,R&D Portal,r&d-portal-service-srv-484,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,Aurora PostgreSQL 14,db-cluster-143,Active/Backup,ECS
+infra-485,Supply Chain Dashboard,supply-chain-dashboard-srv-485,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2023,MongoDB 6.0,db-cluster-689,Active/Active,ECS
+infra-486,Supply Chain Dashboard,supply-chain-dashboard-srv-486,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,PostgreSQL 14,db-cluster-311,Active/Active,ECS
+infra-487,Risk Management Controller,risk-management-controller-worker-srv-487,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 22.04,PostgreSQL 13,db-cluster-415,Active/Backup,Kubernetes
+infra-488,Risk Management Controller,risk-management-controller-worker-srv-488,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-958,Multi-AZ,ECS
+infra-489,Risk Management Controller,risk-management-controller-api-srv-489,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2023,PostgreSQL 14,db-cluster-998,Active/Backup,EKS
+infra-490,Risk Management Controller,risk-management-controller-api-srv-490,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,PostgreSQL 14,db-cluster-515,Active/Active,ECS
+infra-491,Risk Management Controller,risk-management-controller-worker-srv-491,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Production,Primary instance,Windows,Ubuntu 22.04,Redis 7.0,db-cluster-612,Multi-AZ,ECS
+infra-492,Risk Management Controller,risk-management-controller-worker-srv-492,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,PostgreSQL 13,db-cluster-322,Multi-AZ,None
+infra-493,Risk Management Controller,risk-management-controller-frontend-srv-493,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,PostgreSQL 13,db-cluster-600,Multi-AZ,ECS
+infra-494,Risk Management Controller,risk-management-controller-frontend-srv-494,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,Redis 7.0,db-cluster-769,Multi-AZ,EKS
+infra-495,Risk Management Controller,risk-management-controller-api-srv-495,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-379,Active/Backup,None
+infra-496,Risk Management Controller,risk-management-controller-api-srv-496,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-918,Single Instance,None
+infra-497,Legal Application,legal-application-srv-497,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2023,PostgreSQL 13,db-cluster-744,Active/Active,ECS
+infra-498,Legal Application,legal-application-srv-498,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,Aurora PostgreSQL 14,db-cluster-364,Single Instance,None
+infra-499,Legal Processor,legal-processor-srv-499,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,PostgreSQL 13,db-cluster-732,Single Instance,Kubernetes
+infra-500,Legal Processor,legal-processor-srv-500,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Staging,,Windows,Windows Server 2019,Aurora MySQL 8.0,db-cluster-753,Active/Active,ECS
+infra-501,Sales Dashboard,sales-dashboard-processor-srv-501,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-422,Multi-AZ,ECS
+infra-502,Sales Dashboard,sales-dashboard-processor-srv-502,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-328,Multi-AZ,Kubernetes
+infra-503,Sales Dashboard,sales-dashboard-service-srv-503,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,Redis 7.0,db-cluster-887,Single Instance,ECS
+infra-504,Sales Dashboard,sales-dashboard-service-srv-504,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2023,PostgreSQL 14,db-cluster-503,Single Instance,EKS
+infra-505,Sales Dashboard,sales-dashboard-worker-srv-505,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Production,,Linux,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-911,Active/Active,EKS
+infra-506,Sales Dashboard,sales-dashboard-worker-srv-506,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-152,Single Instance,EKS
+infra-507,Operations Service 83,operations-service-83-api-srv-507,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-954,Multi-AZ,ECS
+infra-508,Operations Service 83,operations-service-83-api-srv-508,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-804,Active/Backup,Kubernetes
+infra-509,Operations Service 83,operations-service-83-backend-srv-509,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2023,PostgreSQL 15,db-cluster-222,Multi-AZ,EKS
+infra-510,Operations Service 83,operations-service-83-backend-srv-510,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Staging,,Windows,Windows Server 2022,Aurora PostgreSQL 14,db-cluster-432,Multi-AZ,Kubernetes
+infra-511,Operations Service 83,operations-service-83-backend-srv-511,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Production,,Windows,Windows Server 2022,PostgreSQL 15,db-cluster-758,Active/Active,Kubernetes
+infra-512,Operations Service 83,operations-service-83-backend-srv-512,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Staging,,Windows,Amazon Linux 2023,Redis 7.0,db-cluster-453,Active/Active,None
+infra-513,Operations Service 83,operations-service-83-service-srv-513,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Production,,Windows,Amazon Linux 2023,Redis 7.0,db-cluster-188,Multi-AZ,Kubernetes
+infra-514,Operations Service 83,operations-service-83-service-srv-514,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,Redis 7.0,db-cluster-492,Active/Backup,None
+infra-515,Operations Service 83,operations-service-83-processor-srv-515,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,DynamoDB,db-cluster-661,Multi-AZ,Kubernetes
+infra-516,Operations Service 83,operations-service-83-processor-srv-516,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,DynamoDB,db-cluster-842,Single Instance,Kubernetes
+infra-517,Supply Chain Engine,supply-chain-engine-srv-517,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,MongoDB 6.0,db-cluster-859,Single Instance,None
+infra-518,Supply Chain Engine,supply-chain-engine-srv-518,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,Aurora MySQL 8.0,db-cluster-924,Multi-AZ,Kubernetes
+infra-519,Marketing Platform,marketing-platform-worker-srv-519,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Production,,Windows,Windows Server 2022,MySQL 8.0,db-cluster-194,Active/Active,Kubernetes
+infra-520,Marketing Platform,marketing-platform-worker-srv-520,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,PostgreSQL 14,db-cluster-444,Single Instance,EKS
+infra-521,Marketing Platform,marketing-platform-worker-srv-521,m5.large,2 vCPU,8 GB,100 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-136,Multi-AZ,ECS
+infra-522,Marketing Platform,marketing-platform-worker-srv-522,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,PostgreSQL 14,db-cluster-379,Multi-AZ,Kubernetes
+infra-523,Marketing Platform,marketing-platform-processor-srv-523,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-923,Active/Backup,None
+infra-524,Marketing Platform,marketing-platform-processor-srv-524,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,DynamoDB,db-cluster-255,Single Instance,EKS
+infra-525,Quality Assurance Analyzer,quality-assurance-analyzer-service-srv-525,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2,MongoDB 6.0,db-cluster-512,Single Instance,Kubernetes
+infra-526,Quality Assurance Analyzer,quality-assurance-analyzer-service-srv-526,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-848,Active/Active,Kubernetes
+infra-527,Quality Assurance Analyzer,quality-assurance-analyzer-api-srv-527,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2023,MySQL 8.0,db-cluster-726,Multi-AZ,ECS
+infra-528,Quality Assurance Analyzer,quality-assurance-analyzer-api-srv-528,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-495,Single Instance,ECS
+infra-529,Finance Tool 87,finance-tool-87-service-srv-529,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Production,Primary instance,Windows,Amazon Linux 2023,MongoDB 6.0,db-cluster-722,Multi-AZ,ECS
+infra-530,Finance Tool 87,finance-tool-87-service-srv-530,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2,PostgreSQL 14,db-cluster-312,Multi-AZ,ECS
+infra-531,Finance Tool 87,finance-tool-87-backend-srv-531,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Production,,Windows,Ubuntu 22.04,DynamoDB,db-cluster-296,Single Instance,ECS
+infra-532,Finance Tool 87,finance-tool-87-backend-srv-532,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,PostgreSQL 13,db-cluster-467,Single Instance,Kubernetes
+infra-533,Finance Tool 87,finance-tool-87-api-srv-533,c5.large,2 vCPU,4 GB,80 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,MongoDB 6.0,db-cluster-192,Active/Backup,EKS
+infra-534,Finance Tool 87,finance-tool-87-api-srv-534,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Staging,,Windows,Windows Server 2022,Redis 7.0,db-cluster-327,Multi-AZ,ECS
+infra-535,Operations Tool,operations-tool-worker-srv-535,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-878,Multi-AZ,EKS
+infra-536,Operations Tool,operations-tool-worker-srv-536,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,Aurora MySQL 8.0,db-cluster-760,Multi-AZ,EKS
+infra-537,Operations Tool,operations-tool-backend-srv-537,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-622,Single Instance,Kubernetes
+infra-538,Operations Tool,operations-tool-backend-srv-538,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,DynamoDB,db-cluster-466,Active/Active,None
+infra-539,Operations Tool,operations-tool-api-srv-539,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Production,Primary instance,Windows,Ubuntu 22.04,Aurora MySQL 8.0,db-cluster-255,Single Instance,Kubernetes
+infra-540,Operations Tool,operations-tool-api-srv-540,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,MySQL 8.0,db-cluster-731,Active/Backup,None
+infra-541,Operations Tool,operations-tool-service-srv-541,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Production,,Windows,Windows Server 2019,Aurora PostgreSQL 14,db-cluster-626,Active/Active,ECS
+infra-542,Operations Tool,operations-tool-service-srv-542,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,PostgreSQL 14,db-cluster-651,Multi-AZ,Kubernetes
+infra-543,Operations Tool,operations-tool-worker-srv-543,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,DynamoDB,db-cluster-970,Active/Backup,ECS
+infra-544,Operations Tool,operations-tool-worker-srv-544,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,DynamoDB,db-cluster-234,Single Instance,ECS
+infra-545,Legal Tracker 89,legal-tracker-89-frontend-srv-545,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2,PostgreSQL 13,db-cluster-251,Single Instance,ECS
+infra-546,Legal Tracker 89,legal-tracker-89-frontend-srv-546,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-681,Active/Active,ECS
+infra-547,Legal Tracker 89,legal-tracker-89-worker-srv-547,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,Redis 7.0,db-cluster-703,Multi-AZ,Kubernetes
+infra-548,Legal Tracker 89,legal-tracker-89-worker-srv-548,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,PostgreSQL 15,db-cluster-775,Single Instance,ECS
+infra-549,Legal Tracker 89,legal-tracker-89-processor-srv-549,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Production,,Linux,Ubuntu 22.04,MySQL 8.0,db-cluster-619,Single Instance,None
+infra-550,Legal Tracker 89,legal-tracker-89-processor-srv-550,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-367,Multi-AZ,ECS
+infra-551,Legal Tracker 89,legal-tracker-89-backend-srv-551,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Production,,Linux,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-311,Active/Backup,EKS
+infra-552,Legal Tracker 89,legal-tracker-89-backend-srv-552,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,PostgreSQL 14,db-cluster-209,Active/Backup,ECS
+infra-553,Sales Hub,sales-hub-processor-srv-553,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 20.04,MySQL 8.0,db-cluster-199,Multi-AZ,ECS
+infra-554,Sales Hub,sales-hub-processor-srv-554,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,MongoDB 6.0,db-cluster-693,Active/Backup,Kubernetes
+infra-555,Sales Hub,sales-hub-frontend-srv-555,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Production,,Windows,Ubuntu 20.04,PostgreSQL 14,db-cluster-403,Active/Backup,EKS
+infra-556,Sales Hub,sales-hub-frontend-srv-556,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,MySQL 8.0,db-cluster-546,Multi-AZ,ECS
+infra-557,Sales Hub,sales-hub-frontend-srv-557,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,Primary instance,Linux,Ubuntu 22.04,MySQL 8.0,db-cluster-639,Active/Backup,Kubernetes
+infra-558,Sales Hub,sales-hub-frontend-srv-558,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,PostgreSQL 13,db-cluster-659,Active/Backup,Kubernetes
+infra-559,Sales Hub,sales-hub-frontend-srv-559,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 20.04,PostgreSQL 15,db-cluster-698,Active/Backup,ECS
+infra-560,Sales Hub,sales-hub-frontend-srv-560,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,PostgreSQL 13,db-cluster-236,Active/Backup,Kubernetes
+infra-561,Sales Hub,sales-hub-worker-srv-561,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2023,MySQL 8.0,db-cluster-255,Multi-AZ,Kubernetes
+infra-562,Sales Hub,sales-hub-worker-srv-562,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,MySQL 8.0,db-cluster-651,Multi-AZ,Kubernetes
+infra-563,Procurement Gateway 91,procurement-gateway-91-backend-srv-563,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2,MySQL 8.0,db-cluster-809,Multi-AZ,None
+infra-564,Procurement Gateway 91,procurement-gateway-91-backend-srv-564,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,PostgreSQL 14,db-cluster-106,Active/Backup,Kubernetes
+infra-565,Procurement Gateway 91,procurement-gateway-91-api-srv-565,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2023,DynamoDB,db-cluster-276,Active/Backup,None
+infra-566,Procurement Gateway 91,procurement-gateway-91-api-srv-566,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,DynamoDB,db-cluster-941,Active/Backup,ECS
+infra-567,Finance Service,finance-service-backend-srv-567,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2,PostgreSQL 15,db-cluster-957,Active/Active,None
+infra-568,Finance Service,finance-service-backend-srv-568,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,Redis 7.0,db-cluster-782,Active/Active,ECS
+infra-569,Finance Service,finance-service-service-srv-569,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-993,Multi-AZ,EKS
+infra-570,Finance Service,finance-service-service-srv-570,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Staging,,Windows,Windows Server 2022,PostgreSQL 14,db-cluster-627,Multi-AZ,ECS
+infra-571,Finance Service,finance-service-service-srv-571,m5.large,2 vCPU,8 GB,100 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-172,Active/Active,None
+infra-572,Finance Service,finance-service-service-srv-572,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,PostgreSQL 13,db-cluster-237,Single Instance,ECS
+infra-573,Finance Service,finance-service-service-srv-573,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2023,DynamoDB,db-cluster-489,Multi-AZ,EKS
+infra-574,Finance Service,finance-service-service-srv-574,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-856,Active/Active,Kubernetes
+infra-575,Finance Service,finance-service-processor-srv-575,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-938,Active/Backup,ECS
+infra-576,Finance Service,finance-service-processor-srv-576,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-203,Single Instance,EKS
+infra-577,Quality Assurance Engine,quality-assurance-engine-srv-577,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Production,,Windows,Ubuntu 22.04,MongoDB 6.0,db-cluster-744,Active/Active,Kubernetes
+infra-578,Quality Assurance Engine,quality-assurance-engine-srv-578,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,MongoDB 6.0,db-cluster-103,Multi-AZ,None
+infra-579,Supply Chain Controller 94,supply-chain-controller-94-api-srv-579,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2,DynamoDB,db-cluster-882,Active/Backup,EKS
+infra-580,Supply Chain Controller 94,supply-chain-controller-94-api-srv-580,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,Redis 7.0,db-cluster-880,Multi-AZ,EKS
+infra-581,Supply Chain Controller 94,supply-chain-controller-94-processor-srv-581,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,Redis 7.0,db-cluster-454,Single Instance,ECS
+infra-582,Supply Chain Controller 94,supply-chain-controller-94-processor-srv-582,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2023,PostgreSQL 14,db-cluster-703,Active/Active,Kubernetes
+infra-583,Supply Chain Controller 94,supply-chain-controller-94-worker-srv-583,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,Aurora PostgreSQL 14,db-cluster-608,Single Instance,EKS
+infra-584,Supply Chain Controller 94,supply-chain-controller-94-worker-srv-584,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,MongoDB 6.0,db-cluster-784,Active/Backup,Kubernetes
+infra-585,Supply Chain Controller 94,supply-chain-controller-94-service-srv-585,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Production,Primary instance,Windows,Windows Server 2022,Redis 7.0,db-cluster-624,Multi-AZ,None
+infra-586,Supply Chain Controller 94,supply-chain-controller-94-service-srv-586,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,Aurora PostgreSQL 14,db-cluster-491,Single Instance,None
+infra-587,Supply Chain Controller 94,supply-chain-controller-94-frontend-srv-587,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,PostgreSQL 13,db-cluster-981,Active/Active,None
+infra-588,Supply Chain Controller 94,supply-chain-controller-94-frontend-srv-588,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,DynamoDB,db-cluster-322,Active/Active,EKS
+infra-589,Marketing Analyzer,marketing-analyzer-backend-srv-589,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Production,,Windows,Ubuntu 20.04,DynamoDB,db-cluster-748,Multi-AZ,ECS
+infra-590,Marketing Analyzer,marketing-analyzer-backend-srv-590,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,MySQL 8.0,db-cluster-565,Active/Active,None
+infra-591,Marketing Analyzer,marketing-analyzer-processor-srv-591,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2023,PostgreSQL 13,db-cluster-894,Active/Backup,ECS
+infra-592,Marketing Analyzer,marketing-analyzer-processor-srv-592,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,MongoDB 6.0,db-cluster-719,Active/Backup,EKS
+infra-593,Marketing Analyzer,marketing-analyzer-frontend-srv-593,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Production,,Windows,Windows Server 2022,DynamoDB,db-cluster-328,Multi-AZ,Kubernetes
+infra-594,Marketing Analyzer,marketing-analyzer-frontend-srv-594,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Staging,,Windows,Windows Server 2019,Aurora PostgreSQL 14,db-cluster-691,Active/Backup,EKS
+infra-595,Customer Service Application,customer-service-application-processor-srv-595,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Production,,Windows,Ubuntu 20.04,MongoDB 6.0,db-cluster-536,Multi-AZ,None
+infra-596,Customer Service Application,customer-service-application-processor-srv-596,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,DynamoDB,db-cluster-428,Active/Active,Kubernetes
+infra-597,Customer Service Application,customer-service-application-frontend-srv-597,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2,MySQL 8.0,db-cluster-548,Active/Backup,None
+infra-598,Customer Service Application,customer-service-application-frontend-srv-598,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,Redis 7.0,db-cluster-604,Single Instance,ECS
+infra-599,Customer Service Application,customer-service-application-api-srv-599,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Production,,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-424,Multi-AZ,Kubernetes
+infra-600,Customer Service Application,customer-service-application-api-srv-600,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-198,Active/Active,ECS
+infra-601,Customer Service Application,customer-service-application-worker-srv-601,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,Redis 7.0,db-cluster-938,Active/Active,None
+infra-602,Customer Service Application,customer-service-application-worker-srv-602,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,PostgreSQL 14,db-cluster-317,Active/Active,EKS
+infra-603,Customer Service Application,customer-service-application-worker-srv-603,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Production,Primary instance,Windows,Amazon Linux 2,MongoDB 6.0,db-cluster-934,Active/Active,Kubernetes
+infra-604,Customer Service Application,customer-service-application-worker-srv-604,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2023,PostgreSQL 14,db-cluster-817,Active/Backup,ECS
+infra-605,Marketing Application 97,marketing-application-97-srv-605,c5.large,2 vCPU,4 GB,80 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2023,PostgreSQL 13,db-cluster-713,Active/Backup,None
+infra-606,Marketing Application 97,marketing-application-97-srv-606,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,PostgreSQL 15,db-cluster-707,Single Instance,Kubernetes
+infra-607,Procurement Processor 98,procurement-processor-98-api-srv-607,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-774,Single Instance,ECS
+infra-608,Procurement Processor 98,procurement-processor-98-api-srv-608,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,MySQL 8.0,db-cluster-738,Single Instance,EKS
+infra-609,Procurement Processor 98,procurement-processor-98-processor-srv-609,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2023,PostgreSQL 14,db-cluster-388,Active/Active,Kubernetes
+infra-610,Procurement Processor 98,procurement-processor-98-processor-srv-610,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,Redis 7.0,db-cluster-702,Single Instance,None
+infra-611,E-Commerce Tool,e-commerce-tool-api-srv-611,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Production,,Windows,Windows Server 2022,PostgreSQL 14,db-cluster-934,Multi-AZ,Kubernetes
+infra-612,E-Commerce Tool,e-commerce-tool-api-srv-612,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Staging,,Windows,Windows Server 2019,PostgreSQL 14,db-cluster-656,Multi-AZ,EKS
+infra-613,E-Commerce Tool,e-commerce-tool-processor-srv-613,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2,MySQL 8.0,db-cluster-630,Single Instance,None
+infra-614,E-Commerce Tool,e-commerce-tool-processor-srv-614,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,Redis 7.0,db-cluster-679,Active/Backup,Kubernetes
+infra-615,E-Commerce Tool,e-commerce-tool-processor-srv-615,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Production,Primary instance,Windows,Windows Server 2022,PostgreSQL 13,db-cluster-784,Active/Backup,ECS
+infra-616,E-Commerce Tool,e-commerce-tool-processor-srv-616,c5.large,2 vCPU,4 GB,80 GB SSD,us-east-1,Staging,,Windows,Windows Server 2019,DynamoDB,db-cluster-246,Active/Backup,EKS
+infra-617,E-Commerce Tool,e-commerce-tool-api-srv-617,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2023,DynamoDB,db-cluster-834,Multi-AZ,ECS
+infra-618,E-Commerce Tool,e-commerce-tool-api-srv-618,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,DynamoDB,db-cluster-894,Active/Active,ECS
+infra-619,E-Commerce Tool,e-commerce-tool-service-srv-619,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-698,Single Instance,ECS
+infra-620,E-Commerce Tool,e-commerce-tool-service-srv-620,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-499,Multi-AZ,Kubernetes
+infra-621,Product Engine,product-engine-api-srv-621,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,MySQL 8.0,db-cluster-873,Active/Active,ECS
+infra-622,Product Engine,product-engine-api-srv-622,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,Redis 7.0,db-cluster-309,Single Instance,EKS
+infra-623,Product Engine,product-engine-worker-srv-623,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 22.04,MongoDB 6.0,db-cluster-227,Multi-AZ,None
+infra-624,Product Engine,product-engine-worker-srv-624,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,PostgreSQL 15,db-cluster-182,Active/Active,Kubernetes
+infra-625,Product Engine,product-engine-service-srv-625,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Production,,Windows,Windows Server 2022,PostgreSQL 13,db-cluster-987,Multi-AZ,Kubernetes
+infra-626,Product Engine,product-engine-service-srv-626,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,DynamoDB,db-cluster-660,Active/Active,EKS
+infra-627,Product Engine,product-engine-api-srv-627,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Production,,Windows,Ubuntu 22.04,PostgreSQL 15,db-cluster-927,Active/Active,Kubernetes
+infra-628,Product Engine,product-engine-api-srv-628,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2,MongoDB 6.0,db-cluster-594,Active/Active,ECS
+infra-629,Product Engine,product-engine-api-srv-629,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Production,,Windows,Ubuntu 20.04,PostgreSQL 13,db-cluster-276,Single Instance,None
+infra-630,Product Engine,product-engine-api-srv-630,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,PostgreSQL 14,db-cluster-469,Multi-AZ,Kubernetes
+infra-631,Operations Processor 101,operations-processor-101-srv-631,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Production,Primary instance,Linux,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-289,Active/Active,Kubernetes
+infra-632,Operations Processor 101,operations-processor-101-srv-632,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-827,Single Instance,Kubernetes
+infra-633,Engineering Platform,engineering-platform-backend-srv-633,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 22.04,DynamoDB,db-cluster-758,Single Instance,EKS
+infra-634,Engineering Platform,engineering-platform-backend-srv-634,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,PostgreSQL 14,db-cluster-563,Multi-AZ,ECS
+infra-635,Engineering Platform,engineering-platform-worker-srv-635,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,Primary instance,Windows,Amazon Linux 2023,PostgreSQL 13,db-cluster-975,Active/Backup,None
+infra-636,Engineering Platform,engineering-platform-worker-srv-636,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,MySQL 8.0,db-cluster-713,Multi-AZ,Kubernetes
+infra-637,Engineering Platform,engineering-platform-api-srv-637,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Production,,Windows,Windows Server 2022,DynamoDB,db-cluster-884,Active/Active,ECS
+infra-638,Engineering Platform,engineering-platform-api-srv-638,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2023,MySQL 8.0,db-cluster-689,Multi-AZ,ECS
+infra-639,Engineering Platform,engineering-platform-service-srv-639,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2023,DynamoDB,db-cluster-215,Multi-AZ,None
+infra-640,Engineering Platform,engineering-platform-service-srv-640,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Staging,,Windows,Windows Server 2019,Redis 7.0,db-cluster-577,Active/Active,EKS
+infra-641,Engineering Platform,engineering-platform-backend-srv-641,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Production,,Windows,Ubuntu 20.04,MongoDB 6.0,db-cluster-695,Single Instance,None
+infra-642,Engineering Platform,engineering-platform-backend-srv-642,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,MongoDB 6.0,db-cluster-601,Active/Active,None
+infra-643,Operations Tracker,operations-tracker-worker-srv-643,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,Redis 7.0,db-cluster-846,Multi-AZ,None
+infra-644,Operations Tracker,operations-tracker-worker-srv-644,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,PostgreSQL 15,db-cluster-160,Multi-AZ,ECS
+infra-645,Operations Tracker,operations-tracker-frontend-srv-645,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-882,Active/Backup,EKS
+infra-646,Operations Tracker,operations-tracker-frontend-srv-646,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-549,Active/Active,EKS
+infra-647,Marketing Monitor,marketing-monitor-backend-srv-647,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2023,PostgreSQL 13,db-cluster-681,Active/Active,Kubernetes
+infra-648,Marketing Monitor,marketing-monitor-backend-srv-648,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,PostgreSQL 15,db-cluster-624,Active/Backup,ECS
+infra-649,Marketing Monitor,marketing-monitor-api-srv-649,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-669,Active/Backup,ECS
+infra-650,Marketing Monitor,marketing-monitor-api-srv-650,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,MongoDB 6.0,db-cluster-970,Multi-AZ,Kubernetes
+infra-651,Compliance Platform,compliance-platform-srv-651,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-115,Single Instance,ECS
+infra-652,Compliance Platform,compliance-platform-srv-652,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,PostgreSQL 14,db-cluster-544,Single Instance,Kubernetes
+infra-653,R&D Controller,r&d-controller-service-srv-653,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Production,Primary instance,Windows,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-914,Single Instance,EKS
+infra-654,R&D Controller,r&d-controller-service-srv-654,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,Redis 7.0,db-cluster-693,Single Instance,None
+infra-655,R&D Controller,r&d-controller-processor-srv-655,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,Aurora PostgreSQL 14,db-cluster-300,Active/Active,Kubernetes
+infra-656,R&D Controller,r&d-controller-processor-srv-656,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,PostgreSQL 14,db-cluster-335,Active/Active,ECS
+infra-657,R&D Controller,r&d-controller-frontend-srv-657,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,MySQL 8.0,db-cluster-837,Multi-AZ,None
+infra-658,R&D Controller,r&d-controller-frontend-srv-658,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,MongoDB 6.0,db-cluster-461,Active/Active,ECS
+infra-659,R&D Controller,r&d-controller-processor-srv-659,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Production,Primary instance,Windows,Windows Server 2019,DynamoDB,db-cluster-246,Active/Active,ECS
+infra-660,R&D Controller,r&d-controller-processor-srv-660,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Staging,,Windows,Windows Server 2019,Redis 7.0,db-cluster-706,Active/Active,ECS
+infra-661,Business Development Analyzer,business-development-analyzer-srv-661,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2,Redis 7.0,db-cluster-628,Active/Backup,Kubernetes
+infra-662,Business Development Analyzer,business-development-analyzer-srv-662,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,MySQL 8.0,db-cluster-858,Single Instance,EKS
+infra-663,Compliance Monitor,compliance-monitor-srv-663,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Production,Primary instance,Windows,Amazon Linux 2023,MongoDB 6.0,db-cluster-787,Active/Backup,EKS
+infra-664,Compliance Monitor,compliance-monitor-srv-664,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,PostgreSQL 13,db-cluster-155,Multi-AZ,ECS
+infra-665,Legal Engine,legal-engine-worker-srv-665,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Production,Primary instance,Windows,Windows Server 2022,MySQL 8.0,db-cluster-432,Single Instance,Kubernetes
+infra-666,Legal Engine,legal-engine-worker-srv-666,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,PostgreSQL 13,db-cluster-126,Active/Active,Kubernetes
+infra-667,Legal Engine,legal-engine-backend-srv-667,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Production,Primary instance,Windows,Amazon Linux 2,PostgreSQL 14,db-cluster-292,Active/Backup,ECS
+infra-668,Legal Engine,legal-engine-backend-srv-668,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,DynamoDB,db-cluster-298,Single Instance,ECS
+infra-669,Manufacturing Engine,manufacturing-engine-worker-srv-669,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Production,Primary instance,Windows,Ubuntu 22.04,PostgreSQL 13,db-cluster-773,Active/Backup,EKS
+infra-670,Manufacturing Engine,manufacturing-engine-worker-srv-670,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-131,Active/Active,EKS
+infra-671,Manufacturing Engine,manufacturing-engine-processor-srv-671,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Production,,Linux,Ubuntu 22.04,MySQL 8.0,db-cluster-842,Active/Active,Kubernetes
+infra-672,Manufacturing Engine,manufacturing-engine-processor-srv-672,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-466,Multi-AZ,EKS
+infra-673,Procurement Engine,procurement-engine-processor-srv-673,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2023,MySQL 8.0,db-cluster-111,Multi-AZ,EKS
+infra-674,Procurement Engine,procurement-engine-processor-srv-674,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,Redis 7.0,db-cluster-104,Single Instance,ECS
+infra-675,Procurement Engine,procurement-engine-backend-srv-675,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,Primary instance,Linux,Ubuntu 22.04,PostgreSQL 15,db-cluster-253,Active/Active,None
+infra-676,Procurement Engine,procurement-engine-backend-srv-676,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,DynamoDB,db-cluster-990,Active/Active,ECS
+infra-677,Procurement Engine,procurement-engine-worker-srv-677,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Production,Primary instance,Windows,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-555,Active/Active,ECS
+infra-678,Procurement Engine,procurement-engine-worker-srv-678,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,PostgreSQL 14,db-cluster-884,Single Instance,Kubernetes
+infra-679,Engineering Processor 112,engineering-processor-112-api-srv-679,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-524,Multi-AZ,EKS
+infra-680,Engineering Processor 112,engineering-processor-112-api-srv-680,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,MongoDB 6.0,db-cluster-702,Single Instance,EKS
+infra-681,Engineering Processor 112,engineering-processor-112-service-srv-681,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-854,Multi-AZ,None
+infra-682,Engineering Processor 112,engineering-processor-112-service-srv-682,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-349,Active/Active,Kubernetes
+infra-683,Engineering Processor 112,engineering-processor-112-frontend-srv-683,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Production,,Windows,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-152,Active/Backup,ECS
+infra-684,Engineering Processor 112,engineering-processor-112-frontend-srv-684,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,MySQL 8.0,db-cluster-273,Active/Active,None
+infra-685,Engineering Processor 112,engineering-processor-112-worker-srv-685,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2023,PostgreSQL 15,db-cluster-291,Active/Backup,Kubernetes
+infra-686,Engineering Processor 112,engineering-processor-112-worker-srv-686,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-457,Multi-AZ,ECS
+infra-687,Engineering Processor 112,engineering-processor-112-api-srv-687,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2,Redis 7.0,db-cluster-113,Multi-AZ,EKS
+infra-688,Engineering Processor 112,engineering-processor-112-api-srv-688,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,MySQL 8.0,db-cluster-454,Single Instance,Kubernetes
+infra-689,Procurement Tracker,procurement-tracker-worker-srv-689,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,MongoDB 6.0,db-cluster-893,Multi-AZ,None
+infra-690,Procurement Tracker,procurement-tracker-worker-srv-690,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-403,Active/Active,Kubernetes
+infra-691,Procurement Tracker,procurement-tracker-worker-srv-691,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Production,,Windows,Ubuntu 20.04,PostgreSQL 15,db-cluster-100,Active/Active,None
+infra-692,Procurement Tracker,procurement-tracker-worker-srv-692,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-893,Active/Backup,EKS
+infra-693,Procurement Tracker,procurement-tracker-backend-srv-693,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 20.04,PostgreSQL 14,db-cluster-516,Active/Active,EKS
+infra-694,Procurement Tracker,procurement-tracker-backend-srv-694,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-275,Active/Backup,Kubernetes
+infra-695,Manufacturing Management System 114,manufacturing-management-system-114-srv-695,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2023,Redis 7.0,db-cluster-678,Multi-AZ,ECS
+infra-696,Manufacturing Management System 114,manufacturing-management-system-114-srv-696,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,MySQL 8.0,db-cluster-474,Active/Active,Kubernetes
+infra-697,R&D Processor,r&d-processor-api-srv-697,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Production,Primary instance,Windows,Ubuntu 20.04,MySQL 8.0,db-cluster-809,Single Instance,ECS
+infra-698,R&D Processor,r&d-processor-api-srv-698,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Staging,,Windows,Windows Server 2019,DynamoDB,db-cluster-740,Active/Backup,ECS
+infra-699,R&D Processor,r&d-processor-processor-srv-699,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,PostgreSQL 14,db-cluster-993,Active/Backup,None
+infra-700,R&D Processor,r&d-processor-processor-srv-700,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,PostgreSQL 14,db-cluster-183,Multi-AZ,ECS
+infra-701,Legal Engine,legal-engine-srv-701,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,PostgreSQL 13,db-cluster-670,Single Instance,ECS
+infra-702,Legal Engine,legal-engine-srv-702,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,PostgreSQL 14,db-cluster-746,Active/Active,ECS
+infra-703,Risk Management Service 117,risk-management-service-117-srv-703,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Production,,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-589,Active/Active,ECS
+infra-704,Risk Management Service 117,risk-management-service-117-srv-704,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,PostgreSQL 13,db-cluster-340,Active/Active,Kubernetes
+infra-705,Product Gateway,product-gateway-api-srv-705,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2,PostgreSQL 13,db-cluster-291,Multi-AZ,ECS
+infra-706,Product Gateway,product-gateway-api-srv-706,m5.large,2 vCPU,8 GB,100 GB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,PostgreSQL 13,db-cluster-766,Active/Active,ECS
+infra-707,Product Gateway,product-gateway-backend-srv-707,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2023,MongoDB 6.0,db-cluster-706,Active/Backup,EKS
+infra-708,Product Gateway,product-gateway-backend-srv-708,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,Redis 7.0,db-cluster-683,Active/Backup,None
+infra-709,Engineering Monitor,engineering-monitor-service-srv-709,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-771,Single Instance,Kubernetes
+infra-710,Engineering Monitor,engineering-monitor-service-srv-710,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Staging,,Windows,Windows Server 2022,Aurora PostgreSQL 14,db-cluster-732,Active/Active,ECS
+infra-711,Engineering Monitor,engineering-monitor-service-srv-711,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Production,Primary instance,Windows,Amazon Linux 2023,PostgreSQL 14,db-cluster-430,Active/Backup,Kubernetes
+infra-712,Engineering Monitor,engineering-monitor-service-srv-712,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,Aurora MySQL 8.0,db-cluster-842,Active/Backup,ECS
+infra-713,Customer Service Portal,customer-service-portal-worker-srv-713,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Production,,Linux,Ubuntu 22.04,PostgreSQL 14,db-cluster-691,Multi-AZ,EKS
+infra-714,Customer Service Portal,customer-service-portal-worker-srv-714,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-906,Single Instance,EKS
+infra-715,Customer Service Portal,customer-service-portal-api-srv-715,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2023,PostgreSQL 15,db-cluster-141,Single Instance,None
+infra-716,Customer Service Portal,customer-service-portal-api-srv-716,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,MySQL 8.0,db-cluster-569,Single Instance,ECS
+infra-717,Customer Service Portal,customer-service-portal-api-srv-717,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,MongoDB 6.0,db-cluster-287,Single Instance,ECS
+infra-718,Customer Service Portal,customer-service-portal-api-srv-718,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,MySQL 8.0,db-cluster-327,Active/Backup,ECS
+infra-719,Customer Service Portal,customer-service-portal-processor-srv-719,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Production,,Windows,Ubuntu 22.04,Redis 7.0,db-cluster-844,Single Instance,ECS
+infra-720,Customer Service Portal,customer-service-portal-processor-srv-720,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Staging,,Windows,Windows Server 2022,MongoDB 6.0,db-cluster-189,Active/Backup,ECS
+infra-721,Product Processor 121,product-processor-121-api-srv-721,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-east-1,Production,Primary instance,Linux,Ubuntu 20.04,PostgreSQL 14,db-cluster-432,Active/Active,ECS
+infra-722,Product Processor 121,product-processor-121-api-srv-722,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,PostgreSQL 14,db-cluster-925,Active/Backup,EKS
+infra-723,Product Processor 121,product-processor-121-service-srv-723,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Production,,Windows,Windows Server 2022,PostgreSQL 13,db-cluster-363,Active/Active,Kubernetes
+infra-724,Product Processor 121,product-processor-121-service-srv-724,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,Aurora PostgreSQL 14,db-cluster-397,Multi-AZ,EKS
+infra-725,Product Processor 121,product-processor-121-frontend-srv-725,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2023,MongoDB 6.0,db-cluster-953,Active/Active,Kubernetes
+infra-726,Product Processor 121,product-processor-121-frontend-srv-726,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,Redis 7.0,db-cluster-793,Single Instance,None
+infra-727,Product Processor 121,product-processor-121-service-srv-727,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-east-1,Production,,Windows,Ubuntu 22.04,DynamoDB,db-cluster-725,Single Instance,None
+infra-728,Product Processor 121,product-processor-121-service-srv-728,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,Redis 7.0,db-cluster-514,Multi-AZ,ECS
+infra-729,Product Processor 121,product-processor-121-api-srv-729,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2023,PostgreSQL 15,db-cluster-717,Multi-AZ,None
+infra-730,Product Processor 121,product-processor-121-api-srv-730,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-291,Single Instance,Kubernetes
+infra-731,Risk Management Service,risk-management-service-frontend-srv-731,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2023,MySQL 8.0,db-cluster-472,Active/Backup,Kubernetes
+infra-732,Risk Management Service,risk-management-service-frontend-srv-732,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,MySQL 8.0,db-cluster-375,Active/Backup,None
+infra-733,Risk Management Service,risk-management-service-frontend-srv-733,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-east-1,Production,Primary instance,Linux,Ubuntu 20.04,Redis 7.0,db-cluster-506,Multi-AZ,EKS
+infra-734,Risk Management Service,risk-management-service-frontend-srv-734,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,PostgreSQL 13,db-cluster-204,Active/Backup,ECS
+infra-735,Risk Management Service,risk-management-service-service-srv-735,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2023,MySQL 8.0,db-cluster-830,Active/Active,None
+infra-736,Risk Management Service,risk-management-service-service-srv-736,m5.large,2 vCPU,8 GB,100 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,DynamoDB,db-cluster-315,Active/Active,EKS
+infra-737,IT Dashboard,it-dashboard-frontend-srv-737,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,DynamoDB,db-cluster-875,Single Instance,None
+infra-738,IT Dashboard,it-dashboard-frontend-srv-738,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,MongoDB 6.0,db-cluster-603,Active/Active,ECS
+infra-739,IT Dashboard,it-dashboard-worker-srv-739,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Production,,Windows,Ubuntu 20.04,MongoDB 6.0,db-cluster-283,Multi-AZ,None
+infra-740,IT Dashboard,it-dashboard-worker-srv-740,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,MySQL 8.0,db-cluster-908,Active/Active,Kubernetes
+infra-741,IT Dashboard,it-dashboard-processor-srv-741,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Production,Primary instance,Windows,Windows Server 2022,MongoDB 6.0,db-cluster-368,Single Instance,ECS
+infra-742,IT Dashboard,it-dashboard-processor-srv-742,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,PostgreSQL 13,db-cluster-938,Multi-AZ,Kubernetes
+infra-743,IT Dashboard,it-dashboard-api-srv-743,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 22.04,PostgreSQL 13,db-cluster-417,Active/Active,EKS
+infra-744,IT Dashboard,it-dashboard-api-srv-744,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-179,Single Instance,ECS
+infra-745,IT Dashboard,it-dashboard-backend-srv-745,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Production,Primary instance,Windows,Ubuntu 22.04,PostgreSQL 13,db-cluster-479,Active/Active,EKS
+infra-746,IT Dashboard,it-dashboard-backend-srv-746,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-718,Active/Active,Kubernetes
+infra-747,Customer Service Analyzer,customer-service-analyzer-srv-747,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2023,PostgreSQL 15,db-cluster-996,Active/Backup,Kubernetes
+infra-748,Customer Service Analyzer,customer-service-analyzer-srv-748,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,MySQL 8.0,db-cluster-445,Active/Backup,ECS
+infra-749,Marketing Dashboard,marketing-dashboard-api-srv-749,m5.large,2 vCPU,8 GB,100 GB SSD,us-east-1,Production,Primary instance,Windows,Amazon Linux 2023,DynamoDB,db-cluster-142,Active/Active,Kubernetes
+infra-750,Marketing Dashboard,marketing-dashboard-api-srv-750,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,PostgreSQL 14,db-cluster-562,Single Instance,Kubernetes
+infra-751,Marketing Dashboard,marketing-dashboard-api-srv-751,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Production,,Linux,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-227,Single Instance,EKS
+infra-752,Marketing Dashboard,marketing-dashboard-api-srv-752,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,MongoDB 6.0,db-cluster-458,Multi-AZ,ECS
+infra-753,Product Hub 126,product-hub-126-srv-753,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,PostgreSQL 13,db-cluster-786,Active/Active,ECS
+infra-754,Product Hub 126,product-hub-126-srv-754,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,PostgreSQL 13,db-cluster-597,Active/Active,Kubernetes
+infra-755,Sales Tracker,sales-tracker-service-srv-755,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Production,,Windows,Ubuntu 22.04,Aurora MySQL 8.0,db-cluster-100,Single Instance,Kubernetes
+infra-756,Sales Tracker,sales-tracker-service-srv-756,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,Redis 7.0,db-cluster-639,Single Instance,ECS
+infra-757,Sales Tracker,sales-tracker-api-srv-757,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Production,Primary instance,Windows,Ubuntu 20.04,PostgreSQL 15,db-cluster-576,Active/Active,Kubernetes
+infra-758,Sales Tracker,sales-tracker-api-srv-758,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,PostgreSQL 13,db-cluster-464,Single Instance,ECS
+infra-759,Business Development Monitor 128,business-development-monitor-128-srv-759,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,,Windows,Windows Server 2022,DynamoDB,db-cluster-125,Active/Backup,None
+infra-760,Business Development Monitor 128,business-development-monitor-128-srv-760,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2023,PostgreSQL 13,db-cluster-470,Single Instance,EKS
+infra-761,Analytics Platform 129,analytics-platform-129-srv-761,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,,Windows,Ubuntu 22.04,MySQL 8.0,db-cluster-155,Single Instance,EKS
+infra-762,Analytics Platform 129,analytics-platform-129-srv-762,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2,Redis 7.0,db-cluster-392,Single Instance,Kubernetes
+infra-763,IT Engine 130,it-engine-130-api-srv-763,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,MongoDB 6.0,db-cluster-963,Active/Backup,EKS
+infra-764,IT Engine 130,it-engine-130-api-srv-764,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2023,PostgreSQL 14,db-cluster-683,Multi-AZ,EKS
+infra-765,IT Engine 130,it-engine-130-api-srv-765,c5.large,2 vCPU,4 GB,80 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-239,Active/Backup,EKS
+infra-766,IT Engine 130,it-engine-130-api-srv-766,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Staging,,Windows,Windows Server 2019,PostgreSQL 13,db-cluster-881,Active/Active,None
+infra-767,IT Engine 130,it-engine-130-processor-srv-767,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,,Windows,Ubuntu 20.04,MySQL 8.0,db-cluster-557,Active/Backup,EKS
+infra-768,IT Engine 130,it-engine-130-processor-srv-768,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2023,PostgreSQL 14,db-cluster-797,Single Instance,Kubernetes
+infra-769,Operations Processor,operations-processor-service-srv-769,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2023,MongoDB 6.0,db-cluster-171,Multi-AZ,EKS
+infra-770,Operations Processor,operations-processor-service-srv-770,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-840,Multi-AZ,EKS
+infra-771,Operations Processor,operations-processor-worker-srv-771,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Production,,Windows,Windows Server 2019,PostgreSQL 14,db-cluster-304,Active/Active,Kubernetes
+infra-772,Operations Processor,operations-processor-worker-srv-772,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,Redis 7.0,db-cluster-737,Active/Active,ECS
+infra-773,Operations Processor,operations-processor-worker-srv-773,c5.large,2 vCPU,4 GB,80 GB SSD,us-east-1,Production,,Windows,Ubuntu 20.04,MySQL 8.0,db-cluster-729,Active/Backup,ECS
+infra-774,Operations Processor,operations-processor-worker-srv-774,c5.large,2 vCPU,4 GB,80 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,MongoDB 6.0,db-cluster-153,Single Instance,None
+infra-775,Marketing Dashboard,marketing-dashboard-frontend-srv-775,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-east-1,Production,,Windows,Windows Server 2022,PostgreSQL 14,db-cluster-894,Active/Active,ECS
+infra-776,Marketing Dashboard,marketing-dashboard-frontend-srv-776,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-711,Active/Active,None
+infra-777,Marketing Dashboard,marketing-dashboard-frontend-srv-777,c5.large,2 vCPU,4 GB,80 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,DynamoDB,db-cluster-357,Active/Backup,ECS
+infra-778,Marketing Dashboard,marketing-dashboard-frontend-srv-778,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,PostgreSQL 15,db-cluster-256,Single Instance,None
+infra-779,HR Engine,hr-engine-backend-srv-779,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-851,Active/Active,EKS
+infra-780,HR Engine,hr-engine-backend-srv-780,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,Redis 7.0,db-cluster-791,Multi-AZ,None
+infra-781,HR Engine,hr-engine-api-srv-781,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Production,,Windows,Ubuntu 20.04,DynamoDB,db-cluster-946,Active/Active,EKS
+infra-782,HR Engine,hr-engine-api-srv-782,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,MySQL 8.0,db-cluster-421,Single Instance,Kubernetes
+infra-783,HR Engine,hr-engine-frontend-srv-783,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Production,Primary instance,Windows,Ubuntu 20.04,Redis 7.0,db-cluster-431,Active/Backup,ECS
+infra-784,HR Engine,hr-engine-frontend-srv-784,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Staging,,Windows,Ubuntu 20.04,PostgreSQL 15,db-cluster-250,Multi-AZ,Kubernetes
+infra-785,Customer Service Management System,customer-service-management-system-service-srv-785,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Production,Primary instance,Windows,Windows Server 2022,DynamoDB,db-cluster-430,Single Instance,Kubernetes
+infra-786,Customer Service Management System,customer-service-management-system-service-srv-786,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-584,Active/Backup,None
+infra-787,Customer Service Management System,customer-service-management-system-backend-srv-787,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-737,Single Instance,Kubernetes
+infra-788,Customer Service Management System,customer-service-management-system-backend-srv-788,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,DynamoDB,db-cluster-616,Single Instance,Kubernetes
+infra-789,Customer Service Management System,customer-service-management-system-api-srv-789,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Production,Primary instance,Windows,Ubuntu 22.04,DynamoDB,db-cluster-446,Active/Backup,Kubernetes
+infra-790,Customer Service Management System,customer-service-management-system-api-srv-790,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,Redis 7.0,db-cluster-388,Single Instance,EKS
+infra-791,Customer Service Management System,customer-service-management-system-backend-srv-791,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Production,Primary instance,Windows,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-949,Multi-AZ,EKS
+infra-792,Customer Service Management System,customer-service-management-system-backend-srv-792,c5.large,2 vCPU,4 GB,80 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2023,DynamoDB,db-cluster-932,Single Instance,EKS
+infra-793,R&D Gateway,r&d-gateway-api-srv-793,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Production,Primary instance,Linux,Ubuntu 20.04,PostgreSQL 15,db-cluster-215,Multi-AZ,ECS
+infra-794,R&D Gateway,r&d-gateway-api-srv-794,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,DynamoDB,db-cluster-852,Single Instance,ECS
+infra-795,R&D Gateway,r&d-gateway-processor-srv-795,c5.large,2 vCPU,4 GB,80 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,Redis 7.0,db-cluster-600,Multi-AZ,None
+infra-796,R&D Gateway,r&d-gateway-processor-srv-796,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,MongoDB 6.0,db-cluster-457,Active/Backup,Kubernetes
+infra-797,R&D Gateway,r&d-gateway-worker-srv-797,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-574,Active/Active,Kubernetes
+infra-798,R&D Gateway,r&d-gateway-worker-srv-798,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-818,Single Instance,None
+infra-799,R&D Gateway,r&d-gateway-worker-srv-799,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,MySQL 8.0,db-cluster-532,Multi-AZ,Kubernetes
+infra-800,R&D Gateway,r&d-gateway-worker-srv-800,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,MongoDB 6.0,db-cluster-167,Active/Active,EKS
+infra-801,Manufacturing Tool,manufacturing-tool-worker-srv-801,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Production,Primary instance,Windows,Amazon Linux 2023,MongoDB 6.0,db-cluster-878,Active/Active,None
+infra-802,Manufacturing Tool,manufacturing-tool-worker-srv-802,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,PostgreSQL 13,db-cluster-445,Single Instance,ECS
+infra-803,Manufacturing Tool,manufacturing-tool-worker-srv-803,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Production,,Windows,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-318,Single Instance,ECS
+infra-804,Manufacturing Tool,manufacturing-tool-worker-srv-804,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,Redis 7.0,db-cluster-225,Active/Active,None
+infra-805,Manufacturing Tool,manufacturing-tool-frontend-srv-805,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2,MySQL 8.0,db-cluster-455,Multi-AZ,None
+infra-806,Manufacturing Tool,manufacturing-tool-frontend-srv-806,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,PostgreSQL 14,db-cluster-145,Active/Active,ECS
+infra-807,Manufacturing Tool,manufacturing-tool-api-srv-807,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Production,,Windows,Windows Server 2019,Redis 7.0,db-cluster-158,Multi-AZ,Kubernetes
+infra-808,Manufacturing Tool,manufacturing-tool-api-srv-808,t3.large,2 vCPU,8 GB,80 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-175,Single Instance,EKS
+infra-809,Manufacturing Tool,manufacturing-tool-backend-srv-809,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Production,Primary instance,Windows,Ubuntu 22.04,PostgreSQL 14,db-cluster-787,Multi-AZ,ECS
+infra-810,Manufacturing Tool,manufacturing-tool-backend-srv-810,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,MySQL 8.0,db-cluster-836,Single Instance,ECS
+infra-811,Engineering Dashboard 137,engineering-dashboard-137-srv-811,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,PostgreSQL 15,db-cluster-960,Single Instance,ECS
+infra-812,Engineering Dashboard 137,engineering-dashboard-137-srv-812,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,Aurora MySQL 8.0,db-cluster-697,Active/Active,None
+infra-813,IT Controller 138,it-controller-138-frontend-srv-813,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Production,,Linux,Ubuntu 22.04,Aurora PostgreSQL 14,db-cluster-609,Multi-AZ,Kubernetes
+infra-814,IT Controller 138,it-controller-138-frontend-srv-814,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,PostgreSQL 13,db-cluster-105,Active/Active,None
+infra-815,IT Controller 138,it-controller-138-frontend-srv-815,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,Redis 7.0,db-cluster-702,Active/Active,None
+infra-816,IT Controller 138,it-controller-138-frontend-srv-816,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,Redis 7.0,db-cluster-449,Active/Active,None
+infra-817,Operations Management System 139,operations-management-system-139-service-srv-817,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2023,Aurora PostgreSQL 14,db-cluster-231,Active/Backup,ECS
+infra-818,Operations Management System 139,operations-management-system-139-service-srv-818,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,Aurora PostgreSQL 14,db-cluster-806,Active/Active,EKS
+infra-819,Operations Management System 139,operations-management-system-139-frontend-srv-819,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Production,Primary instance,Linux,Ubuntu 20.04,PostgreSQL 15,db-cluster-602,Single Instance,None
+infra-820,Operations Management System 139,operations-management-system-139-frontend-srv-820,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,PostgreSQL 15,db-cluster-693,Multi-AZ,EKS
+infra-821,Operations Management System 139,operations-management-system-139-processor-srv-821,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Production,Primary instance,Linux,Ubuntu 20.04,Aurora PostgreSQL 14,db-cluster-970,Active/Active,ECS
+infra-822,Operations Management System 139,operations-management-system-139-processor-srv-822,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-655,Single Instance,Kubernetes
+infra-823,Operations Management System 139,operations-management-system-139-service-srv-823,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Production,,Windows,Windows Server 2019,PostgreSQL 13,db-cluster-783,Active/Backup,None
+infra-824,Operations Management System 139,operations-management-system-139-service-srv-824,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,PostgreSQL 14,db-cluster-100,Single Instance,None
+infra-825,Legal Service,legal-service-srv-825,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-west-2,Production,Primary instance,Linux,Amazon Linux 2,MySQL 8.0,db-cluster-683,Multi-AZ,EKS
+infra-826,Legal Service,legal-service-srv-826,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2,MySQL 8.0,db-cluster-770,Active/Backup,None
+infra-827,R&D Gateway,r&d-gateway-backend-srv-827,c5.xlarge,4 vCPU,8 GB,160 GB SSD,us-east-1,Production,Primary instance,Linux,Ubuntu 22.04,DynamoDB,db-cluster-179,Single Instance,ECS
+infra-828,R&D Gateway,r&d-gateway-backend-srv-828,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,MongoDB 6.0,db-cluster-201,Single Instance,ECS
+infra-829,R&D Gateway,r&d-gateway-processor-srv-829,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-125,Active/Active,Kubernetes
+infra-830,R&D Gateway,r&d-gateway-processor-srv-830,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,MySQL 8.0,db-cluster-229,Active/Backup,EKS
+infra-831,Legal Engine,legal-engine-srv-831,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2023,MySQL 8.0,db-cluster-152,Single Instance,None
+infra-832,Legal Engine,legal-engine-srv-832,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-west-2,Staging,,Windows,Windows Server 2019,MySQL 8.0,db-cluster-822,Active/Backup,ECS
+infra-833,Quality Assurance Platform,quality-assurance-platform-processor-srv-833,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2023,PostgreSQL 13,db-cluster-643,Active/Backup,ECS
+infra-834,Quality Assurance Platform,quality-assurance-platform-processor-srv-834,r5.large,2 vCPU,16 GB,100 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,MongoDB 6.0,db-cluster-821,Multi-AZ,None
+infra-835,Quality Assurance Platform,quality-assurance-platform-frontend-srv-835,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2,Redis 7.0,db-cluster-370,Active/Active,EKS
+infra-836,Quality Assurance Platform,quality-assurance-platform-frontend-srv-836,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Staging,,Windows,Ubuntu 20.04,MySQL 8.0,db-cluster-651,Active/Active,ECS
+infra-837,Quality Assurance Platform,quality-assurance-platform-frontend-srv-837,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-west-2,Production,,Linux,Ubuntu 20.04,Redis 7.0,db-cluster-532,Multi-AZ,EKS
+infra-838,Quality Assurance Platform,quality-assurance-platform-frontend-srv-838,c5.large,2 vCPU,4 GB,80 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,DynamoDB,db-cluster-905,Single Instance,None
+infra-839,Supply Chain Service,supply-chain-service-service-srv-839,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,,Windows,Windows Server 2022,DynamoDB,db-cluster-425,Single Instance,None
+infra-840,Supply Chain Service,supply-chain-service-service-srv-840,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-371,Multi-AZ,Kubernetes
+infra-841,Supply Chain Service,supply-chain-service-backend-srv-841,r5.large,2 vCPU,16 GB,100 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,PostgreSQL 14,db-cluster-714,Single Instance,Kubernetes
+infra-842,Supply Chain Service,supply-chain-service-backend-srv-842,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,MySQL 8.0,db-cluster-664,Single Instance,None
+infra-843,Supply Chain Service,supply-chain-service-backend-srv-843,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,MySQL 8.0,db-cluster-750,Multi-AZ,EKS
+infra-844,Supply Chain Service,supply-chain-service-backend-srv-844,t3.large,2 vCPU,8 GB,80 GB SSD,us-west-2,Staging,,Windows,Amazon Linux 2023,Aurora MySQL 8.0,db-cluster-598,Multi-AZ,EKS
+infra-845,Supply Chain Service,supply-chain-service-backend-srv-845,t3.small,2 vCPU,2 GB,30 GB SSD,us-east-1,Production,Primary instance,Windows,Windows Server 2019,PostgreSQL 14,db-cluster-792,Multi-AZ,EKS
+infra-846,Supply Chain Service,supply-chain-service-backend-srv-846,c5.2xlarge,8 vCPU,16 GB,320 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,PostgreSQL 13,db-cluster-877,Active/Active,None
+infra-847,Procurement Application 145,procurement-application-145-api-srv-847,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Production,Primary instance,Windows,Ubuntu 22.04,PostgreSQL 14,db-cluster-421,Active/Backup,EKS
+infra-848,Procurement Application 145,procurement-application-145-api-srv-848,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Staging,,Windows,Ubuntu 22.04,PostgreSQL 13,db-cluster-685,Multi-AZ,Kubernetes
+infra-849,Procurement Application 145,procurement-application-145-service-srv-849,t3.small,2 vCPU,2 GB,30 GB SSD,us-west-2,Production,,Windows,Ubuntu 20.04,PostgreSQL 14,db-cluster-530,Active/Active,EKS
+infra-850,Procurement Application 145,procurement-application-145-service-srv-850,c5.large,2 vCPU,4 GB,80 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,DynamoDB,db-cluster-218,Multi-AZ,None
+infra-851,Procurement Application 145,procurement-application-145-service-srv-851,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2023,Redis 7.0,db-cluster-546,Active/Active,Kubernetes
+infra-852,Procurement Application 145,procurement-application-145-service-srv-852,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-665,Multi-AZ,None
+infra-853,Product Processor,product-processor-frontend-srv-853,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-east-1,Production,,Linux,Ubuntu 22.04,PostgreSQL 15,db-cluster-280,Active/Backup,None
+infra-854,Product Processor,product-processor-frontend-srv-854,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,DynamoDB,db-cluster-544,Active/Backup,ECS
+infra-855,Product Processor,product-processor-api-srv-855,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Production,,Windows,Windows Server 2019,PostgreSQL 15,db-cluster-204,Multi-AZ,EKS
+infra-856,Product Processor,product-processor-api-srv-856,r5.xlarge,4 vCPU,32 GB,200 GB SSD,us-east-1,Staging,,Windows,Windows Server 2022,MySQL 8.0,db-cluster-211,Active/Active,Kubernetes
+infra-857,Product Processor,product-processor-worker-srv-857,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-east-1,Production,Primary instance,Windows,Amazon Linux 2023,PostgreSQL 13,db-cluster-732,Active/Backup,Kubernetes
+infra-858,Product Processor,product-processor-worker-srv-858,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Staging,,Windows,Windows Server 2022,Aurora MySQL 8.0,db-cluster-826,Active/Backup,ECS
+infra-859,Product Processor,product-processor-api-srv-859,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-west-2,Production,,Windows,Windows Server 2019,PostgreSQL 15,db-cluster-607,Multi-AZ,EKS
+infra-860,Product Processor,product-processor-api-srv-860,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Staging,,Linux,Ubuntu 22.04,Aurora MySQL 8.0,db-cluster-331,Single Instance,EKS
+infra-861,Product Processor,product-processor-processor-srv-861,i3.xlarge,4 vCPU,30.5 GB,950 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2,Aurora MySQL 8.0,db-cluster-946,Multi-AZ,EKS
+infra-862,Product Processor,product-processor-processor-srv-862,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Staging,,Windows,Windows Server 2022,PostgreSQL 14,db-cluster-350,Single Instance,None
+infra-863,Finance Analyzer,finance-analyzer-api-srv-863,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Production,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-586,Single Instance,EKS
+infra-864,Finance Analyzer,finance-analyzer-api-srv-864,t3.micro,2 vCPU,1 GB,20 GB SSD,us-east-1,Staging,,Linux,Amazon Linux 2023,PostgreSQL 13,db-cluster-995,Single Instance,None
+infra-865,Finance Analyzer,finance-analyzer-worker-srv-865,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2023,PostgreSQL 13,db-cluster-544,Multi-AZ,ECS
+infra-866,Finance Analyzer,finance-analyzer-worker-srv-866,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Staging,,Windows,Windows Server 2019,Aurora PostgreSQL 14,db-cluster-204,Single Instance,ECS
+infra-867,E-Commerce Management System,e-commerce-management-system-service-srv-867,t3.xlarge,4 vCPU,16 GB,160 GB SSD,us-east-1,Production,,Windows,Ubuntu 22.04,Redis 7.0,db-cluster-318,Single Instance,Kubernetes
+infra-868,E-Commerce Management System,e-commerce-management-system-service-srv-868,m5.large,2 vCPU,8 GB,100 GB SSD,us-east-1,Staging,,Linux,Ubuntu 20.04,PostgreSQL 15,db-cluster-734,Active/Backup,None
+infra-869,E-Commerce Management System,e-commerce-management-system-frontend-srv-869,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-west-2,Production,,Windows,Amazon Linux 2,Redis 7.0,db-cluster-156,Active/Backup,ECS
+infra-870,E-Commerce Management System,e-commerce-management-system-frontend-srv-870,m5.4xlarge,16 vCPU,64 GB,800 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,MongoDB 6.0,db-cluster-292,Active/Backup,EKS
+infra-871,Finance Management System,finance-management-system-processor-srv-871,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-west-2,Production,,Linux,Ubuntu 20.04,Redis 7.0,db-cluster-750,Active/Active,None
+infra-872,Finance Management System,finance-management-system-processor-srv-872,r5.2xlarge,8 vCPU,64 GB,400 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2,PostgreSQL 15,db-cluster-925,Active/Backup,Kubernetes
+infra-873,Finance Management System,finance-management-system-processor-srv-873,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Production,,Linux,Ubuntu 20.04,MongoDB 6.0,db-cluster-703,Single Instance,None
+infra-874,Finance Management System,finance-management-system-processor-srv-874,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-west-2,Staging,,Linux,Amazon Linux 2023,PostgreSQL 14,db-cluster-961,Active/Active,EKS
+infra-875,Finance Management System,finance-management-system-backend-srv-875,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-west-2,Production,,Linux,Ubuntu 22.04,Aurora MySQL 8.0,db-cluster-189,Active/Active,Kubernetes
+infra-876,Finance Management System,finance-management-system-backend-srv-876,m5.2xlarge,8 vCPU,32 GB,400 GB SSD,us-east-1,Staging,,Windows,Windows Server 2019,PostgreSQL 15,db-cluster-236,Active/Backup,ECS
+infra-877,Marketing Gateway,marketing-gateway-api-srv-877,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Production,,Linux,Ubuntu 22.04,MongoDB 6.0,db-cluster-186,Multi-AZ,Kubernetes
+infra-878,Marketing Gateway,marketing-gateway-api-srv-878,t3.medium,2 vCPU,4 GB,40 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,Aurora MySQL 8.0,db-cluster-460,Multi-AZ,Kubernetes
+infra-879,Marketing Gateway,marketing-gateway-worker-srv-879,c5.4xlarge,16 vCPU,32 GB,640 GB SSD,us-east-1,Production,,Windows,Ubuntu 20.04,PostgreSQL 15,db-cluster-659,Multi-AZ,ECS
+infra-880,Marketing Gateway,marketing-gateway-worker-srv-880,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-east-1,Staging,,Windows,Amazon Linux 2,PostgreSQL 13,db-cluster-874,Active/Backup,None
+infra-881,Marketing Gateway,marketing-gateway-backend-srv-881,m5.xlarge,4 vCPU,16 GB,200 GB SSD,us-east-1,Production,,Linux,Amazon Linux 2,MongoDB 6.0,db-cluster-816,Single Instance,Kubernetes
+infra-882,Marketing Gateway,marketing-gateway-backend-srv-882,i3.large,2 vCPU,15.25 GB,475 GB SSD,us-west-2,Staging,,Linux,Ubuntu 20.04,DynamoDB,db-cluster-438,Single Instance,EKS
+infra-883,Marketing Gateway,marketing-gateway-frontend-srv-883,r5.4xlarge,16 vCPU,128 GB,800 GB SSD,us-east-1,Production,Primary instance,Linux,Amazon Linux 2023,DynamoDB,db-cluster-184,Single Instance,EKS
+infra-884,Marketing Gateway,marketing-gateway-frontend-srv-884,t3.medium,2 vCPU,4 GB,40 GB SSD,us-east-1,Staging,,Windows,Ubuntu 22.04,MySQL 8.0,db-cluster-350,Active/Active,None
+infra-885,Marketing Gateway,marketing-gateway-backend-srv-885,i3.2xlarge,8 vCPU,61 GB,1.9 TB SSD,us-east-1,Production,,Linux,Amazon Linux 2,MongoDB 6.0,db-cluster-922,Active/Active,None
+infra-886,Marketing Gateway,marketing-gateway-backend-srv-886,t3.micro,2 vCPU,1 GB,20 GB SSD,us-west-2,Staging,,Linux,Ubuntu 22.04,PostgreSQL 15,db-cluster-716,Multi-AZ,ECS

@@ -1,0 +1,23 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect x="0" y="0" width="120" height="120" fill="#232F3E"/>
+  
+  <!-- Tic-tac-toe grid lines (white) -->
+  <!-- Vertical line 1 -->
+  <line x1="40" y1="10" x2="40" y2="110" stroke="#FFFFFF" stroke-width="3"/>
+  <!-- Vertical line 2 -->
+  <line x1="80" y1="10" x2="80" y2="110" stroke="#FFFFFF" stroke-width="3"/>
+  <!-- Horizontal line 1 -->
+  <line x1="10" y1="40" x2="110" y2="40" stroke="#FFFFFF" stroke-width="3"/>
+  <!-- Horizontal line 2 -->
+  <line x1="10" y1="80" x2="110" y2="80" stroke="#FFFFFF" stroke-width="3"/>
+  
+  <!-- Letter A (top left, orange) -->
+  <text x="25" y="32" font-family="'Arial Black', sans-serif" font-size="28" font-weight="900" fill="#FF9900" text-anchor="middle">A</text>
+  
+  <!-- Letter M (center, orange) -->
+  <text x="60" y="70" font-family="'Arial Black', sans-serif" font-size="28" font-weight="900" fill="#FF9900" text-anchor="middle">M</text>
+  
+  <!-- Letter X (bottom right, orange) -->
+  <text x="95" y="105" font-family="'Arial Black', sans-serif" font-size="28" font-weight="900" fill="#FF9900" text-anchor="middle">X</text>
+</svg>

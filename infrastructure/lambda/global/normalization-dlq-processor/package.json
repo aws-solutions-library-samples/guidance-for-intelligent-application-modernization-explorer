@@ -1,0 +1,12 @@
+{
+  "name": "app-modex-normalization-dlq-processor",
+  "version": "1.0.0",
+  "description": "Process messages from normalization Dead Letter Queue",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-sqs": "^3.700.0",
+    "@aws-sdk/client-dynamodb": "^3.700.0",
+    "@aws-sdk/lib-dynamodb": "^3.700.0",
+    "@aws-sdk/client-sns": "^3.700.0"
+  }
+}

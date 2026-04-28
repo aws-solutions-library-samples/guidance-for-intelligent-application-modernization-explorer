@@ -1,0 +1,305 @@
+{
+    "Comment": "App-ModEx Application Similarity Analysis Workflow - Simplified Large Dataset Flow (All Sizes) - FIXED ERROR HANDLING",
+    "StartAt": "UpdateProcessToProcessing",
+    "States": {
+        "UpdateProcessToProcessing": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::dynamodb:updateItem",
+            "Parameters": {
+                "TableName.$": "$.processTableName",
+                "Key": {
+                    "processId": {
+                        "S.$": "$.processId"
+                    }
+                },
+                "UpdateExpression": "SET #status = :status, updatedAt = :updatedAt",
+                "ExpressionAttributeNames": {
+                    "#status": "status"
+                },
+                "ExpressionAttributeValues": {
+                    ":status": {
+                        "S": "PROCESSING"
+                    },
+                    ":updatedAt": {
+                        "S.$": "$$.State.EnteredTime"
+                    }
+                }
+            },
+            "ResultPath": null,
+            "Next": "PrepareApplicationQuery",
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.error",
+                    "Next": "UpdateProcessToFailed"
+                }
+            ]
+        },
+        "PrepareApplicationQuery": {
+            "Type": "Pass",
+            "Parameters": {
+                "templateId": "application-similarity-tech-stack",
+                "parameters": {},
+                "dataType": "application-similarity",
+                "projectId.$": "$.projectId",
+                "processId.$": "$.processId",
+                "processTimestamp.$": "$.processTimestamp",
+                "processTableName.$": "$.processTableName",
+                "filters.$": "$.filters"
+            },
+            "ResultPath": "$.queryParams",
+            "Next": "ExecuteDatasetQuery"
+        },
+        "ExecuteDatasetQuery": {
+            "Type": "Task",
+            "Resource": "arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-athena-s3-wrapper-${props.projectId}",
+            "Parameters": {
+                "body.$": "States.JsonToString($.queryParams)",
+                "httpMethod": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                }
+            },
+            "ResultPath": "$.athena_result",
+            "Next": "ParseDatasetResponse",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 30,
+                    "MaxAttempts": 2,
+                    "BackoffRate": 2.0
+                }
+            ],
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.error",
+                    "Next": "UpdateProcessToFailed"
+                }
+            ]
+        },
+        "ParseDatasetResponse": {
+            "Type": "Pass",
+            "Parameters": {
+                "projectId.$": "$.projectId",
+                "processId.$": "$.processId",
+                "processTimestamp.$": "$.processTimestamp",
+                "processTableName.$": "$.processTableName",
+                "analysisType.$": "$.analysisType",
+                "filters.$": "$.filters",
+                "timestamp.$": "$.timestamp",
+                "queryParams.$": "$.queryParams",
+                "s3_data_info.$": "States.StringToJson($.athena_result.body)",
+                "dataStoredInS3": true
+            },
+            "Next": "PartitionDataset"
+        },
+        "PartitionDataset": {
+            "Type": "Task",
+            "Resource": "arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-app-partition-${props.projectId}",
+            "InputPath": "$",
+            "ResultPath": "$.partition_result",
+            "Next": "ProcessPartitions",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 10,
+                    "MaxAttempts": 2,
+                    "BackoffRate": 2.0
+                }
+            ],
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.error",
+                    "Next": "UpdateProcessToFailed"
+                }
+            ]
+        },
+        "ProcessPartitions": {
+            "Type": "Map",
+            "ItemsPath": "$.partition_result.partitions",
+            "MaxConcurrency": 50,
+            "Iterator": {
+                "StartAt": "ProcessSinglePartition",
+                "States": {
+                    "ProcessSinglePartition": {
+                        "Type": "Task",
+                        "Resource": "arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-app-process-${props.projectId}",
+                        "End": true,
+                        "Retry": [
+                            {
+                                "ErrorEquals": [
+                                    "States.TaskFailed"
+                                ],
+                                "IntervalSeconds": 10,
+                                "MaxAttempts": 2,
+                                "BackoffRate": 2.0
+                            }
+                        ]
+                    }
+                }
+            },
+            "ResultPath": "$.partition_results",
+            "Next": "AggregatePartitionResults",
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.error",
+                    "Next": "UpdateProcessToFailed"
+                }
+            ]
+        },
+        "AggregatePartitionResults": {
+            "Type": "Task",
+            "Resource": "arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-app-aggregate-${props.projectId}",
+            "ResultPath": "$.aggregate_result",
+            "Next": "GenerateClusters",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 10,
+                    "MaxAttempts": 2,
+                    "BackoffRate": 2.0
+                }
+            ],
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.error",
+                    "Next": "UpdateProcessToFailed"
+                }
+            ]
+        },
+        "GenerateClusters": {
+            "Type": "Task",
+            "Resource": "arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-app-clusters-${props.projectId}",
+            "InputPath": "$",
+            "ResultPath": "$.cluster_result",
+            "Next": "StoreResults",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 10,
+                    "MaxAttempts": 2,
+                    "BackoffRate": 2.0
+                }
+            ],
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.error",
+                    "Next": "UpdateProcessToFailed"
+                }
+            ]
+        },
+        "StoreResults": {
+            "Type": "Task",
+            "Resource": "arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-app-store-${props.projectId}",
+            "InputPath": "$",
+            "ResultPath": "$.store_result",
+            "Next": "UpdateProcessToCompleted",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 10,
+                    "MaxAttempts": 2,
+                    "BackoffRate": 2.0
+                }
+            ],
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "ResultPath": "$.error",
+                    "Next": "UpdateProcessToFailed"
+                }
+            ]
+        },
+        "UpdateProcessToCompleted": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::dynamodb:updateItem",
+            "Parameters": {
+                "TableName.$": "$.processTableName",
+                "Key": {
+                    "processId": {
+                        "S.$": "$.processId"
+                    }
+                },
+                "UpdateExpression": "SET #status = :status, updatedAt = :updatedAt",
+                "ExpressionAttributeNames": {
+                    "#status": "status"
+                },
+                "ExpressionAttributeValues": {
+                    ":status": {
+                        "S": "COMPLETED"
+                    },
+                    ":updatedAt": {
+                        "S.$": "$$.State.EnteredTime"
+                    }
+                }
+            },
+            "ResultPath": null,
+            "Next": "AnalysisComplete"
+        },
+        "AnalysisComplete": {
+            "Type": "Succeed"
+        },
+        "UpdateProcessToFailed": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::dynamodb:updateItem",
+            "Parameters": {
+                "TableName.$": "$.processTableName",
+                "Key": {
+                    "processId": {
+                        "S.$": "$.processId"
+                    }
+                },
+                "UpdateExpression": "SET #status = :status, updatedAt = :updatedAt, errorMessage = :errorMessage",
+                "ExpressionAttributeNames": {
+                    "#status": "status"
+                },
+                "ExpressionAttributeValues": {
+                    ":status": {
+                        "S": "FAILED"
+                    },
+                    ":updatedAt": {
+                        "S.$": "$$.State.EnteredTime"
+                    },
+                    ":errorMessage": {
+                        "S.$": "States.Format('Error: {}', $.error.Error)"
+                    }
+                }
+            },
+            "ResultPath": null,
+            "Next": "AnalysisFailed"
+        },
+        "AnalysisFailed": {
+            "Type": "Fail",
+            "Cause": "Application similarity analysis failed"
+        }
+    }
+}

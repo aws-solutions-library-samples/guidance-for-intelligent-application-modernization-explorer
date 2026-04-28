@@ -1,0 +1,12 @@
+{
+  "name": "app-modex-provisioning",
+  "version": "1.0.0",
+  "description": "App-ModEx Project Provisioning Lambda Function",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.1450.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

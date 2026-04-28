@@ -1,0 +1,110 @@
+/* Custom scrollbar styling - theme aware */
+.navigation-scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.navigation-scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.navigation-scroll-container::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-divider-default, rgba(0, 0, 0, 0.2));
+  border-radius: 3px;
+}
+
+.navigation-scroll-container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-border-divider-default, rgba(0, 0, 0, 0.3));
+}
+
+/* Global tooltip styling - theme aware */
+.app-modex-tooltip {
+  position: absolute;
+  visibility: hidden;
+  background-color: var(--color-background-popover, rgba(35, 47, 62, 0.95));
+  color: var(--color-text-body-default, white);
+  border: 1px solid var(--color-border-divider-default, transparent);
+  border-radius: 4px;
+  padding: 12px;
+  box-shadow: var(--shadow-panel, 0 2px 10px rgba(0,0,0,0.2));
+  font-size: 13px;
+  z-index: 1000;
+  max-width: 220px;
+  pointer-events: none;
+  font-family: 'Amazon Ember', 'Helvetica Neue', Roboto, Arial, sans-serif;
+}
+
+/* Custom styles for sidebar navigation */
+/* These styles will be applied globally to fix the quick links positioning */
+
+/* Reduce padding in the navigation panel */
+[data-awsui-layout-panel="navigation"] {
+  padding-bottom: 0 !important;
+  position: relative !important;
+}
+
+/* Adjust the height of the navigation panel */
+[data-awsui-layout-panel="navigation"] > div {
+  height: 100% !important; /* Changed from calc(100% - 20px) to 100% */
+  padding-bottom: 0 !important;
+}
+
+/* Reduce spacing in navigation items */
+[data-awsui-side-navigation-section-group] {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+[data-awsui-side-navigation-section-group] > li {
+  margin-bottom: 0 !important;
+}
+
+[data-awsui-side-navigation-link] {
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+  min-height: 24px !important;
+}
+
+[data-awsui-side-navigation-section-header] {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  min-height: 24px !important;
+}
+
+/* Style for quick link buttons */
+.quick-link-button {
+  height: 26px !important;
+  font-size: 12px !important;
+  padding-top: 1px !important;
+  padding-bottom: 1px !important;
+  min-height: 26px !important;
+}
+
+/* Reduce spacing in SpaceBetween component */
+[data-awsui-space-between-item]:not(:last-child) {
+  margin-bottom: 2px !important;
+}
+
+/* Ensure the sidebar navigation panel contains the quick links */
+[data-awsui-layout-panel="navigation"] {
+  overflow: visible !important; /* Allow absolute positioned elements to be visible */
+}
+
+/* Ensure the quick links stay within the sidebar */
+[data-awsui-layout-panel="navigation"] > div > div {
+  position: relative !important;
+}
+
+/* Fix for the quick links positioning */
+[data-awsui-layout-panel="navigation"] button {
+  max-width: 100% !important;
+}
+
+/* Remove extra space at the bottom of the navigation panel */
+[data-awsui-layout-panel="navigation"] {
+  margin-bottom: 0 !important;
+}
+
+/* Remove extra padding at the bottom of the AppLayout */
+[data-awsui-layout-container] {
+  padding-bottom: 0 !important;
+}

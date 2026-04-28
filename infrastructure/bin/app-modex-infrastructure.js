@@ -1,0 +1,104 @@
+#!/usr/bin/env node
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("source-map-support/register");
+const cdk = require("aws-cdk-lib");
+const app_modex_application_stack_1 = require("../lib/app-modex-application-stack");
+const app_modex_data_stack_1 = require("../lib/app-modex-data-stack");
+const app_modex_api_stack_1 = require("../lib/app-modex-api-stack");
+const app_modex_backend_stack_1 = require("../lib/app-modex-backend-stack");
+const app_modex_frontend_stack_1 = require("../lib/app-modex-frontend-stack");
+const app_modex_prompt_templates_stack_1 = require("../lib/app-modex-prompt-templates-stack");
+const app = new cdk.App();
+// Get environment from context or use default
+const environment = app.node.tryGetContext('environment') || 'dev';
+// Get log level from context or use environment-based default
+const logLevel = app.node.tryGetContext('logLevel') ||
+    (environment === 'prod' ? 'ERROR' : environment === 'staging' ? 'INFO' : 'DEBUG');
+// Get the target region from environment variable (set by deploy scripts)
+const appmodexRegion = process.env.APPMODEX_REGION || 'us-west-2';
+const account = process.env.CDK_DEFAULT_ACCOUNT;
+// Create the Application stack FIRST - this creates the AppRegistry application
+// and exports the AWS application tag for other stacks to use
+const applicationStack = new app_modex_application_stack_1.AppModExApplicationStack(app, 'AppModEx-Application', {
+    environment,
+    description: 'App-ModEx Application Registry and Resource Groups (SO9684)',
+    env: {
+        account: account,
+        region: appmodexRegion,
+    },
+});
+// Create the Prompt Templates stack (DynamoDB for centralized prompt management)
+const promptTemplatesStack = new app_modex_prompt_templates_stack_1.AppModExPromptTemplatesStack(app, 'AppModEx-PromptTemplates', {
+    environment,
+    description: 'App-ModEx Prompt Templates Stack (SO9684)',
+    env: {
+        account: account,
+        region: appmodexRegion,
+    },
+});
+// Create the Data stack - databases, Cognito, S3 buckets, Glue
+const dataStack = new app_modex_data_stack_1.AppModExDataStack(app, `AppModEx-Data`, {
+    environment,
+    description: 'App-ModEx Data Stack (DynamoDB, Cognito, S3, Glue) (SO9684)',
+    env: {
+        account: account,
+        region: appmodexRegion,
+    },
+    tags: {
+        Project: 'App-ModEx',
+        Environment: environment,
+        Component: 'Data',
+    }
+});
+// Create the API stack - API Gateway and authorizers
+const apiStack = new app_modex_api_stack_1.AppModExApiStack(app, `AppModEx-Api`, {
+    environment,
+    description: 'App-ModEx API Stack (API Gateway) (SO9684)',
+    userPool: dataStack.userPool,
+    env: {
+        account: account,
+        region: appmodexRegion,
+    },
+    tags: {
+        Project: 'App-ModEx',
+        Environment: environment,
+        Component: 'API',
+    }
+});
+// Create the backend stack - Lambda functions, roles, SQS, Step Functions
+const backendStack = new app_modex_backend_stack_1.AppModExBackendStack(app, `AppModEx-Backend`, {
+    environment,
+    logLevel,
+    description: 'App-ModEx Backend Stack (Lambda, SQS, Step Functions) (SO9684)',
+    env: {
+        account: account,
+        region: appmodexRegion,
+    },
+    tags: {
+        Project: 'App-ModEx',
+        Environment: environment,
+        Component: 'Backend',
+    }
+});
+// Create the frontend stack - ALWAYS us-east-1 for WAF protection
+const frontendStack = new app_modex_frontend_stack_1.AppModExFrontendStack(app, `AppModEx-Frontend`, {
+    environment,
+    description: 'App-ModEx Frontend Stack (${environment}) (SO9684)',
+    env: {
+        account: account,
+        region: 'us-east-1', // Frontend must be in us-east-1 for WAF
+    },
+    tags: {
+        Project: 'App-ModEx',
+        Environment: environment,
+        Component: 'Frontend'
+    }
+});
+// Ensure proper deployment order
+promptTemplatesStack.addDependency(applicationStack);
+dataStack.addDependency(applicationStack);
+// Backend imports Data stack resources via CloudFormation exports (implicit dependency)
+apiStack.addDependency(backendStack);
+// Frontend deploys independently to us-east-1 and is included in Resource Group via tags
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYXBwLW1vZGV4LWluZnJhc3RydWN0dXJlLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiYXBwLW1vZGV4LWluZnJhc3RydWN0dXJlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUNBLHVDQUFxQztBQUNyQyxtQ0FBbUM7QUFDbkMsb0ZBQThFO0FBQzlFLHNFQUFnRTtBQUNoRSxvRUFBOEQ7QUFDOUQsNEVBQXNFO0FBQ3RFLDhFQUF3RTtBQUN4RSw4RkFBdUY7QUFFdkYsTUFBTSxHQUFHLEdBQUcsSUFBSSxHQUFHLENBQUMsR0FBRyxFQUFFLENBQUM7QUFFMUIsOENBQThDO0FBQzlDLE1BQU0sV0FBVyxHQUFHLEdBQUcsQ0FBQyxJQUFJLENBQUMsYUFBYSxDQUFDLGFBQWEsQ0FBQyxJQUFJLEtBQUssQ0FBQztBQUVuRSw4REFBOEQ7QUFDOUQsTUFBTSxRQUFRLEdBQUcsR0FBRyxDQUFDLElBQUksQ0FBQyxhQUFhLENBQUMsVUFBVSxDQUFDO0lBQ2pELENBQUMsV0FBVyxLQUFLLE1BQU0sQ0FBQyxDQUFDLENBQUMsT0FBTyxDQUFDLENBQUMsQ0FBQyxXQUFXLEtBQUssU0FBUyxDQUFDLENBQUMsQ0FBQyxNQUFNLENBQUMsQ0FBQyxDQUFDLE9BQU8sQ0FBQyxDQUFDO0FBRXBGLDBFQUEwRTtBQUMxRSxNQUFNLGNBQWMsR0FBRyxPQUFPLENBQUMsR0FBRyxDQUFDLGVBQWUsSUFBSSxXQUFXLENBQUM7QUFDbEUsTUFBTSxPQUFPLEdBQUcsT0FBTyxDQUFDLEdBQUcsQ0FBQyxtQkFBbUIsQ0FBQztBQUVoRCxnRkFBZ0Y7QUFDaEYsOERBQThEO0FBQzlELE1BQU0sZ0JBQWdCLEdBQUcsSUFBSSxzREFBd0IsQ0FBQyxHQUFHLEVBQUUsc0JBQXNCLEVBQUU7SUFDakYsV0FBVztJQUNYLFdBQVcsRUFBRSxvREFBb0Q7SUFDakUsR0FBRyxFQUFFO1FBQ0gsT0FBTyxFQUFFLE9BQU87UUFDaEIsTUFBTSxFQUFFLGNBQWM7S0FDdkI7Q0FDRixDQUFDLENBQUM7QUFFSCxpRkFBaUY7QUFDakYsTUFBTSxvQkFBb0IsR0FBRyxJQUFJLCtEQUE0QixDQUFDLEdBQUcsRUFBRSwwQkFBMEIsRUFBRTtJQUM3RixXQUFXO0lBQ1gsV0FBVyxFQUFFLGtDQUFrQztJQUMvQyxHQUFHLEVBQUU7UUFDSCxPQUFPLEVBQUUsT0FBTztRQUNoQixNQUFNLEVBQUUsY0FBYztLQUN2QjtDQUNGLENBQUMsQ0FBQztBQUVILCtEQUErRDtBQUMvRCxNQUFNLFNBQVMsR0FBRyxJQUFJLHdDQUFpQixDQUFDLEdBQUcsRUFBRSxlQUFlLEVBQUU7SUFDNUQsV0FBVztJQUNYLFdBQVcsRUFBRSxvREFBb0Q7SUFDakUsR0FBRyxFQUFFO1FBQ0gsT0FBTyxFQUFFLE9BQU87UUFDaEIsTUFBTSxFQUFFLGNBQWM7S0FDdkI7SUFDRCxJQUFJLEVBQUU7UUFDSixPQUFPLEVBQUUsV0FBVztRQUNwQixXQUFXLEVBQUUsV0FBVztRQUN4QixTQUFTLEVBQUUsTUFBTTtLQUNsQjtDQUNGLENBQUMsQ0FBQztBQUVILHFEQUFxRDtBQUNyRCxNQUFNLFFBQVEsR0FBRyxJQUFJLHNDQUFnQixDQUFDLEdBQUcsRUFBRSxjQUFjLEVBQUU7SUFDekQsV0FBVztJQUNYLFdBQVcsRUFBRSxtQ0FBbUM7SUFDaEQsUUFBUSxFQUFFLFNBQVMsQ0FBQyxRQUFRO0lBQzVCLEdBQUcsRUFBRTtRQUNILE9BQU8sRUFBRSxPQUFPO1FBQ2hCLE1BQU0sRUFBRSxjQUFjO0tBQ3ZCO0lBQ0QsSUFBSSxFQUFFO1FBQ0osT0FBTyxFQUFFLFdBQVc7UUFDcEIsV0FBVyxFQUFFLFdBQVc7UUFDeEIsU0FBUyxFQUFFLEtBQUs7S0FDakI7Q0FDRixDQUFDLENBQUM7QUFFSCwwRUFBMEU7QUFDMUUsTUFBTSxZQUFZLEdBQUcsSUFBSSw4Q0FBb0IsQ0FBQyxHQUFHLEVBQUUsa0JBQWtCLEVBQUU7SUFDckUsV0FBVztJQUNYLFFBQVE7SUFDUixXQUFXLEVBQUUsdURBQXVEO0lBQ3BFLEdBQUcsRUFBRTtRQUNILE9BQU8sRUFBRSxPQUFPO1FBQ2hCLE1BQU0sRUFBRSxjQUFjO0tBQ3ZCO0lBQ0QsSUFBSSxFQUFFO1FBQ0osT0FBTyxFQUFFLFdBQVc7UUFDcEIsV0FBVyxFQUFFLFdBQVc7UUFDeEIsU0FBUyxFQUFFLFNBQVM7S0FDckI7Q0FDRixDQUFDLENBQUM7QUFFSCxrRUFBa0U7QUFDbEUsTUFBTSxhQUFhLEdBQUcsSUFBSSxnREFBcUIsQ0FBQyxHQUFHLEVBQUUsbUJBQW1CLEVBQUU7SUFDeEUsV0FBVztJQUNYLFdBQVcsRUFBRSwyQ0FBMkM7SUFDeEQsR0FBRyxFQUFFO1FBQ0gsT0FBTyxFQUFFLE9BQU87UUFDaEIsTUFBTSxFQUFFLFdBQVcsRUFBRSx3Q0FBd0M7S0FDOUQ7SUFDRCxJQUFJLEVBQUU7UUFDSixPQUFPLEVBQUUsV0FBVztRQUNwQixXQUFXLEVBQUUsV0FBVztRQUN4QixTQUFTLEVBQUUsVUFBVTtLQUN0QjtDQUNGLENBQUMsQ0FBQztBQUVILGlDQUFpQztBQUNqQyxvQkFBb0IsQ0FBQyxhQUFhLENBQUMsZ0JBQWdCLENBQUMsQ0FBQztBQUNyRCxTQUFTLENBQUMsYUFBYSxDQUFDLGdCQUFnQixDQUFDLENBQUM7QUFDMUMsd0ZBQXdGO0FBQ3hGLFFBQVEsQ0FBQyxhQUFhLENBQUMsWUFBWSxDQUFDLENBQUM7QUFDckMseUZBQXlGIiwic291cmNlc0NvbnRlbnQiOlsiIyEvdXNyL2Jpbi9lbnYgbm9kZVxuaW1wb3J0ICdzb3VyY2UtbWFwLXN1cHBvcnQvcmVnaXN0ZXInO1xuaW1wb3J0ICogYXMgY2RrIGZyb20gJ2F3cy1jZGstbGliJztcbmltcG9ydCB7IEFwcE1vZEV4QXBwbGljYXRpb25TdGFjayB9IGZyb20gJy4uL2xpYi9hcHAtbW9kZXgtYXBwbGljYXRpb24tc3RhY2snO1xuaW1wb3J0IHsgQXBwTW9kRXhEYXRhU3RhY2sgfSBmcm9tICcuLi9saWIvYXBwLW1vZGV4LWRhdGEtc3RhY2snO1xuaW1wb3J0IHsgQXBwTW9kRXhBcGlTdGFjayB9IGZyb20gJy4uL2xpYi9hcHAtbW9kZXgtYXBpLXN0YWNrJztcbmltcG9ydCB7IEFwcE1vZEV4QmFja2VuZFN0YWNrIH0gZnJvbSAnLi4vbGliL2FwcC1tb2RleC1iYWNrZW5kLXN0YWNrJztcbmltcG9ydCB7IEFwcE1vZEV4RnJvbnRlbmRTdGFjayB9IGZyb20gJy4uL2xpYi9hcHAtbW9kZXgtZnJvbnRlbmQtc3RhY2snO1xuaW1wb3J0IHsgQXBwTW9kRXhQcm9tcHRUZW1wbGF0ZXNTdGFjayB9IGZyb20gJy4uL2xpYi9hcHAtbW9kZXgtcHJvbXB0LXRlbXBsYXRlcy1zdGFjayc7XG5cbmNvbnN0IGFwcCA9IG5ldyBjZGsuQXBwKCk7XG5cbi8vIEdldCBlbnZpcm9ubWVudCBmcm9tIGNvbnRleHQgb3IgdXNlIGRlZmF1bHRcbmNvbnN0IGVudmlyb25tZW50ID0gYXBwLm5vZGUudHJ5R2V0Q29udGV4dCgnZW52aXJvbm1lbnQnKSB8fCAnZGV2JztcblxuLy8gR2V0IGxvZyBsZXZlbCBmcm9tIGNvbnRleHQgb3IgdXNlIGVudmlyb25tZW50LWJhc2VkIGRlZmF1bHRcbmNvbnN0IGxvZ0xldmVsID0gYXBwLm5vZGUudHJ5R2V0Q29udGV4dCgnbG9nTGV2ZWwnKSB8fCBcbiAgKGVudmlyb25tZW50ID09PSAncHJvZCcgPyAnRVJST1InIDogZW52aXJvbm1lbnQgPT09ICdzdGFnaW5nJyA/ICdJTkZPJyA6ICdERUJVRycpO1xuXG4vLyBHZXQgdGhlIHRhcmdldCByZWdpb24gZnJvbSBlbnZpcm9ubWVudCB2YXJpYWJsZSAoc2V0IGJ5IGRlcGxveSBzY3JpcHRzKVxuY29uc3QgYXBwbW9kZXhSZWdpb24gPSBwcm9jZXNzLmVudi5BUFBNT0RFWF9SRUdJT04gfHwgJ3VzLXdlc3QtMic7XG5jb25zdCBhY2NvdW50ID0gcHJvY2Vzcy5lbnYuQ0RLX0RFRkFVTFRfQUNDT1VOVDtcblxuLy8gQ3JlYXRlIHRoZSBBcHBsaWNhdGlvbiBzdGFjayBGSVJTVCAtIHRoaXMgY3JlYXRlcyB0aGUgQXBwUmVnaXN0cnkgYXBwbGljYXRpb25cbi8vIGFuZCBleHBvcnRzIHRoZSBBV1MgYXBwbGljYXRpb24gdGFnIGZvciBvdGhlciBzdGFja3MgdG8gdXNlXG5jb25zdCBhcHBsaWNhdGlvblN0YWNrID0gbmV3IEFwcE1vZEV4QXBwbGljYXRpb25TdGFjayhhcHAsICdBcHBNb2RFeC1BcHBsaWNhdGlvbicsIHtcbiAgZW52aXJvbm1lbnQsXG4gIGRlc2NyaXB0aW9uOiAnQXBwLU1vZEV4IEFwcGxpY2F0aW9uIFJlZ2lzdHJ5IGFuZCBSZXNvdXJjZSBHcm91cHMnLFxuICBlbnY6IHtcbiAgICBhY2NvdW50OiBhY2NvdW50LFxuICAgIHJlZ2lvbjogYXBwbW9kZXhSZWdpb24sXG4gIH0sXG59KTtcblxuLy8gQ3JlYXRlIHRoZSBQcm9tcHQgVGVtcGxhdGVzIHN0YWNrIChEeW5hbW9EQiBmb3IgY2VudHJhbGl6ZWQgcHJvbXB0IG1hbmFnZW1lbnQpXG5jb25zdCBwcm9tcHRUZW1wbGF0ZXNTdGFjayA9IG5ldyBBcHBNb2RFeFByb21wdFRlbXBsYXRlc1N0YWNrKGFwcCwgJ0FwcE1vZEV4LVByb21wdFRlbXBsYXRlcycsIHtcbiAgZW52aXJvbm1lbnQsXG4gIGRlc2NyaXB0aW9uOiAnQXBwLU1vZEV4IFByb21wdCBUZW1wbGF0ZXMgU3RhY2snLFxuICBlbnY6IHtcbiAgICBhY2NvdW50OiBhY2NvdW50LFxuICAgIHJlZ2lvbjogYXBwbW9kZXhSZWdpb24sXG4gIH0sXG59KTtcblxuLy8gQ3JlYXRlIHRoZSBEYXRhIHN0YWNrIC0gZGF0YWJhc2VzLCBDb2duaXRvLCBTMyBidWNrZXRzLCBHbHVlXG5jb25zdCBkYXRhU3RhY2sgPSBuZXcgQXBwTW9kRXhEYXRhU3RhY2soYXBwLCBgQXBwTW9kRXgtRGF0YWAsIHtcbiAgZW52aXJvbm1lbnQsXG4gIGRlc2NyaXB0aW9uOiAnQXBwLU1vZEV4IERhdGEgU3RhY2sgKER5bmFtb0RCLCBDb2duaXRvLCBTMywgR2x1ZSknLFxuICBlbnY6IHtcbiAgICBhY2NvdW50OiBhY2NvdW50LFxuICAgIHJlZ2lvbjogYXBwbW9kZXhSZWdpb24sXG4gIH0sXG4gIHRhZ3M6IHtcbiAgICBQcm9qZWN0OiAnQXBwLU1vZEV4JyxcbiAgICBFbnZpcm9ubWVudDogZW52aXJvbm1lbnQsXG4gICAgQ29tcG9uZW50OiAnRGF0YScsXG4gIH1cbn0pO1xuXG4vLyBDcmVhdGUgdGhlIEFQSSBzdGFjayAtIEFQSSBHYXRld2F5IGFuZCBhdXRob3JpemVyc1xuY29uc3QgYXBpU3RhY2sgPSBuZXcgQXBwTW9kRXhBcGlTdGFjayhhcHAsIGBBcHBNb2RFeC1BcGlgLCB7XG4gIGVudmlyb25tZW50LFxuICBkZXNjcmlwdGlvbjogJ0FwcC1Nb2RFeCBBUEkgU3RhY2sgKEFQSSBHYXRld2F5KScsXG4gIHVzZXJQb29sOiBkYXRhU3RhY2sudXNlclBvb2wsXG4gIGVudjoge1xuICAgIGFjY291bnQ6IGFjY291bnQsXG4gICAgcmVnaW9uOiBhcHBtb2RleFJlZ2lvbixcbiAgfSxcbiAgdGFnczoge1xuICAgIFByb2plY3Q6ICdBcHAtTW9kRXgnLFxuICAgIEVudmlyb25tZW50OiBlbnZpcm9ubWVudCxcbiAgICBDb21wb25lbnQ6ICdBUEknLFxuICB9XG59KTtcblxuLy8gQ3JlYXRlIHRoZSBiYWNrZW5kIHN0YWNrIC0gTGFtYmRhIGZ1bmN0aW9ucywgcm9sZXMsIFNRUywgU3RlcCBGdW5jdGlvbnNcbmNvbnN0IGJhY2tlbmRTdGFjayA9IG5ldyBBcHBNb2RFeEJhY2tlbmRTdGFjayhhcHAsIGBBcHBNb2RFeC1CYWNrZW5kYCwge1xuICBlbnZpcm9ubWVudCxcbiAgbG9nTGV2ZWwsXG4gIGRlc2NyaXB0aW9uOiAnQXBwLU1vZEV4IEJhY2tlbmQgU3RhY2sgKExhbWJkYSwgU1FTLCBTdGVwIEZ1bmN0aW9ucyknLFxuICBlbnY6IHtcbiAgICBhY2NvdW50OiBhY2NvdW50LFxuICAgIHJlZ2lvbjogYXBwbW9kZXhSZWdpb24sXG4gIH0sXG4gIHRhZ3M6IHtcbiAgICBQcm9qZWN0OiAnQXBwLU1vZEV4JyxcbiAgICBFbnZpcm9ubWVudDogZW52aXJvbm1lbnQsXG4gICAgQ29tcG9uZW50OiAnQmFja2VuZCcsXG4gIH1cbn0pO1xuXG4vLyBDcmVhdGUgdGhlIGZyb250ZW5kIHN0YWNrIC0gQUxXQVlTIHVzLWVhc3QtMSBmb3IgV0FGIHByb3RlY3Rpb25cbmNvbnN0IGZyb250ZW5kU3RhY2sgPSBuZXcgQXBwTW9kRXhGcm9udGVuZFN0YWNrKGFwcCwgYEFwcE1vZEV4LUZyb250ZW5kYCwge1xuICBlbnZpcm9ubWVudCxcbiAgZGVzY3JpcHRpb246ICdBcHAtTW9kRXggRnJvbnRlbmQgU3RhY2sgKCR7ZW52aXJvbm1lbnR9KScsXG4gIGVudjoge1xuICAgIGFjY291bnQ6IGFjY291bnQsXG4gICAgcmVnaW9uOiAndXMtZWFzdC0xJywgLy8gRnJvbnRlbmQgbXVzdCBiZSBpbiB1cy1lYXN0LTEgZm9yIFdBRlxuICB9LFxuICB0YWdzOiB7XG4gICAgUHJvamVjdDogJ0FwcC1Nb2RFeCcsXG4gICAgRW52aXJvbm1lbnQ6IGVudmlyb25tZW50LFxuICAgIENvbXBvbmVudDogJ0Zyb250ZW5kJ1xuICB9XG59KTtcblxuLy8gRW5zdXJlIHByb3BlciBkZXBsb3ltZW50IG9yZGVyXG5wcm9tcHRUZW1wbGF0ZXNTdGFjay5hZGREZXBlbmRlbmN5KGFwcGxpY2F0aW9uU3RhY2spO1xuZGF0YVN0YWNrLmFkZERlcGVuZGVuY3koYXBwbGljYXRpb25TdGFjayk7XG4vLyBCYWNrZW5kIGltcG9ydHMgRGF0YSBzdGFjayByZXNvdXJjZXMgdmlhIENsb3VkRm9ybWF0aW9uIGV4cG9ydHMgKGltcGxpY2l0IGRlcGVuZGVuY3kpXG5hcGlTdGFjay5hZGREZXBlbmRlbmN5KGJhY2tlbmRTdGFjayk7XG4vLyBGcm9udGVuZCBkZXBsb3lzIGluZGVwZW5kZW50bHkgdG8gdXMtZWFzdC0xIGFuZCBpcyBpbmNsdWRlZCBpbiBSZXNvdXJjZSBHcm91cCB2aWEgdGFnc1xuIl19

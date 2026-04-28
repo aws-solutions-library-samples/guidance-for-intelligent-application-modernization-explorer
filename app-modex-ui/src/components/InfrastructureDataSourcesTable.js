@@ -1,0 +1,560 @@
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import {
+  Table,
+  Box,
+  Pagination,
+  TextFilter,
+  CollectionPreferences,
+  SpaceBetween,
+  Button,
+  Header,
+  Icon,
+  Spinner,
+  Popover,
+  Modal,
+  Alert,
+  Flashbar
+} from '@cloudscape-design/components';
+import { getDataSources, deleteDataSource, downloadDataSource } from '../services/dataSourcesService';
+import useProjectPermissions from '../hooks/useProjectPermissions';
+import AutoRefreshControl from './AutoRefreshControl';
+import { useAutoRefresh } from '../hooks/useAutoRefresh';
+import { hasDataChanged } from '../utils/dataComparisonUtils';
+
+function InfrastructureDataSourcesTable({ dataSourceType = 'applications-infrastructure', refreshTrigger = 0, projectId, onDataProcessingComplete, onDataChanged }) {
+  const { t } = useTranslation(['components', 'common']);
+  const [allDataSources, setAllDataSources] = useState([]);
+  const [filteredDataSources, setFilteredDataSources] = useState([]);
+  const [displayedDataSources, setDisplayedDataSources] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [totalItems, setTotalItems] = useState(0);
+  const [filterText, setFilterText] = useState('');
+  const [sortingColumn, setSortingColumn] = useState({ sortingField: 'timestamp' });
+  const [sortingDescending, setSortingDescending] = useState(true); // Default to newest first
+  const [preferences, setPreferences] = useState({
+    pageSize: 5,
+    visibleContent: ['filename', 'timestamp', 'fileFormat', 'status', 'download', 'delete']
+  });
+  
+  // State for notifications and modals
+  const [notifications, setNotifications] = useState([]);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [fileToDelete, setFileToDelete] = useState(null);
+  
+  // Check if user has write access to the project
+  const { hasWriteAccess } = useProjectPermissions(projectId);
+  
+  // Track previous data sources for status change detection
+  const prevDataSourcesRef = useRef([]);
+  
+  // Store current data for comparison
+  const currentDataRef = useRef(null);
+
+  // Format timestamp
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleString();
+  };
+
+  // Add notification
+  const addNotification = (type, content, dismissible = true, id = null) => {
+    const notificationId = id || Math.random().toString(36).substring(2, 11);
+    
+    setNotifications(currentNotifications => [
+      ...currentNotifications,
+      {
+        type,
+        content,
+        dismissible,
+        id: notificationId,
+        onDismiss: () => dismissNotification(notificationId)
+      }
+    ]);
+    
+    // Auto-dismiss success and info notifications after 5 seconds
+    if (type === 'success' || type === 'info') {
+      setTimeout(() => {
+        dismissNotification(notificationId);
+      }, 5000);
+    }
+    
+    return notificationId;
+  };
+
+  // Dismiss notification
+  const dismissNotification = (id) => {
+    setNotifications(currentNotifications => 
+      currentNotifications.filter(notification => notification.id !== id)
+    );
+  };
+
+  // Handle download
+  const handleDownload = async (id, filename) => {
+    try {
+      setLoading(true);
+      console.log(`🔍 Initiating download for file: ${filename} (ID: ${id})`);
+      
+      const response = await downloadDataSource(id);
+      console.log(`🔍 Download response:`, response);
+      
+      if (!response.success) {
+        console.error('Error downloading file:', response.error);
+        addNotification('error', t('utilizationDataSources.downloadError', { filename, error: response.error }));
+      } else {
+        console.log(`✅ Download initiated successfully for ${filename}`);
+        addNotification('success', t('utilizationDataSources.downloadInitiated', { filename }));
+      }
+    } catch (error) {
+      console.error('Error downloading file:', error);
+      addNotification('error', t('utilizationDataSources.downloadError', { filename }));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Open delete confirmation modal
+  const openDeleteModal = (id, filename) => {
+    if (!hasWriteAccess) {
+      addNotification('error', t('utilizationDataSources.noPermissionDelete'));
+      return;
+    }
+    
+    setFileToDelete({ id, filename });
+    setDeleteModalVisible(true);
+  };
+
+  // Handle delete confirmation
+  const confirmDelete = async () => {
+    if (!fileToDelete) return;
+    
+    try {
+      setLoading(true);
+      setDeleteModalVisible(false);
+      
+      const { id, filename } = fileToDelete;
+      const response = await deleteDataSource(id);
+      
+      if (response.success) {
+        // Remove the item from the local state
+        const updatedDataSources = allDataSources.filter(item => item.id !== id);
+        setAllDataSources(updatedDataSources);
+        addNotification('success', t('utilizationDataSources.deleteSuccess', { filename }));
+      } else {
+        addNotification('error', t('utilizationDataSources.deleteError', { filename, error: response.error }));
+      }
+    } catch (error) {
+      console.error('Error deleting file:', error);
+      addNotification('error', t('utilizationDataSources.deleteError', { filename: fileToDelete.filename }));
+    } finally {
+      setLoading(false);
+      setFileToDelete(null);
+    }
+  };
+
+  // Column definitions for the table
+  const columnDefinitions = [
+    {
+      id: 'filename',
+      header: t('utilizationDataSources.filename'),
+      cell: item => item.filename,
+      sortingField: 'filename'
+    },
+    {
+      id: 'timestamp',
+      header: t('utilizationDataSources.timestamp'),
+      cell: item => formatTimestamp(item.timestamp),
+      sortingField: 'timestamp'
+    },
+    {
+      id: 'fileFormat',
+      header: t('utilizationDataSources.fileFormat'),
+      cell: item => item.fileFormat,
+      sortingField: 'fileFormat'
+    },
+    {
+      id: 'status',
+      header: t('utilizationDataSources.status'),
+      cell: item => {
+        const status = item.processingStatus || 'pending';
+        let statusIcon, statusText, statusColor;
+        
+        switch (status.toLowerCase()) {
+          case 'processed':
+            statusIcon = 'status-positive';
+            statusText = t('utilizationDataSources.processed');
+            statusColor = 'text-status-success';
+            break;
+          case 'processing':
+            statusIcon = 'status-in-progress';
+            statusText = t('utilizationDataSources.processing');
+            statusColor = 'text-status-info';
+            break;
+          case 'failed':
+            statusIcon = 'status-negative';
+            statusText = t('utilizationDataSources.failed');
+            statusColor = 'text-status-error';
+            break;
+          case 'pending':
+          default:
+            statusIcon = 'status-pending';
+            statusText = t('utilizationDataSources.pending');
+            statusColor = 'text-status-warning';
+            break;
+        }
+        
+        return (
+          <Box display="flex" alignItems="center">
+            <Icon
+              name={statusIcon}
+              size="small"
+              variant="subtle"
+            />
+            <span style={{ marginLeft: '8px', color: `var(--${statusColor})` }}>
+              {statusText}
+            </span>
+          </Box>
+        );
+      },
+      sortingField: 'processingStatus'
+    },
+    {
+      id: 'download',
+      header: t('utilizationDataSources.download'),
+      cell: item => (
+        <Button
+          variant="icon"
+          iconName="download"
+          ariaLabel={t('utilizationDataSources.downloadFile', { filename: item.filename })}
+          onClick={() => handleDownload(item.id, item.filename)}
+        />
+      )
+    },
+    {
+      id: 'delete',
+      header: t('utilizationDataSources.delete'),
+      cell: item => {
+        const deleteButton = (
+          <Button
+            variant="icon"
+            iconName="remove"
+            ariaLabel={t('utilizationDataSources.deleteFile', { filename: item.filename })}
+            onClick={() => openDeleteModal(item.id, item.filename)}
+            disabled={!hasWriteAccess}
+          />
+        );
+        
+        return hasWriteAccess ? (
+          deleteButton
+        ) : (
+          <Popover
+            dismissButton={false}
+            position="top"
+            size="small"
+            content={t('utilizationDataSources.noPermissionTooltip')}
+          >
+            {deleteButton}
+          </Popover>
+        );
+      }
+    }
+  ];
+
+  // Load data sources from API
+  const loadDataSources = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await getDataSources(dataSourceType);
+      if (response.success) {
+        const newData = response.items;
+        
+        // Detect status changes from processing to completed
+        if (onDataProcessingComplete && prevDataSourcesRef.current.length > 0) {
+          const completedItems = newData.filter((newItem) => {
+            const prevItem = prevDataSourcesRef.current.find(p => p.id === newItem.id);
+            return prevItem && 
+                   prevItem.processingStatus !== 'processed' && 
+                   newItem.processingStatus === 'processed';
+          });
+          
+          if (completedItems.length > 0) {
+            console.log('🔔 Detected completed data sources:', completedItems.map(i => i.filename));
+            onDataProcessingComplete();
+          }
+        }
+        
+        prevDataSourcesRef.current = newData;
+        
+        // Smart refresh: only update if data actually changed
+        if (hasDataChanged(currentDataRef.current, newData)) {
+          console.log('📊 [InfrastructureDataSourcesTable] data changed, updating UI');
+          currentDataRef.current = newData;
+          setAllDataSources(newData);
+          setFilteredDataSources(newData);
+          setTotalItems(response.totalItems);
+          
+          // Notify parent component of data change
+          if (onDataChanged) {
+            console.log('🔔 [InfrastructureDataSourcesTable] Notifying parent of data change');
+            onDataChanged();
+          }
+        } else {
+          console.log('✓ [InfrastructureDataSourcesTable] data unchanged, skipping UI update');
+        }
+      } else {
+        console.error('Error loading data sources:', response.error);
+        addNotification('error', t('utilizationDataSources.loadError', { error: response.error }));
+        setAllDataSources([]);
+        setFilteredDataSources([]);
+        setTotalItems(0);
+      }
+    } catch (error) {
+      console.error('Error loading data sources:', error);
+      addNotification('error', t('utilizationDataSources.loadError'));
+      setAllDataSources([]);
+      setFilteredDataSources([]);
+      setTotalItems(0);
+    } finally {
+      setLoading(false);
+    }
+  }, [dataSourceType, onDataProcessingComplete, t]);
+  
+  // Set up auto-refresh (fixed 30-second interval)
+  const autoRefresh = useAutoRefresh(loadDataSources, {
+    enabled: true
+  });
+  
+  // Initial load
+  useEffect(() => {
+    loadDataSources();
+  }, [loadDataSources]);
+  
+  // Handle external refresh trigger
+  const prevRefreshTrigger = useRef(refreshTrigger);
+  useEffect(() => {
+    if (refreshTrigger && refreshTrigger !== prevRefreshTrigger.current) {
+      console.log('🔔 External refresh triggered for InfrastructureDataSourcesTable');
+      autoRefresh.triggerRefresh();
+      prevRefreshTrigger.current = refreshTrigger;
+    }
+  }, [refreshTrigger, autoRefresh]);
+
+  // Apply filtering and sorting whenever filter or sort parameters change
+  useEffect(() => {
+    // Apply filtering - only by filename
+    let result = [...allDataSources];
+    
+    if (filterText) {
+      result = result.filter(item => 
+        item.filename && item.filename.toLowerCase().includes(filterText.toLowerCase())
+      );
+    }
+    
+    // Apply sorting
+    if (sortingColumn) {
+      result.sort((a, b) => {
+        let valueA, valueB;
+        
+        // Special handling for timestamp
+        if (sortingColumn.sortingField === 'timestamp') {
+          valueA = new Date(a.timestamp);
+          valueB = new Date(b.timestamp);
+        } else {
+          valueA = a[sortingColumn.sortingField];
+          valueB = b[sortingColumn.sortingField];
+        }
+        
+        // Handle date sorting
+        if (valueA instanceof Date && valueB instanceof Date) {
+          return sortingDescending ? valueB - valueA : valueA - valueB;
+        }
+        
+        // Handle string sorting
+        const stringA = String(valueA || '').toLowerCase();
+        const stringB = String(valueB || '').toLowerCase();
+        
+        if (sortingDescending) {
+          return stringB.localeCompare(stringA);
+        }
+        return stringA.localeCompare(stringB);
+      });
+    }
+    
+    setFilteredDataSources(result);
+    setTotalItems(result.length);
+    
+    // Reset to first page when filtering changes
+    if (filterText !== '') {
+      setCurrentPage(1);
+    }
+  }, [allDataSources, filterText, sortingColumn, sortingDescending]);
+
+  // Apply pagination whenever filtered data or pagination parameters change
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = Math.min(startIndex + pageSize, filteredDataSources.length);
+    setDisplayedDataSources(filteredDataSources.slice(startIndex, endIndex));
+  }, [filteredDataSources, currentPage, pageSize]);
+
+  // Handle page change
+  const handlePageChange = ({ detail }) => {
+    setCurrentPage(detail.currentPageIndex);
+  };
+
+  // Handle preferences change
+  const handlePreferencesChange = ({ detail }) => {
+    setPreferences(detail);
+    if (detail.pageSize !== pageSize) {
+      setPageSize(detail.pageSize);
+      setCurrentPage(1); // Reset to first page when changing page size
+    }
+  };
+
+  // Handle filter change
+  const handleFilterChange = ({ detail }) => {
+    setFilterText(detail.filteringText);
+    // Pause auto-refresh while user is typing
+    autoRefresh.pauseTemporarily(5000);
+  };
+
+  // Handle sorting change
+  const handleSortingChange = ({ detail }) => {
+    if (detail.sortingColumn) {
+      setSortingColumn(detail.sortingColumn);
+      setSortingDescending(detail.isDescending);
+    }
+  };
+
+  // Calculate total pages
+  const totalPages = Math.ceil(totalItems / pageSize);
+
+  return (
+    <>
+      {notifications.length > 0 && (
+        <Flashbar items={notifications} />
+      )}
+      
+      <Table
+        columnDefinitions={columnDefinitions}
+        items={displayedDataSources}
+        loading={loading}
+        loadingText={t('utilizationDataSources.loadingDataSources')}
+        selectionType="single"
+        trackBy="id"
+        sortingColumn={sortingColumn}
+        sortingDescending={sortingDescending}
+        onSortingChange={handleSortingChange}
+        empty={
+          <Box textAlign="center" color="inherit">
+            <b>{t('utilizationDataSources.noDataSources')}</b>
+            <Box padding={{ bottom: "s" }} variant="p" color="inherit">
+              {t('utilizationDataSources.noDataSourcesToDisplay')}
+            </Box>
+          </Box>
+        }
+        header={
+          <Header
+            counter={totalItems > 0 ? `(${totalItems})` : undefined}
+            actions={
+              <AutoRefreshControl
+                isRefreshing={autoRefresh.isRefreshing}
+                onManualRefresh={autoRefresh.triggerRefresh}
+                isPaused={autoRefresh.isPaused}
+                onTogglePause={autoRefresh.togglePause}
+              />
+            }
+          >
+            {t('utilizationDataSources.dataSources')}
+          </Header>
+        }
+        filter={
+          <div style={{ maxWidth: '300px' }}>
+            <TextFilter
+              filteringText={filterText}
+              filteringPlaceholder={t('utilizationDataSources.findByFilename')}
+              filteringAriaLabel={t('utilizationDataSources.filterByFilename')}
+              onChange={handleFilterChange}
+            />
+          </div>
+        }
+        pagination={
+          <Pagination
+            currentPageIndex={currentPage}
+            pagesCount={totalPages}
+            ariaLabels={{
+              nextPageLabel: 'Next page',
+              previousPageLabel: 'Previous page',
+              pageLabel: pageNumber => `Page ${pageNumber} of all pages`
+            }}
+            onChange={handlePageChange}
+          />
+        }
+        preferences={
+          <CollectionPreferences
+            title={t('components:tables.preferences')}
+            confirmLabel={t('components:modals.confirm')}
+            cancelLabel={t('components:modals.cancel')}
+            preferences={preferences}
+            pageSizePreference={{
+              title: t('components:tables.pagination.pageSize'),
+              options: [
+                { value: 5, label: t('utilizationDataSources.fiveFiles') },
+                { value: 10, label: t('utilizationDataSources.tenFiles') },
+                { value: 20, label: t('utilizationDataSources.twentyFiles') }
+              ]
+            }}
+            visibleContentPreference={{
+              title: t('utilizationDataSources.selectVisibleColumns'),
+              options: [
+                {
+                  label: t('utilizationDataSources.fileProperties'),
+                  options: [
+                    { id: "filename", label: t('utilizationDataSources.filename') },
+                    { id: "timestamp", label: t('utilizationDataSources.timestamp') },
+                    { id: "fileFormat", label: t('utilizationDataSources.fileFormat') },
+                    { id: "status", label: t('utilizationDataSources.status') },
+                    { id: "download", label: t('utilizationDataSources.download') },
+                    { id: "delete", label: t('utilizationDataSources.delete') }
+                  ]
+                }
+              ]
+            }}
+            onConfirm={handlePreferencesChange}
+          />
+        }
+        visibleColumns={preferences.visibleContent}
+      />
+      
+      {/* Delete Confirmation Modal */}
+      <Modal
+        visible={deleteModalVisible}
+        onDismiss={() => setDeleteModalVisible(false)}
+        header={t('utilizationDataSources.confirmDeletion')}
+        closeAriaLabel={t('components:modals.close')}
+        footer={
+          <Box float="right">
+            <SpaceBetween direction="horizontal" size="xs">
+              <Button variant="link" onClick={() => setDeleteModalVisible(false)}>{t('components:modals.cancel')}</Button>
+              <Button variant="primary" onClick={confirmDelete}>{t('components:modals.delete')}</Button>
+            </SpaceBetween>
+          </Box>
+        }
+      >
+        {fileToDelete && (
+          <SpaceBetween size="m">
+            <Box variant="span" dangerouslySetInnerHTML={{
+              __html: t('utilizationDataSources.confirmDeleteMessage', { filename: fileToDelete.filename })
+            }} />
+            <Alert type="warning">
+              {t('utilizationDataSources.actionCannotBeUndone')}
+            </Alert>
+          </SpaceBetween>
+        )}
+      </Modal>
+    </>
+  );
+}
+
+export default InfrastructureDataSourcesTable;

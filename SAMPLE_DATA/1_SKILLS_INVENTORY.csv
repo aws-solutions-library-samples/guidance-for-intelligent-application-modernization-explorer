@@ -1,0 +1,1021 @@
+id,skill,category,proficiency,team,members,notes
+1,Linkerd,Monitoring,3,UI Team,11,
+2,Oracle,API,5,UI Team,4,
+3,Helm,Security,3,UI Team,3,
+4,SQS,Monitoring,4,UI Team,5,Used by UI Team
+5,Clojure,Monitoring,1,UI Team,9,
+6,Jenkins,Frontend,1,UI Team,6,
+7,EventBridge,Backend,5,UI Team,9,Used by UI Team
+8,JUnit,API,3,UI Team,6,
+9,New Relic,Cloud,1,UI Team,3,
+10,API Gateway,Backend,2,UI Team,4,Used by UI Team
+11,CloudWatch,Testing,3,UI Team,8,
+12,Mocha,Security,4,UI Team,6,
+13,Kustomize,Frontend,1,UI Team,9,
+14,Java,Backend,3,UI Team,4,
+15,ArgoCD,Testing,4,UI Team,8,Used by UI Team
+16,ASP.NET Core,Cloud,5,UI Team,5,Used by UI Team
+17,X-Ray,Security,2,UI Team,10,
+18,Kubernetes,DevOps,1,UI Team,8,
+19,Puppet,Data,4,UI Team,12,
+20,Redis,Backend,4,UI Team,4,
+21,F#,Monitoring,4,API Team,7,Used by API Team
+22,Helm,Security,3,API Team,8,
+23,MongoDB,Cloud,3,API Team,11,
+24,TypeScript,Frontend,5,API Team,2,
+25,Angular,Testing,2,API Team,5,
+26,MariaDB,Testing,3,API Team,4,Used by API Team
+27,Prometheus,Monitoring,1,API Team,10,
+28,DynamoDB,Monitoring,2,API Team,2,
+29,Neo4j,Testing,1,API Team,8,
+30,Lambda,Data,5,API Team,10,
+31,Cypress,Data,2,API Team,11,
+32,Swift,DevOps,3,API Team,3,Used by API Team
+33,CircleCI,Data,5,API Team,7,
+34,New Relic,Frontend,4,API Team,8,
+35,Ruby on Rails,Testing,4,API Team,12,
+36,Kotlin,DevOps,5,API Team,6,Used by API Team
+37,PostgreSQL,Testing,2,API Team,11,
+38,SNS,Cloud,4,API Team,2,
+39,Kafka,Backend,5,API Team,3,
+40,CouchDB,Testing,1,API Team,7,Used by API Team
+41,Prometheus,Security,1,DevOps,6,Used by DevOps
+42,Travis CI,Monitoring,1,DevOps,7,Used by DevOps
+43,X-Ray,Security,4,DevOps,12,
+44,Neo4j,Testing,2,DevOps,12,Used by DevOps
+45,Clojure,Monitoring,1,DevOps,4,
+46,Jest,DevOps,3,DevOps,9,
+47,New Relic,Security,1,DevOps,10,Used by DevOps
+48,Cypress,Security,3,DevOps,8,Used by DevOps
+49,CloudFormation,Frontend,5,DevOps,4,Used by DevOps
+50,C#,Security,2,DevOps,7,
+51,Jenkins,Cloud,1,DevOps,10,
+52,ELK Stack,Testing,2,DevOps,9,Used by DevOps
+53,PHP,Frontend,1,DevOps,7,
+54,Flux,Data,1,DevOps,6,
+55,EC2,Testing,1,DevOps,12,
+56,PostgreSQL,Cloud,4,DevOps,4,
+57,GitLab CI,Database,2,DevOps,4,
+58,Step Functions,DevOps,1,DevOps,8,
+59,Route53,Frontend,4,DevOps,2,
+60,Elixir,API,5,DevOps,5,
+61,Vue.js,Backend,4,Data Team,11,Used by Data Team
+62,Flask,Data,2,Data Team,9,Used by Data Team
+63,Spring Boot,Data,2,Data Team,12,Used by Data Team
+64,ASP.NET Core,API,2,Data Team,11,
+65,Docker,Security,2,Data Team,4,
+66,Prometheus,DevOps,4,Data Team,5,
+67,F#,DevOps,5,Data Team,3,Used by Data Team
+68,Route53,Database,4,Data Team,11,
+69,IAM,DevOps,5,Data Team,2,
+70,Jenkins,Testing,3,Data Team,2,
+71,Express.js,DevOps,5,Data Team,7,
+72,CloudFront,API,2,Data Team,3,
+73,EC2,Backend,3,Data Team,5,
+74,ECS,Data,2,Data Team,12,Used by Data Team
+75,SQS,Data,3,Data Team,5,Used by Data Team
+76,JavaScript,Frontend,3,Data Team,9,Used by Data Team
+77,EventBridge,Cloud,3,Data Team,9,
+78,Clojure,API,2,Data Team,2,
+79,Chef,Cloud,3,Data Team,2,Used by Data Team
+80,GitHub Actions,Testing,3,Data Team,9,Used by Data Team
+81,CloudFormation,Security,3,QA Team,9,
+82,RabbitMQ,Testing,5,QA Team,2,
+83,DynamoDB,DevOps,5,QA Team,2,
+84,ELK Stack,Security,1,QA Team,8,
+85,IAM,Testing,2,QA Team,5,
+86,F#,Backend,3,QA Team,4,Used by QA Team
+87,Angular,Database,4,QA Team,6,
+88,Consul,Database,5,QA Team,6,Used by QA Team
+89,Helm,API,1,QA Team,12,Used by QA Team
+90,TypeScript,Monitoring,5,QA Team,2,
+91,JUnit,Monitoring,5,QA Team,9,
+92,React,Monitoring,3,QA Team,2,
+93,C#,Database,4,QA Team,11,
+94,Scala,Backend,4,QA Team,7,
+95,Flask,API,4,QA Team,6,Used by QA Team
+96,Terraform,Data,4,QA Team,7,
+97,Prometheus,DevOps,1,QA Team,10,Used by QA Team
+98,Kubernetes,Security,1,QA Team,6,
+99,Grafana,Frontend,5,QA Team,5,Used by QA Team
+100,Ruby,Security,4,QA Team,9,
+101,Linkerd,Frontend,3,Security Team,10,Used by Security Team
+102,EventBridge,Monitoring,3,Security Team,7,
+103,Django,Data,5,Security Team,4,
+104,AWS Lambda,API,3,Security Team,5,
+105,Selenium,DevOps,1,Security Team,4,Used by Security Team
+106,PostgreSQL,Data,5,Security Team,8,
+107,MySQL,Security,3,Security Team,6,Used by Security Team
+108,Istio,API,2,Security Team,4,
+109,gRPC,Backend,3,Security Team,6,
+110,X-Ray,Frontend,2,Security Team,11,
+111,CloudFormation,Monitoring,5,Security Team,12,
+112,TestNG,API,4,Security Team,4,Used by Security Team
+113,TypeScript,Testing,1,Security Team,7,
+114,FastAPI,Frontend,1,Security Team,9,
+115,Splunk,Monitoring,3,Security Team,8,
+116,Flask,Cloud,3,Security Team,8,
+117,Elixir,Monitoring,3,Security Team,2,
+118,Laravel,Backend,4,Security Team,6,Used by Security Team
+119,DynamoDB,DevOps,3,Security Team,10,
+120,F#,API,4,Security Team,3,
+121,CircleCI,DevOps,2,Platform Team,11,Used by Platform Team
+122,Spring Boot,Monitoring,2,Platform Team,3,Used by Platform Team
+123,Docker,Data,2,Platform Team,4,
+124,Cassandra,Database,2,Platform Team,5,Used by Platform Team
+125,Go,Testing,5,Platform Team,3,
+126,Prometheus,Cloud,3,Platform Team,10,
+127,Istio,Monitoring,4,Platform Team,6,
+128,Laravel,Database,4,Platform Team,8,
+129,SNS,Testing,1,Platform Team,7,
+130,Neo4j,Database,4,Platform Team,8,
+131,WebSockets,API,3,Platform Team,10,Used by Platform Team
+132,DynamoDB,Monitoring,4,Platform Team,11,Used by Platform Team
+133,Fargate,API,1,Platform Team,6,
+134,gRPC,Testing,5,Platform Team,3,Used by Platform Team
+135,Google Cloud Functions,Cloud,5,Platform Team,4,
+136,Postman,Security,4,Platform Team,8,
+137,SQL Server,Data,1,Platform Team,4,
+138,GitHub Actions,Security,1,Platform Team,10,
+139,Redis,Frontend,5,Platform Team,4,
+140,Rust,Monitoring,5,Platform Team,4,
+141,Kotlin,Testing,5,Mobile Team,5,
+142,React,API,5,Mobile Team,12,
+143,PHP,Monitoring,2,Mobile Team,6,
+144,CloudFormation,Security,2,Mobile Team,5,
+145,Terraform,API,4,Mobile Team,9,
+146,MySQL,Frontend,3,Mobile Team,9,
+147,Linkerd,Frontend,3,Mobile Team,9,Used by Mobile Team
+148,Angular,Testing,1,Mobile Team,9,Used by Mobile Team
+149,JUnit,Backend,2,Mobile Team,9,
+150,Java,Frontend,3,Mobile Team,3,
+151,Kubernetes,DevOps,2,Mobile Team,12,
+152,PyTest,Data,1,Mobile Team,10,
+153,Ruby,Cloud,2,Mobile Team,9,Used by Mobile Team
+154,EC2,Data,1,Mobile Team,12,
+155,Node.js,Security,3,Mobile Team,12,Used by Mobile Team
+156,WebSockets,Backend,4,Mobile Team,5,
+157,S3,Data,3,Mobile Team,7,
+158,Cucumber,Frontend,1,Mobile Team,3,
+159,Spring Boot,Database,2,Mobile Team,8,
+160,ECS,Security,3,Mobile Team,10,
+161,Gin,Data,2,Analytics Team,9,
+162,CircleCI,Database,1,Analytics Team,10,
+163,WebSockets,Monitoring,5,Analytics Team,10,
+164,Laravel,Security,3,Analytics Team,9,Used by Analytics Team
+165,Cucumber,Cloud,1,Analytics Team,10,Used by Analytics Team
+166,Istio,Frontend,3,Analytics Team,10,Used by Analytics Team
+167,Oracle,Cloud,1,Analytics Team,6,Used by Analytics Team
+168,Express.js,Frontend,5,Analytics Team,3,
+169,Kustomize,Database,3,Analytics Team,5,
+170,Chef,DevOps,2,Analytics Team,4,
+171,Azure Functions,Testing,4,Analytics Team,11,
+172,Flux,Security,4,Analytics Team,12,
+173,Vault,Database,1,Analytics Team,3,
+174,PostgreSQL,DevOps,3,Analytics Team,5,
+175,Splunk,Frontend,2,Analytics Team,8,
+176,Postman,Frontend,4,Analytics Team,3,
+177,MySQL,Testing,5,Analytics Team,5,
+178,Ruby on Rails,API,3,Analytics Team,3,
+179,Google Cloud Functions,DevOps,3,Analytics Team,11,
+180,Step Functions,Data,4,Analytics Team,5,Used by Analytics Team
+181,Cassandra,API,2,Infrastructure Team,5,
+182,EKS,Frontend,4,Infrastructure Team,7,
+183,Puppet,Monitoring,2,Infrastructure Team,6,Used by Infrastructure Team
+184,CircleCI,Database,1,Infrastructure Team,6,
+185,Ruby on Rails,Data,1,Infrastructure Team,6,
+186,ActiveMQ,Database,5,Infrastructure Team,10,
+187,Jest,Cloud,4,Infrastructure Team,7,Used by Infrastructure Team
+188,Mocha,Monitoring,5,Infrastructure Team,10,Used by Infrastructure Team
+189,Laravel,DevOps,4,Infrastructure Team,10,Used by Infrastructure Team
+190,Selenium,Database,3,Infrastructure Team,8,Used by Infrastructure Team
+191,EventBridge,Frontend,5,Infrastructure Team,12,
+192,Elixir,Data,3,Infrastructure Team,2,Used by Infrastructure Team
+193,Datadog,Monitoring,1,Infrastructure Team,3,
+194,React,Security,5,Infrastructure Team,11,Used by Infrastructure Team
+195,Rust,DevOps,4,Infrastructure Team,9,
+196,Cognito,DevOps,2,Infrastructure Team,5,
+197,Spring Boot,Security,5,Infrastructure Team,12,
+198,Redis,Testing,1,Infrastructure Team,11,
+199,Python,Testing,2,Infrastructure Team,5,
+200,Go,API,4,Infrastructure Team,12,
+201,Redis,Data,2,Backend Team,6,Used by Backend Team
+202,Chef,Backend,1,Backend Team,5,Used by Backend Team
+203,Helm,Security,5,Backend Team,10,
+204,Go,Database,4,Backend Team,12,
+205,JUnit,Testing,5,Backend Team,8,Used by Backend Team
+206,Grafana,Security,1,Backend Team,9,
+207,Rust,Security,5,Backend Team,6,
+208,GitLab CI,DevOps,2,Backend Team,12,
+209,Flask,Data,4,Backend Team,3,
+210,Datadog,Backend,4,Backend Team,2,Used by Backend Team
+211,FastAPI,DevOps,4,Backend Team,4,Used by Backend Team
+212,EKS,Frontend,4,Backend Team,10,Used by Backend Team
+213,Clojure,Monitoring,1,Backend Team,5,
+214,Flux,Cloud,1,Backend Team,12,
+215,EventBridge,Data,4,Backend Team,9,
+216,Django,DevOps,2,Backend Team,7,Used by Backend Team
+217,Spring Boot,Backend,1,Backend Team,4,
+218,Cucumber,Security,2,Backend Team,3,
+219,Route53,DevOps,3,Backend Team,5,
+220,Kotlin,Backend,2,Backend Team,11,Used by Backend Team
+221,JavaScript,Monitoring,4,Frontend Team,6,
+222,EKS,Backend,1,Frontend Team,12,
+223,Linkerd,Data,2,Frontend Team,8,
+224,Laravel,Database,5,Frontend Team,6,
+225,MongoDB,Testing,4,Frontend Team,8,Used by Frontend Team
+226,gRPC,Database,2,Frontend Team,4,
+227,Terraform,Cloud,3,Frontend Team,4,Used by Frontend Team
+228,S3,Security,2,Frontend Team,10,
+229,DynamoDB,Monitoring,4,Frontend Team,12,
+230,Kustomize,Security,3,Frontend Team,6,
+231,Flask,Monitoring,4,Frontend Team,2,
+232,Jenkins,Frontend,3,Frontend Team,4,
+233,Ansible,Frontend,4,Frontend Team,9,Used by Frontend Team
+234,ActiveMQ,Frontend,1,Frontend Team,4,Used by Frontend Team
+235,Istio,API,3,Frontend Team,2,Used by Frontend Team
+236,Grafana,Database,4,Frontend Team,9,
+237,Elasticsearch,API,4,Frontend Team,11,Used by Frontend Team
+238,Node.js,API,4,Frontend Team,6,
+239,CloudWatch,Cloud,1,Frontend Team,10,
+240,EC2,API,4,Frontend Team,11,
+241,Flux,Security,1,Cloud Team,11,
+242,PostgreSQL,Testing,2,Cloud Team,8,
+243,Linkerd,Monitoring,5,Cloud Team,2,
+244,ActiveMQ,Testing,1,Cloud Team,2,
+245,PyTest,Testing,3,Cloud Team,6,Used by Cloud Team
+246,Splunk,Backend,5,Cloud Team,11,
+247,Express.js,Backend,1,Cloud Team,10,
+248,Datadog,Cloud,1,Cloud Team,3,
+249,React,Monitoring,4,Cloud Team,8,Used by Cloud Team
+250,CloudWatch,Backend,5,Cloud Team,9,
+251,Python,Frontend,3,Cloud Team,6,
+252,Selenium,Testing,5,Cloud Team,8,Used by Cloud Team
+253,EC2,Data,1,Cloud Team,12,Used by Cloud Team
+254,Route53,API,1,Cloud Team,6,Used by Cloud Team
+255,Lambda,Database,2,Cloud Team,12,
+256,Redis,Database,5,Cloud Team,9,
+257,CloudFormation,Database,4,Cloud Team,9,
+258,MySQL,Backend,4,Cloud Team,7,Used by Cloud Team
+259,IAM,Data,3,Cloud Team,7,Used by Cloud Team
+260,Chef,Testing,1,Cloud Team,5,
+261,X-Ray,Frontend,5,Database Team,12,
+262,Playwright,Cloud,5,Database Team,5,Used by Database Team
+263,Azure Functions,Monitoring,5,Database Team,5,Used by Database Team
+264,Linkerd,Database,5,Database Team,7,Used by Database Team
+265,RSpec,Monitoring,2,Database Team,8,
+266,C#,Frontend,2,Database Team,12,
+267,CloudFormation,Security,1,Database Team,5,Used by Database Team
+268,Cassandra,Backend,2,Database Team,4,Used by Database Team
+269,PyTest,Testing,1,Database Team,10,
+270,Vault,Backend,3,Database Team,7,
+271,Istio,Monitoring,4,Database Team,10,
+272,Kafka,Backend,4,Database Team,8,
+273,WebSockets,Frontend,4,Database Team,10,
+274,Selenium,Security,1,Database Team,2,
+275,Django,Frontend,4,Database Team,6,
+276,Angular,Security,2,Database Team,12,
+277,Elixir,Database,3,Database Team,2,
+278,EKS,Backend,1,Database Team,3,Used by Database Team
+279,FastAPI,Security,3,Database Team,6,
+280,Terraform,Frontend,3,Database Team,10,
+281,CircleCI,Data,2,Integration Team,7,
+282,Grafana,DevOps,4,Integration Team,11,Used by Integration Team
+283,Terraform,Monitoring,4,Integration Team,11,Used by Integration Team
+284,S3,Testing,2,Integration Team,9,
+285,MySQL,API,1,Integration Team,4,Used by Integration Team
+286,Kotlin,Frontend,3,Integration Team,10,
+287,Ansible,Security,1,Integration Team,5,
+288,WebSockets,Security,4,Integration Team,4,Used by Integration Team
+289,CloudFront,DevOps,1,Integration Team,8,Used by Integration Team
+290,Splunk,Security,4,Integration Team,8,
+291,Playwright,DevOps,4,Integration Team,10,
+292,IAM,Monitoring,5,Integration Team,7,
+293,Cassandra,Database,2,Integration Team,7,Used by Integration Team
+294,EKS,Testing,4,Integration Team,11,
+295,Istio,Cloud,5,Integration Team,6,
+296,Vue.js,Frontend,1,Integration Team,9,
+297,gRPC,DevOps,2,Integration Team,5,
+298,Google Cloud Functions,Backend,5,Integration Team,12,Used by Integration Team
+299,Vault,Security,4,Integration Team,11,
+300,DynamoDB,Database,1,Integration Team,4,Used by Integration Team
+301,New Relic,Testing,5,Architecture Team,4,Used by Architecture Team
+302,Scala,Database,1,Architecture Team,10,
+303,C#,Monitoring,3,Architecture Team,2,
+304,PHP,Frontend,3,Architecture Team,6,Used by Architecture Team
+305,Cognito,Monitoring,1,Architecture Team,7,Used by Architecture Team
+306,SNS,Monitoring,4,Architecture Team,11,
+307,Clojure,Security,2,Architecture Team,9,
+308,Laravel,Frontend,5,Architecture Team,7,
+309,Selenium,Cloud,1,Architecture Team,12,
+310,Spring Boot,Security,2,Architecture Team,11,
+311,Echo,API,4,Architecture Team,10,
+312,Redis,Data,4,Architecture Team,8,
+313,MongoDB,API,5,Architecture Team,9,
+314,GitHub Actions,Monitoring,1,Architecture Team,11,
+315,Grafana,Database,2,Architecture Team,6,
+316,Flux,Monitoring,2,Architecture Team,9,
+317,ASP.NET Core,API,1,Architecture Team,5,Used by Architecture Team
+318,Cassandra,Cloud,2,Architecture Team,12,
+319,Java,Frontend,3,Architecture Team,2,
+320,JUnit,Security,5,Architecture Team,11,
+321,Flask,API,2,Performance Team,12,
+322,SQL Server,Data,3,Performance Team,11,
+323,CouchDB,Backend,2,Performance Team,7,
+324,Kafka,DevOps,2,Performance Team,10,
+325,PyTest,Cloud,2,Performance Team,6,
+326,EC2,Frontend,5,Performance Team,8,
+327,CircleCI,Backend,5,Performance Team,5,
+328,Haskell,API,2,Performance Team,6,Used by Performance Team
+329,Ruby,Data,3,Performance Team,6,
+330,Selenium,DevOps,1,Performance Team,4,
+331,Helm,Frontend,3,Performance Team,5,
+332,Go,Security,5,Performance Team,3,
+333,Vault,Backend,5,Performance Team,7,
+334,JUnit,DevOps,2,Performance Team,11,Used by Performance Team
+335,Mocha,Frontend,3,Performance Team,12,Used by Performance Team
+336,Chef,DevOps,1,Performance Team,5,Used by Performance Team
+337,Clojure,Frontend,1,Performance Team,3,Used by Performance Team
+338,Fargate,Security,5,Performance Team,4,Used by Performance Team
+339,CloudFront,Frontend,1,Performance Team,3,
+340,Kustomize,Frontend,1,Performance Team,5,Used by Performance Team
+341,F#,DevOps,2,Compliance Team,4,
+342,Datadog,Backend,3,Compliance Team,5,
+343,C#,DevOps,4,Compliance Team,3,Used by Compliance Team
+344,Laravel,Cloud,1,Compliance Team,4,
+345,New Relic,Backend,5,Compliance Team,6,
+346,AWS Lambda,Backend,3,Compliance Team,3,
+347,CircleCI,Data,4,Compliance Team,12,
+348,Echo,Security,1,Compliance Team,7,Used by Compliance Team
+349,GitHub Actions,Database,5,Compliance Team,7,
+350,Kubernetes,Cloud,5,Compliance Team,4,
+351,Ruby on Rails,Data,3,Compliance Team,11,Used by Compliance Team
+352,Ruby,Monitoring,4,Compliance Team,9,Used by Compliance Team
+353,WebSockets,Database,4,Compliance Team,5,
+354,MariaDB,Frontend,4,Compliance Team,12,Used by Compliance Team
+355,Splunk,Backend,2,Compliance Team,7,
+356,SQS,Security,2,Compliance Team,4,
+357,MySQL,Monitoring,2,Compliance Team,7,
+358,CloudFront,Cloud,3,Compliance Team,2,
+359,EventBridge,Monitoring,5,Compliance Team,8,
+360,Cognito,Data,2,Compliance Team,3,Used by Compliance Team
+361,WebSockets,Monitoring,2,Operations Team,7,
+362,REST API,Backend,1,Operations Team,2,
+363,Ansible,Cloud,4,Operations Team,8,
+364,Travis CI,Security,2,Operations Team,12,
+365,EKS,Data,5,Operations Team,12,
+366,ASP.NET Core,Security,4,Operations Team,3,
+367,Python,Database,2,Operations Team,10,
+368,CloudWatch,Security,4,Operations Team,4,Used by Operations Team
+369,Terraform,Monitoring,5,Operations Team,7,
+370,Cypress,Frontend,4,Operations Team,5,
+371,Istio,DevOps,1,Operations Team,7,
+372,ActiveMQ,Data,2,Operations Team,2,
+373,Echo,Database,4,Operations Team,6,Used by Operations Team
+374,Azure Functions,Cloud,3,Operations Team,8,
+375,Cucumber,Data,2,Operations Team,10,
+376,Chef,Data,4,Operations Team,10,
+377,MongoDB,Security,1,Operations Team,4,Used by Operations Team
+378,Docker,Testing,4,Operations Team,2,
+379,Prometheus,Security,1,Operations Team,10,
+380,Laravel,Data,5,Operations Team,10,
+381,Clojure,Data,1,Support Team,3,Used by Support Team
+382,FastAPI,DevOps,3,Support Team,8,
+383,SonarQube,DevOps,1,Support Team,8,
+384,Google Cloud Functions,Database,1,Support Team,8,
+385,CloudWatch,DevOps,5,Support Team,2,
+386,Elasticsearch,Cloud,3,Support Team,11,
+387,Kustomize,DevOps,4,Support Team,11,
+388,Flux,DevOps,4,Support Team,10,
+389,Python,API,3,Support Team,6,
+390,Puppet,Testing,3,Support Team,11,
+391,CloudFront,API,1,Support Team,12,
+392,Ruby,Data,1,Support Team,3,Used by Support Team
+393,Kotlin,API,1,Support Team,7,
+394,Kubernetes,Monitoring,4,Support Team,6,
+395,Lambda,Monitoring,4,Support Team,2,Used by Support Team
+396,C#,Frontend,5,Support Team,10,
+397,Vue.js,Testing,1,Support Team,8,
+398,Go,Monitoring,4,Support Team,4,Used by Support Team
+399,Angular,Backend,3,Support Team,3,
+400,EventBridge,DevOps,1,Support Team,5,
+401,Ansible,DevOps,2,Product Team,11,
+402,Spring Boot,Monitoring,2,Product Team,6,
+403,AWS Lambda,Testing,3,Product Team,3,
+404,WebSockets,Security,5,Product Team,5,
+405,Playwright,Testing,4,Product Team,10,
+406,Django,Data,1,Product Team,6,
+407,Selenium,Testing,2,Product Team,9,
+408,Lambda,DevOps,4,Product Team,3,Used by Product Team
+409,Gin,DevOps,3,Product Team,6,
+410,Haskell,Testing,2,Product Team,9,
+411,X-Ray,Database,1,Product Team,4,
+412,SNS,Backend,2,Product Team,3,
+413,Kubernetes,Backend,1,Product Team,11,
+414,Elixir,Backend,1,Product Team,2,
+415,MongoDB,Cloud,5,Product Team,2,
+416,Echo,Monitoring,1,Product Team,8,Used by Product Team
+417,TestNG,Cloud,4,Product Team,9,
+418,F#,Backend,3,Product Team,7,Used by Product Team
+419,MariaDB,Backend,2,Product Team,4,Used by Product Team
+420,CloudFormation,Database,3,Product Team,8,Used by Product Team
+421,GitLab CI,Frontend,2,Engineering Team,6,
+422,Vue.js,DevOps,2,Engineering Team,12,
+423,GraphQL,Data,1,Engineering Team,11,
+424,AWS Lambda,Cloud,3,Engineering Team,6,
+425,Scala,Cloud,2,Engineering Team,5,Used by Engineering Team
+426,IAM,Data,4,Engineering Team,12,
+427,Kafka,Security,5,Engineering Team,12,
+428,gRPC,Frontend,2,Engineering Team,9,
+429,Kubernetes,Testing,2,Engineering Team,2,Used by Engineering Team
+430,Travis CI,Cloud,1,Engineering Team,3,
+431,Mocha,API,2,Engineering Team,4,Used by Engineering Team
+432,MongoDB,Security,1,Engineering Team,6,
+433,Google Cloud Functions,Cloud,3,Engineering Team,9,Used by Engineering Team
+434,Elixir,Security,1,Engineering Team,3,
+435,S3,Data,1,Engineering Team,3,
+436,Route53,Testing,3,Engineering Team,9,Used by Engineering Team
+437,ELK Stack,Cloud,1,Engineering Team,5,
+438,Angular,Frontend,3,Engineering Team,3,
+439,Postman,Backend,4,Engineering Team,5,
+440,Django,Monitoring,5,Engineering Team,4,
+441,ASP.NET Core,Data,5,Research Team,2,
+442,Gin,Frontend,2,Research Team,6,Used by Research Team
+443,CloudFront,Monitoring,5,Research Team,6,
+444,Step Functions,Data,3,Research Team,4,
+445,GraphQL,Monitoring,1,Research Team,7,Used by Research Team
+446,Vault,DevOps,2,Research Team,4,
+447,Puppet,Backend,4,Research Team,2,
+448,Node.js,DevOps,3,Research Team,10,
+449,Consul,Backend,2,Research Team,11,
+450,SNS,Frontend,5,Research Team,6,
+451,Flask,Database,2,Research Team,6,
+452,Kafka,API,2,Research Team,3,
+453,Elixir,Security,3,Research Team,4,
+454,Cypress,Backend,4,Research Team,4,
+455,EC2,Monitoring,4,Research Team,8,
+456,CouchDB,API,4,Research Team,10,
+457,Go,Database,5,Research Team,2,Used by Research Team
+458,MongoDB,Testing,3,Research Team,2,
+459,Terraform,Database,5,Research Team,6,
+460,Oracle,Monitoring,5,Research Team,6,Used by Research Team
+461,Angular,Data,5,Innovation Team,9,Used by Innovation Team
+462,Clojure,DevOps,1,Innovation Team,2,
+463,Redis,API,4,Innovation Team,10,
+464,SNS,Cloud,1,Innovation Team,11,Used by Innovation Team
+465,EC2,Database,5,Innovation Team,6,
+466,EKS,Security,1,Innovation Team,8,
+467,CloudWatch,DevOps,5,Innovation Team,8,
+468,Ansible,DevOps,5,Innovation Team,9,Used by Innovation Team
+469,Express.js,Security,5,Innovation Team,9,
+470,JUnit,Testing,3,Innovation Team,2,Used by Innovation Team
+471,Kubernetes,Data,3,Innovation Team,11,Used by Innovation Team
+472,Travis CI,Testing,1,Innovation Team,11,
+473,New Relic,Data,5,Innovation Team,8,Used by Innovation Team
+474,Linkerd,API,4,Innovation Team,3,
+475,Google Cloud Functions,Monitoring,5,Innovation Team,11,
+476,DynamoDB,Security,3,Innovation Team,9,
+477,Consul,Data,4,Innovation Team,2,
+478,Vue.js,API,1,Innovation Team,9,
+479,Helm,Backend,5,Innovation Team,4,Used by Innovation Team
+480,GitLab CI,Testing,5,Innovation Team,6,
+481,SNS,Backend,5,Automation Team,7,Used by Automation Team
+482,AWS Lambda,API,5,Automation Team,12,Used by Automation Team
+483,Elasticsearch,Security,5,Automation Team,3,
+484,Google Cloud Functions,Testing,1,Automation Team,11,
+485,Django,Database,3,Automation Team,8,
+486,Grafana,Cloud,2,Automation Team,10,Used by Automation Team
+487,PostgreSQL,API,2,Automation Team,6,
+488,S3,Backend,3,Automation Team,9,Used by Automation Team
+489,Jenkins,Cloud,4,Automation Team,3,
+490,ASP.NET Core,Cloud,4,Automation Team,9,Used by Automation Team
+491,Lambda,Cloud,5,Automation Team,2,
+492,Cypress,DevOps,4,Automation Team,7,
+493,Mocha,Cloud,3,Automation Team,9,Used by Automation Team
+494,ArgoCD,Cloud,4,Automation Team,5,
+495,Flask,Monitoring,3,Automation Team,6,
+496,ECS,Backend,5,Automation Team,7,
+497,Flux,Monitoring,4,Automation Team,2,
+498,MongoDB,API,4,Automation Team,12,
+499,Kafka,API,5,Automation Team,2,Used by Automation Team
+500,Istio,Cloud,1,Automation Team,4,Used by Automation Team
+501,IAM,Database,2,Reliability Team,5,Used by Reliability Team
+502,ELK Stack,API,4,Reliability Team,3,
+503,CloudWatch,Frontend,2,Reliability Team,5,
+504,Route53,Testing,2,Reliability Team,9,Used by Reliability Team
+505,Gin,DevOps,5,Reliability Team,7,Used by Reliability Team
+506,Haskell,Testing,3,Reliability Team,12,
+507,JavaScript,DevOps,3,Reliability Team,7,
+508,Helm,Database,5,Reliability Team,8,Used by Reliability Team
+509,X-Ray,DevOps,2,Reliability Team,5,
+510,API Gateway,API,2,Reliability Team,11,
+511,CloudFront,DevOps,1,Reliability Team,11,
+512,ECS,DevOps,2,Reliability Team,9,
+513,ArgoCD,Cloud,3,Reliability Team,7,
+514,Go,Testing,3,Reliability Team,7,
+515,PostgreSQL,Backend,2,Reliability Team,2,
+516,EC2,Data,4,Reliability Team,2,
+517,Jest,Database,1,Reliability Team,10,
+518,CircleCI,Security,5,Reliability Team,7,
+519,Java,Database,2,Reliability Team,11,
+520,SQS,Monitoring,1,Reliability Team,4,Used by Reliability Team
+521,GraphQL,API,3,Observability Team,12,
+522,Echo,Database,4,Observability Team,6,
+523,Cypress,Cloud,2,Observability Team,3,
+524,Gin,Monitoring,5,Observability Team,7,
+525,Java,Security,5,Observability Team,7,
+526,Jest,Frontend,3,Observability Team,2,
+527,Swift,Security,1,Observability Team,8,
+528,Kotlin,DevOps,1,Observability Team,4,
+529,CloudFront,Data,5,Observability Team,7,
+530,WebSockets,API,2,Observability Team,5,Used by Observability Team
+531,Lambda,Frontend,1,Observability Team,5,
+532,DynamoDB,Security,4,Observability Team,7,
+533,Linkerd,Frontend,3,Observability Team,7,
+534,Istio,Testing,4,Observability Team,7,Used by Observability Team
+535,REST API,Frontend,5,Observability Team,12,
+536,Puppet,Frontend,5,Observability Team,7,
+537,Mocha,Frontend,5,Observability Team,10,Used by Observability Team
+538,EC2,Monitoring,4,Observability Team,2,Used by Observability Team
+539,CloudFormation,Frontend,5,Observability Team,4,
+540,New Relic,Data,2,Observability Team,4,
+541,ArgoCD,Monitoring,1,Network Team,2,
+542,Terraform,Monitoring,4,Network Team,10,
+543,Python,Data,1,Network Team,5,
+544,JUnit,Data,5,Network Team,11,
+545,ActiveMQ,Frontend,1,Network Team,5,
+546,gRPC,Database,1,Network Team,11,
+547,PyTest,Cloud,3,Network Team,12,Used by Network Team
+548,ELK Stack,Frontend,4,Network Team,3,
+549,CircleCI,Cloud,1,Network Team,12,
+550,Oracle,Cloud,1,Network Team,5,
+551,Spring Boot,Database,5,Network Team,5,
+552,Django,Monitoring,5,Network Team,4,Used by Network Team
+553,Vault,Cloud,4,Network Team,8,
+554,React,API,2,Network Team,10,
+555,Splunk,Security,5,Network Team,9,
+556,Scala,DevOps,1,Network Team,11,
+557,Gin,Testing,1,Network Team,10,
+558,Travis CI,Monitoring,4,Network Team,3,
+559,Consul,DevOps,3,Network Team,10,
+560,SonarQube,Security,4,Network Team,6,Used by Network Team
+561,Java,Frontend,5,Storage Team,8,Used by Storage Team
+562,RabbitMQ,Frontend,3,Storage Team,8,
+563,Ruby on Rails,API,1,Storage Team,2,
+564,Cognito,Testing,2,Storage Team,3,
+565,TypeScript,Frontend,4,Storage Team,7,
+566,Spring Boot,Backend,4,Storage Team,11,
+567,Postman,Frontend,3,Storage Team,12,
+568,CircleCI,Data,1,Storage Team,12,
+569,Redis,Database,4,Storage Team,2,
+570,Splunk,Frontend,1,Storage Team,2,
+571,IAM,Backend,2,Storage Team,2,Used by Storage Team
+572,Chef,Frontend,3,Storage Team,12,
+573,Kafka,DevOps,5,Storage Team,5,
+574,Consul,Cloud,2,Storage Team,7,
+575,JavaScript,Database,3,Storage Team,12,Used by Storage Team
+576,Cucumber,Testing,2,Storage Team,9,
+577,Route53,Database,2,Storage Team,8,
+578,Laravel,Monitoring,2,Storage Team,11,
+579,Step Functions,Cloud,1,Storage Team,3,Used by Storage Team
+580,Gin,Cloud,3,Storage Team,8,
+581,Vault,Monitoring,4,Compute Team,9,
+582,Swift,Data,1,Compute Team,10,Used by Compute Team
+583,Prometheus,Security,2,Compute Team,11,
+584,PostgreSQL,Monitoring,1,Compute Team,9,Used by Compute Team
+585,CouchDB,Data,1,Compute Team,4,
+586,EC2,Security,3,Compute Team,5,Used by Compute Team
+587,CloudFormation,Data,1,Compute Team,4,
+588,F#,Data,4,Compute Team,8,
+589,Redis,API,5,Compute Team,2,Used by Compute Team
+590,PyTest,Cloud,2,Compute Team,11,
+591,Kafka,Database,5,Compute Team,3,
+592,Terraform,Monitoring,3,Compute Team,5,
+593,Puppet,Security,3,Compute Team,6,
+594,Clojure,Security,4,Compute Team,8,
+595,ECS,Testing,1,Compute Team,3,
+596,TestNG,Database,1,Compute Team,2,Used by Compute Team
+597,RSpec,Database,5,Compute Team,10,
+598,gRPC,DevOps,1,Compute Team,5,
+599,Splunk,Cloud,3,Compute Team,12,
+600,JavaScript,Security,4,Compute Team,7,Used by Compute Team
+601,Django,DevOps,4,AI/ML Team,5,
+602,Istio,Backend,5,AI/ML Team,4,
+603,Helm,API,4,AI/ML Team,9,Used by AI/ML Team
+604,CouchDB,Frontend,4,AI/ML Team,4,
+605,Oracle,Backend,4,AI/ML Team,9,
+606,GitHub Actions,Database,3,AI/ML Team,8,
+607,EventBridge,DevOps,3,AI/ML Team,12,Used by AI/ML Team
+608,RSpec,Testing,5,AI/ML Team,8,
+609,AWS Lambda,Database,3,AI/ML Team,12,Used by AI/ML Team
+610,SonarQube,Database,3,AI/ML Team,6,
+611,Scala,Data,2,AI/ML Team,3,
+612,Playwright,DevOps,2,AI/ML Team,12,
+613,IAM,Monitoring,2,AI/ML Team,11,Used by AI/ML Team
+614,Gin,API,3,AI/ML Team,4,
+615,Vault,Monitoring,4,AI/ML Team,11,Used by AI/ML Team
+616,MongoDB,Testing,5,AI/ML Team,3,
+617,Docker,Backend,2,AI/ML Team,8,
+618,MariaDB,DevOps,1,AI/ML Team,9,Used by AI/ML Team
+619,WebSockets,Frontend,2,AI/ML Team,2,Used by AI/ML Team
+620,Python,DevOps,5,AI/ML Team,9,
+621,Flux,Database,5,Data Science Team,2,Used by Data Science Team
+622,JavaScript,Cloud,3,Data Science Team,6,
+623,gRPC,Backend,4,Data Science Team,7,
+624,Cypress,Backend,4,Data Science Team,6,
+625,FastAPI,DevOps,5,Data Science Team,6,Used by Data Science Team
+626,ActiveMQ,Testing,4,Data Science Team,12,
+627,MariaDB,Security,3,Data Science Team,3,
+628,Express.js,Database,2,Data Science Team,6,
+629,Kafka,Testing,3,Data Science Team,3,
+630,Google Cloud Functions,API,2,Data Science Team,12,
+631,MongoDB,Testing,1,Data Science Team,8,Used by Data Science Team
+632,CloudFormation,Testing,4,Data Science Team,8,
+633,Django,Security,1,Data Science Team,11,
+634,Elasticsearch,Frontend,5,Data Science Team,4,Used by Data Science Team
+635,Istio,API,5,Data Science Team,8,
+636,Swift,Monitoring,4,Data Science Team,11,Used by Data Science Team
+637,Clojure,Monitoring,1,Data Science Team,5,
+638,Chef,Database,4,Data Science Team,6,Used by Data Science Team
+639,Lambda,API,2,Data Science Team,4,Used by Data Science Team
+640,Helm,Cloud,4,Data Science Team,12,
+641,Postman,Backend,4,Business Intelligence Team,6,
+642,Kustomize,Backend,2,Business Intelligence Team,12,
+643,PHP,Backend,2,Business Intelligence Team,6,
+644,X-Ray,Data,4,Business Intelligence Team,3,
+645,Helm,Cloud,5,Business Intelligence Team,4,
+646,Cucumber,DevOps,3,Business Intelligence Team,9,Used by Business Intelligence Team
+647,SQS,DevOps,5,Business Intelligence Team,7,
+648,C#,Security,5,Business Intelligence Team,2,
+649,ELK Stack,API,2,Business Intelligence Team,11,
+650,RabbitMQ,Backend,2,Business Intelligence Team,7,Used by Business Intelligence Team
+651,Azure Functions,Cloud,3,Business Intelligence Team,6,Used by Business Intelligence Team
+652,CloudFormation,Testing,5,Business Intelligence Team,2,
+653,Route53,Data,1,Business Intelligence Team,12,Used by Business Intelligence Team
+654,React,Monitoring,1,Business Intelligence Team,10,
+655,Step Functions,Testing,5,Business Intelligence Team,12,Used by Business Intelligence Team
+656,API Gateway,Monitoring,3,Business Intelligence Team,2,Used by Business Intelligence Team
+657,Datadog,Frontend,3,Business Intelligence Team,2,
+658,Neo4j,Backend,1,Business Intelligence Team,12,Used by Business Intelligence Team
+659,MySQL,Cloud,5,Business Intelligence Team,6,
+660,Java,Backend,3,Business Intelligence Team,8,Used by Business Intelligence Team
+661,Clojure,API,2,ETL Team,5,
+662,C#,Database,4,ETL Team,2,
+663,Travis CI,DevOps,1,ETL Team,9,Used by ETL Team
+664,Mocha,Security,3,ETL Team,11,
+665,Datadog,Testing,5,ETL Team,12,Used by ETL Team
+666,Redis,Cloud,3,ETL Team,8,
+667,Route53,Frontend,1,ETL Team,4,Used by ETL Team
+668,Spring Boot,Cloud,1,ETL Team,10,Used by ETL Team
+669,Chef,Monitoring,5,ETL Team,9,Used by ETL Team
+670,GitLab CI,API,3,ETL Team,2,
+671,JavaScript,Frontend,3,ETL Team,4,
+672,Linkerd,Testing,2,ETL Team,2,
+673,New Relic,Database,1,ETL Team,8,
+674,React,Security,1,ETL Team,10,
+675,GitHub Actions,Data,2,ETL Team,9,
+676,Consul,Monitoring,4,ETL Team,3,
+677,ArgoCD,Data,4,ETL Team,6,Used by ETL Team
+678,gRPC,Testing,5,ETL Team,3,
+679,SQS,DevOps,4,ETL Team,5,
+680,Python,DevOps,3,ETL Team,11,
+681,Spring Boot,Monitoring,5,Streaming Team,3,Used by Streaming Team
+682,Elixir,Frontend,1,Streaming Team,10,
+683,Grafana,Frontend,4,Streaming Team,8,
+684,PHP,Cloud,1,Streaming Team,12,
+685,TypeScript,Data,3,Streaming Team,6,Used by Streaming Team
+686,Scala,Frontend,2,Streaming Team,4,
+687,Rust,Security,2,Streaming Team,3,Used by Streaming Team
+688,JUnit,Backend,2,Streaming Team,4,Used by Streaming Team
+689,GraphQL,DevOps,3,Streaming Team,4,
+690,CouchDB,Data,1,Streaming Team,11,
+691,ELK Stack,Database,4,Streaming Team,10,
+692,Consul,DevOps,4,Streaming Team,6,Used by Streaming Team
+693,Lambda,Testing,3,Streaming Team,2,
+694,Step Functions,Backend,5,Streaming Team,12,
+695,Playwright,Monitoring,5,Streaming Team,12,
+696,TestNG,API,2,Streaming Team,7,
+697,EKS,DevOps,4,Streaming Team,8,
+698,Laravel,API,2,Streaming Team,6,
+699,Ruby,DevOps,4,Streaming Team,11,
+700,Datadog,Testing,1,Streaming Team,10,
+701,CouchDB,Testing,1,Batch Processing Team,11,
+702,Grafana,Security,1,Batch Processing Team,8,
+703,FastAPI,Monitoring,5,Batch Processing Team,8,
+704,S3,Monitoring,3,Batch Processing Team,3,Used by Batch Processing Team
+705,Kotlin,Monitoring,4,Batch Processing Team,7,
+706,Vue.js,Security,4,Batch Processing Team,7,
+707,Cognito,Cloud,4,Batch Processing Team,4,
+708,Jest,DevOps,2,Batch Processing Team,12,
+709,Flask,Database,3,Batch Processing Team,8,Used by Batch Processing Team
+710,CloudFront,Security,4,Batch Processing Team,12,Used by Batch Processing Team
+711,GraphQL,API,2,Batch Processing Team,5,
+712,Cucumber,Database,1,Batch Processing Team,9,Used by Batch Processing Team
+713,Mocha,Security,1,Batch Processing Team,11,
+714,C#,Data,2,Batch Processing Team,6,Used by Batch Processing Team
+715,CloudWatch,Cloud,5,Batch Processing Team,2,
+716,Linkerd,Data,2,Batch Processing Team,6,
+717,F#,Data,3,Batch Processing Team,7,
+718,Step Functions,DevOps,2,Batch Processing Team,6,Used by Batch Processing Team
+719,Express.js,Security,2,Batch Processing Team,9,
+720,Laravel,Data,4,Batch Processing Team,4,
+721,Scala,Database,3,Real-time Team,5,Used by Real-time Team
+722,WebSockets,Security,5,Real-time Team,4,Used by Real-time Team
+723,Playwright,Cloud,4,Real-time Team,6,
+724,Datadog,Monitoring,4,Real-time Team,8,
+725,Docker,Security,3,Real-time Team,10,Used by Real-time Team
+726,GraphQL,Data,3,Real-time Team,2,
+727,MariaDB,API,5,Real-time Team,6,
+728,GitHub Actions,Data,1,Real-time Team,9,Used by Real-time Team
+729,Haskell,Data,2,Real-time Team,9,Used by Real-time Team
+730,RabbitMQ,Frontend,4,Real-time Team,5,Used by Real-time Team
+731,Postman,Frontend,4,Real-time Team,5,
+732,Echo,Data,2,Real-time Team,2,
+733,Vue.js,Cloud,1,Real-time Team,6,
+734,Express.js,Cloud,2,Real-time Team,10,Used by Real-time Team
+735,Prometheus,Cloud,3,Real-time Team,4,Used by Real-time Team
+736,Consul,Frontend,5,Real-time Team,12,
+737,Ansible,API,1,Real-time Team,7,Used by Real-time Team
+738,CloudFront,DevOps,1,Real-time Team,12,
+739,Lambda,Cloud,1,Real-time Team,4,
+740,ELK Stack,Frontend,5,Real-time Team,12,Used by Real-time Team
+741,Neo4j,Frontend,3,Microservices Team,5,
+742,PostgreSQL,Testing,3,Microservices Team,11,
+743,Postman,API,2,Microservices Team,12,Used by Microservices Team
+744,Laravel,Database,2,Microservices Team,5,
+745,Prometheus,Monitoring,2,Microservices Team,4,Used by Microservices Team
+746,Kotlin,Testing,3,Microservices Team,11,Used by Microservices Team
+747,RSpec,API,5,Microservices Team,11,
+748,Docker,Cloud,2,Microservices Team,3,
+749,New Relic,Database,4,Microservices Team,5,
+750,React,Security,4,Microservices Team,11,
+751,Route53,Monitoring,3,Microservices Team,8,
+752,gRPC,Monitoring,1,Microservices Team,9,
+753,Chef,Backend,3,Microservices Team,6,Used by Microservices Team
+754,GitLab CI,Database,1,Microservices Team,9,Used by Microservices Team
+755,CouchDB,Frontend,3,Microservices Team,7,
+756,SQL Server,Data,3,Microservices Team,8,
+757,C#,Backend,1,Microservices Team,10,Used by Microservices Team
+758,PHP,API,1,Microservices Team,9,Used by Microservices Team
+759,TypeScript,Database,3,Microservices Team,11,
+760,Ruby on Rails,Monitoring,2,Microservices Team,4,
+761,Travis CI,Testing,5,Monolith Team,11,
+762,MongoDB,Security,5,Monolith Team,5,Used by Monolith Team
+763,FastAPI,Database,1,Monolith Team,4,Used by Monolith Team
+764,Laravel,Data,3,Monolith Team,5,
+765,Istio,Frontend,4,Monolith Team,2,
+766,Go,Testing,5,Monolith Team,5,Used by Monolith Team
+767,Elasticsearch,Frontend,5,Monolith Team,10,
+768,Fargate,Monitoring,3,Monolith Team,6,
+769,SNS,Data,2,Monolith Team,6,
+770,Route53,Database,2,Monolith Team,4,
+771,Grafana,Security,5,Monolith Team,5,
+772,Flux,Backend,1,Monolith Team,12,
+773,Express.js,Backend,4,Monolith Team,12,Used by Monolith Team
+774,Angular,Cloud,1,Monolith Team,9,
+775,Flask,Monitoring,2,Monolith Team,9,
+776,Cucumber,Cloud,2,Monolith Team,6,Used by Monolith Team
+777,Mocha,Testing,2,Monolith Team,5,
+778,CircleCI,Security,2,Monolith Team,6,Used by Monolith Team
+779,Puppet,API,3,Monolith Team,12,
+780,Step Functions,API,4,Monolith Team,11,
+781,Scala,Database,4,Legacy Team,2,Used by Legacy Team
+782,Express.js,Backend,1,Legacy Team,11,Used by Legacy Team
+783,Lambda,API,5,Legacy Team,2,Used by Legacy Team
+784,Docker,Database,3,Legacy Team,9,Used by Legacy Team
+785,RSpec,DevOps,1,Legacy Team,7,
+786,Datadog,API,1,Legacy Team,7,
+787,Prometheus,API,4,Legacy Team,6,
+788,Selenium,API,3,Legacy Team,7,Used by Legacy Team
+789,Spring Boot,Monitoring,5,Legacy Team,6,
+790,GitLab CI,Security,5,Legacy Team,3,
+791,S3,Data,5,Legacy Team,11,
+792,Helm,Frontend,5,Legacy Team,4,
+793,RabbitMQ,Data,4,Legacy Team,6,Used by Legacy Team
+794,Istio,API,4,Legacy Team,12,
+795,Cognito,API,1,Legacy Team,2,
+796,Kotlin,Data,1,Legacy Team,9,
+797,Go,Testing,3,Legacy Team,10,
+798,EKS,Data,2,Legacy Team,4,Used by Legacy Team
+799,CloudWatch,API,2,Legacy Team,7,Used by Legacy Team
+800,Cassandra,API,3,Legacy Team,9,
+801,ActiveMQ,Database,1,Modernization Team,10,
+802,Kustomize,DevOps,2,Modernization Team,5,
+803,Cognito,Frontend,1,Modernization Team,6,
+804,Route53,Frontend,5,Modernization Team,3,Used by Modernization Team
+805,SonarQube,Cloud,5,Modernization Team,7,
+806,SQS,API,3,Modernization Team,2,
+807,Linkerd,Security,2,Modernization Team,8,Used by Modernization Team
+808,Jenkins,Frontend,1,Modernization Team,2,
+809,Azure Functions,Testing,5,Modernization Team,12,
+810,TestNG,Data,3,Modernization Team,9,Used by Modernization Team
+811,Cassandra,Testing,4,Modernization Team,12,Used by Modernization Team
+812,JavaScript,Backend,1,Modernization Team,7,Used by Modernization Team
+813,Puppet,API,3,Modernization Team,10,Used by Modernization Team
+814,CouchDB,Testing,5,Modernization Team,8,
+815,Redis,Frontend,2,Modernization Team,4,
+816,Elixir,Frontend,5,Modernization Team,2,
+817,TypeScript,Database,3,Modernization Team,9,Used by Modernization Team
+818,ELK Stack,DevOps,3,Modernization Team,8,Used by Modernization Team
+819,Helm,Monitoring,1,Modernization Team,2,
+820,Ansible,Database,1,Modernization Team,2,
+821,CircleCI,Database,5,Migration Team,3,
+822,JavaScript,Cloud,3,Migration Team,12,Used by Migration Team
+823,ECS,Database,1,Migration Team,2,Used by Migration Team
+824,Playwright,Frontend,3,Migration Team,3,
+825,RSpec,Backend,2,Migration Team,11,Used by Migration Team
+826,Kustomize,Frontend,3,Migration Team,12,
+827,Elixir,Backend,3,Migration Team,7,
+828,Django,Backend,1,Migration Team,12,
+829,TestNG,Security,1,Migration Team,5,
+830,REST API,Monitoring,3,Migration Team,11,
+831,EventBridge,Database,4,Migration Team,7,
+832,Haskell,DevOps,4,Migration Team,11,
+833,Chef,Cloud,4,Migration Team,5,Used by Migration Team
+834,Laravel,Testing,4,Migration Team,5,
+835,Jenkins,Frontend,5,Migration Team,2,
+836,New Relic,Security,5,Migration Team,7,
+837,RabbitMQ,Data,4,Migration Team,6,
+838,IAM,Testing,3,Migration Team,10,Used by Migration Team
+839,Kafka,DevOps,1,Migration Team,2,
+840,Elasticsearch,Data,2,Migration Team,2,Used by Migration Team
+841,Ruby,Security,3,Transformation Team,5,
+842,Jest,API,2,Transformation Team,11,Used by Transformation Team
+843,Azure Functions,Cloud,5,Transformation Team,10,Used by Transformation Team
+844,RabbitMQ,Cloud,1,Transformation Team,4,
+845,Istio,Backend,4,Transformation Team,9,
+846,ActiveMQ,Security,3,Transformation Team,12,
+847,SQS,API,2,Transformation Team,12,Used by Transformation Team
+848,Selenium,Security,3,Transformation Team,2,Used by Transformation Team
+849,SNS,Frontend,3,Transformation Team,5,
+850,CircleCI,Cloud,3,Transformation Team,3,
+851,Puppet,Backend,4,Transformation Team,8,Used by Transformation Team
+852,Scala,Database,2,Transformation Team,3,Used by Transformation Team
+853,ECS,Cloud,1,Transformation Team,5,
+854,Ansible,Backend,2,Transformation Team,4,
+855,AWS Lambda,Database,4,Transformation Team,8,
+856,Spring Boot,Cloud,4,Transformation Team,5,
+857,Step Functions,Security,5,Transformation Team,3,Used by Transformation Team
+858,JUnit,Testing,4,Transformation Team,9,Used by Transformation Team
+859,Swift,Data,2,Transformation Team,10,Used by Transformation Team
+860,Python,Monitoring,5,Transformation Team,7,Used by Transformation Team
+861,Travis CI,Data,2,Digital Team,7,
+862,FastAPI,Monitoring,1,Digital Team,11,Used by Digital Team
+863,Grafana,Testing,4,Digital Team,8,
+864,Neo4j,API,3,Digital Team,8,Used by Digital Team
+865,TestNG,Monitoring,1,Digital Team,3,
+866,EC2,Security,3,Digital Team,3,
+867,EventBridge,Monitoring,5,Digital Team,2,
+868,DynamoDB,Data,1,Digital Team,4,Used by Digital Team
+869,ELK Stack,Data,2,Digital Team,2,Used by Digital Team
+870,Azure Functions,Backend,1,Digital Team,10,Used by Digital Team
+871,GitHub Actions,Database,3,Digital Team,2,
+872,IAM,Cloud,3,Digital Team,9,
+873,TypeScript,API,4,Digital Team,3,Used by Digital Team
+874,Flask,Testing,3,Digital Team,2,
+875,MongoDB,Testing,2,Digital Team,5,
+876,JavaScript,Cloud,2,Digital Team,5,
+877,Route53,Cloud,2,Digital Team,3,
+878,RSpec,Backend,5,Digital Team,7,
+879,Echo,Data,5,Digital Team,10,Used by Digital Team
+880,Mocha,DevOps,5,Digital Team,8,
+881,PHP,Database,4,Customer Experience Team,8,
+882,Google Cloud Functions,API,5,Customer Experience Team,10,Used by Customer Experience Team
+883,CloudFormation,Backend,4,Customer Experience Team,9,Used by Customer Experience Team
+884,New Relic,API,5,Customer Experience Team,3,
+885,RSpec,Security,3,Customer Experience Team,4,Used by Customer Experience Team
+886,Linkerd,DevOps,3,Customer Experience Team,12,
+887,RabbitMQ,Database,1,Customer Experience Team,5,Used by Customer Experience Team
+888,Terraform,Security,2,Customer Experience Team,10,
+889,Cucumber,Security,5,Customer Experience Team,8,
+890,SQL Server,Monitoring,5,Customer Experience Team,10,Used by Customer Experience Team
+891,Selenium,Testing,3,Customer Experience Team,6,Used by Customer Experience Team
+892,Swift,Monitoring,5,Customer Experience Team,5,
+893,ECS,Testing,5,Customer Experience Team,8,
+894,Elixir,Testing,3,Customer Experience Team,3,
+895,EventBridge,API,3,Customer Experience Team,7,Used by Customer Experience Team
+896,ASP.NET Core,Database,4,Customer Experience Team,10,
+897,Azure Functions,Frontend,2,Customer Experience Team,8,Used by Customer Experience Team
+898,ELK Stack,DevOps,5,Customer Experience Team,11,
+899,Spring Boot,Database,3,Customer Experience Team,8,Used by Customer Experience Team
+900,Haskell,API,2,Customer Experience Team,5,Used by Customer Experience Team
+901,CloudFormation,Data,4,Partner Integration Team,6,
+902,Kotlin,Testing,2,Partner Integration Team,3,
+903,CircleCI,Cloud,4,Partner Integration Team,4,
+904,Consul,DevOps,5,Partner Integration Team,12,
+905,Vault,Cloud,5,Partner Integration Team,10,Used by Partner Integration Team
+906,Cypress,API,1,Partner Integration Team,5,
+907,AWS Lambda,Backend,2,Partner Integration Team,7,Used by Partner Integration Team
+908,Selenium,Database,1,Partner Integration Team,10,
+909,MariaDB,Database,3,Partner Integration Team,2,
+910,Clojure,Backend,1,Partner Integration Team,6,
+911,MongoDB,Security,1,Partner Integration Team,8,
+912,CouchDB,Database,3,Partner Integration Team,6,
+913,Fargate,Monitoring,1,Partner Integration Team,7,Used by Partner Integration Team
+914,SonarQube,DevOps,4,Partner Integration Team,4,Used by Partner Integration Team
+915,Kustomize,Data,2,Partner Integration Team,3,
+916,Azure Functions,Cloud,3,Partner Integration Team,10,
+917,ArgoCD,API,3,Partner Integration Team,9,
+918,IAM,Backend,3,Partner Integration Team,12,Used by Partner Integration Team
+919,GraphQL,Database,1,Partner Integration Team,10,Used by Partner Integration Team
+920,Mocha,Testing,2,Partner Integration Team,5,
+921,Rust,Database,5,Vendor Management Team,9,Used by Vendor Management Team
+922,SQL Server,Frontend,1,Vendor Management Team,12,
+923,Cucumber,Frontend,5,Vendor Management Team,3,
+924,Neo4j,Data,2,Vendor Management Team,7,
+925,Route53,Backend,3,Vendor Management Team,7,
+926,MariaDB,Data,2,Vendor Management Team,11,
+927,PyTest,Security,5,Vendor Management Team,8,
+928,Go,Database,5,Vendor Management Team,8,
+929,Vault,API,2,Vendor Management Team,6,
+930,Helm,Testing,3,Vendor Management Team,10,Used by Vendor Management Team
+931,ActiveMQ,Monitoring,4,Vendor Management Team,3,Used by Vendor Management Team
+932,Spring Boot,Cloud,3,Vendor Management Team,11,
+933,Kotlin,Monitoring,1,Vendor Management Team,2,
+934,Oracle,API,3,Vendor Management Team,11,
+935,Jest,Testing,2,Vendor Management Team,10,Used by Vendor Management Team
+936,Jenkins,Data,5,Vendor Management Team,4,
+937,Python,Security,3,Vendor Management Team,10,
+938,Kubernetes,Frontend,5,Vendor Management Team,3,Used by Vendor Management Team
+939,Travis CI,API,3,Vendor Management Team,7,
+940,REST API,Frontend,2,Vendor Management Team,10,
+941,PHP,DevOps,1,Procurement Team,3,
+942,F#,API,3,Procurement Team,2,
+943,Cypress,Cloud,2,Procurement Team,10,
+944,Consul,Database,2,Procurement Team,8,
+945,CloudFront,Database,3,Procurement Team,7,
+946,Python,Frontend,4,Procurement Team,6,
+947,Azure Functions,Database,2,Procurement Team,6,
+948,Jest,DevOps,1,Procurement Team,7,Used by Procurement Team
+949,Laravel,Backend,5,Procurement Team,5,
+950,GitLab CI,Testing,1,Procurement Team,12,
+951,SQL Server,Data,1,Procurement Team,8,Used by Procurement Team
+952,Echo,Security,1,Procurement Team,8,Used by Procurement Team
+953,GraphQL,Security,3,Procurement Team,11,Used by Procurement Team
+954,Scala,Security,5,Procurement Team,5,
+955,Mocha,Data,4,Procurement Team,10,
+956,MySQL,Frontend,3,Procurement Team,3,
+957,Redis,Monitoring,1,Procurement Team,2,
+958,Selenium,Testing,2,Procurement Team,10,
+959,Ruby on Rails,Security,2,Procurement Team,4,
+960,FastAPI,Backend,2,Procurement Team,2,
+961,Spring Boot,Testing,5,Finance Tech Team,7,Used by Finance Tech Team
+962,CouchDB,Testing,5,Finance Tech Team,7,
+963,Linkerd,Data,5,Finance Tech Team,11,
+964,Jest,API,4,Finance Tech Team,2,Used by Finance Tech Team
+965,Istio,Testing,1,Finance Tech Team,5,Used by Finance Tech Team
+966,Cognito,Monitoring,3,Finance Tech Team,7,
+967,Flask,API,5,Finance Tech Team,3,
+968,IAM,DevOps,1,Finance Tech Team,9,
+969,TestNG,API,5,Finance Tech Team,10,
+970,Swift,DevOps,3,Finance Tech Team,2,Used by Finance Tech Team
+971,GitHub Actions,Security,2,Finance Tech Team,4,
+972,CloudFormation,Data,3,Finance Tech Team,10,
+973,Google Cloud Functions,DevOps,4,Finance Tech Team,7,Used by Finance Tech Team
+974,Kotlin,DevOps,2,Finance Tech Team,12,
+975,C#,Security,2,Finance Tech Team,6,Used by Finance Tech Team
+976,Laravel,Testing,3,Finance Tech Team,7,Used by Finance Tech Team
+977,Jenkins,Frontend,2,Finance Tech Team,5,
+978,Terraform,DevOps,2,Finance Tech Team,6,
+979,Playwright,Monitoring,1,Finance Tech Team,2,
+980,Kustomize,Database,1,Finance Tech Team,4,
+981,Grafana,Monitoring,1,HR Tech Team,7,
+982,CloudWatch,Cloud,3,HR Tech Team,8,
+983,Kotlin,Testing,5,HR Tech Team,8,Used by HR Tech Team
+984,ASP.NET Core,Monitoring,2,HR Tech Team,2,
+985,S3,Security,3,HR Tech Team,8,
+986,Vue.js,DevOps,5,HR Tech Team,12,Used by HR Tech Team
+987,CouchDB,Backend,5,HR Tech Team,11,
+988,Elixir,DevOps,1,HR Tech Team,12,
+989,Fargate,Data,2,HR Tech Team,5,
+990,PyTest,Monitoring,3,HR Tech Team,2,
+991,Kafka,Security,4,HR Tech Team,3,
+992,Go,Cloud,3,HR Tech Team,12,
+993,Node.js,Security,5,HR Tech Team,6,
+994,Consul,API,2,HR Tech Team,9,Used by HR Tech Team
+995,Selenium,API,2,HR Tech Team,3,
+996,Angular,Security,2,HR Tech Team,9,Used by HR Tech Team
+997,Redis,Database,1,HR Tech Team,12,
+998,Chef,Data,4,HR Tech Team,2,
+999,Scala,Testing,2,HR Tech Team,4,Used by HR Tech Team
+1000,Lambda,Database,2,HR Tech Team,7,Used by HR Tech Team
+1001,CircleCI,DevOps,3,Legal Tech Team,7,Used by Legal Tech Team
+1002,Clojure,Frontend,3,Legal Tech Team,10,
+1003,GitLab CI,Security,1,Legal Tech Team,3,Used by Legal Tech Team
+1004,Rust,Cloud,4,Legal Tech Team,4,
+1005,Consul,Database,5,Legal Tech Team,11,Used by Legal Tech Team
+1006,Istio,Cloud,5,Legal Tech Team,12,
+1007,TypeScript,DevOps,5,Legal Tech Team,11,
+1008,Chef,Data,2,Legal Tech Team,2,
+1009,FastAPI,Data,3,Legal Tech Team,8,
+1010,Oracle,DevOps,1,Legal Tech Team,3,
+1011,Docker,Database,1,Legal Tech Team,11,
+1012,CloudFormation,Backend,2,Legal Tech Team,10,
+1013,SonarQube,DevOps,4,Legal Tech Team,10,
+1014,C#,Cloud,4,Legal Tech Team,12,Used by Legal Tech Team
+1015,Jenkins,Data,3,Legal Tech Team,8,Used by Legal Tech Team
+1016,ASP.NET Core,Security,1,Legal Tech Team,6,
+1017,Kustomize,DevOps,1,Legal Tech Team,9,
+1018,REST API,API,5,Legal Tech Team,12,Used by Legal Tech Team
+1019,Mocha,Monitoring,2,Legal Tech Team,6,
+1020,Kafka,Cloud,4,Legal Tech Team,8,

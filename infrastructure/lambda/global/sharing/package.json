@@ -1,0 +1,12 @@
+{
+  "name": "app-modex-sharing",
+  "version": "1.0.0",
+  "description": "App-ModEx Sharing Lambda Function",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.1450.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

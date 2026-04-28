@@ -1,0 +1,12 @@
+{
+  "name": "app-modex-get-application-details",
+  "version": "1.0.0",
+  "description": "Lambda function to get application details",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-athena": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "app-modex-athena-lookup-service",
+  "version": "1.0.0",
+  "description": "Single Athena query to validate all unique values across all column types",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-athena": "^3.700.0"
+  }
+}

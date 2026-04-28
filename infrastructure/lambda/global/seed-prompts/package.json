@@ -1,0 +1,10 @@
+{
+  "name": "app-modex-seed-prompts",
+  "version": "1.0.0",
+  "description": "Seed prompts for App-ModEx Prompt Templates table",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.0.0",
+    "@aws-sdk/lib-dynamodb": "^3.0.0"
+  }
+}

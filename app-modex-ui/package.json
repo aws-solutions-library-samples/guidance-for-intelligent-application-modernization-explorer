@@ -1,0 +1,63 @@
+{
+  "name": "app-modex-ui",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "dependencies": {
+    "@aws-amplify/ui-react": "^6.11.2",
+    "@aws-sdk/client-dynamodb": "^3.540.0",
+    "@aws-sdk/client-s3": "^3.540.0",
+    "@aws-sdk/lib-dynamodb": "^3.540.0",
+    "@cloudscape-design/components": "^3.0.979",
+    "@cloudscape-design/global-styles": "^1.0.44",
+    "aws-amplify": "^6.15.2",
+    "d3": "^7.9.0",
+    "html-webpack-plugin": "^5.6.0",
+    "i18next": "^23.7.16",
+    "prop-types": "^15.8.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-i18next": "^14.0.0",
+    "react-router-dom": "^7.6.1",
+    "react-scripts": "5.0.1",
+    "uuid": "^11.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --max-warnings 0",
+    "lint:fix": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
+    "test:coverage": "react-scripts test --coverage --watchAll=false",
+    "build:analyze": "npm run build && npx webpack-bundle-analyzer build/static/js/*.js",
+    "deploy:dev": "../infrastructure/scripts/deploy.sh -e dev",
+    "deploy:prod": "../infrastructure/scripts/deploy.sh -e prod",
+    "deploy:build-only": "../infrastructure/scripts/deploy.sh --build-only"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
+    "@testing-library/user-event": "^14.6.1"
+  }
+}

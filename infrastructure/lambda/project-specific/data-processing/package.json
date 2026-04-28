@@ -1,0 +1,20 @@
+{
+  "name": "app-modex-data-processing",
+  "version": "1.0.0",
+  "description": "Project-specific data processing Lambda function for App-ModEx",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.400.0",
+    "@aws-sdk/client-dynamodb": "^3.400.0",
+    "@aws-sdk/lib-dynamodb": "^3.400.0",
+    "@aws-sdk/client-athena": "^3.400.0",
+    "@aws-sdk/client-sqs": "^3.400.0",
+    "@aws-sdk/client-sfn": "^3.400.0",
+    "@aws-sdk/client-cloudformation": "^3.400.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "author": "App-ModEx Team",
+  "license": "MIT"
+}

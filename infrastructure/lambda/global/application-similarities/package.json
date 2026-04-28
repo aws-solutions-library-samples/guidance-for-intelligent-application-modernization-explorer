@@ -1,0 +1,11 @@
+{
+  "name": "app-modex-application-similarities",
+  "version": "1.0.0",
+  "description": "Lambda function to retrieve and manage application similarity results from DynamoDB",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.400.0",
+    "@aws-sdk/lib-dynamodb": "^3.400.0",
+    "app-modex-shared": "file:../../../lambda/layers/shared"
+  }
+}

@@ -1,0 +1,3360 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22
+    commands:
+      - echo Installing dependencies...
+      - echo "Current directory:" && pwd
+      - echo "Available files:" && ls -la
+      
+      # DEBUG: Print all environment variables
+      - echo "=== ENVIRONMENT VARIABLES DEBUG ==="
+      - echo "PROJECT_ID=${PROJECT_ID}"
+      - echo "STACK_NAME=${STACK_NAME}"
+      - echo "ACTION=${ACTION}"
+      - echo "ENVIRONMENT=${ENVIRONMENT}"
+      - echo "DEPLOYMENT_BUCKET=${DEPLOYMENT_BUCKET}"
+      - echo "IDENTITY_POOL_ID=${IDENTITY_POOL_ID}"
+      - echo "=== ALL ENVIRONMENT VARIABLES ==="
+      - env | sort
+      - echo "=== END DEBUG ==="
+      
+      # Verify Node.js and npm are working
+      - echo "Node.js version:" && node --version
+      - echo "npm version:" && npm --version
+      
+      # FIRST STEP: Download and extract project-specific sources zip from S3 deployment bucket (skip for destroy)
+      - 'if [ "$ACTION" != "destroy" ]; then echo "[STEP 1] Downloading project-specific sources zip from S3..."; fi'
+      - 'if [ "$ACTION" != "destroy" ] && [ -z "$DEPLOYMENT_BUCKET" ]; then echo "ERROR: DEPLOYMENT_BUCKET environment variable is not set!" && exit 1; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "Using deployment bucket: $DEPLOYMENT_BUCKET"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then aws s3 cp s3://${DEPLOYMENT_BUCKET}/buildspec-source.zip ./project-sources.zip --quiet; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "[STEP 2] Extracting project-specific source files..."; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then mkdir -p /tmp/project-sources && unzip -q project-sources.zip -d /tmp/project-sources/; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "[STEP 3] Verifying extracted contents..."; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "Contents of /tmp/project-sources/lambda/:"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then ls -la /tmp/project-sources/lambda/ || echo "No lambda directory"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "Contents of /tmp/project-sources/lambda/project-specific/:"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then ls -la /tmp/project-sources/lambda/project-specific/ | head -20 || echo "No project-specific directory"; fi'
+      
+      # SECOND STEP: Create infrastructure directory structure and copy files BEFORE any CDK operations
+      - mkdir -p infrastructure/lib
+      - mkdir -p infrastructure/bin
+      - 'if [ "$ACTION" != "destroy" ]; then echo "[STEP 4] Creating infrastructure directories..."; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then mkdir -p infrastructure/lambda/layers infrastructure/lambda/project-specific infrastructure/stepfunctions/project-specific infrastructure/scripts infrastructure/athena-tables; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "[STEP 5] Copying Lambda layers..."; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then cp -r /tmp/project-sources/lambda/layers/* infrastructure/lambda/layers/ 2>&1 || echo "Warning: Failed to copy layers"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "[STEP 6] Copying project-specific Lambda functions..."; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then cp -r /tmp/project-sources/lambda/project-specific/* infrastructure/lambda/project-specific/ 2>&1 || echo "Warning: Failed to copy Lambda functions"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "[STEP 7] Copying Step Function definitions..."; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then cp -r /tmp/project-sources/stepfunctions/project-specific/* infrastructure/stepfunctions/project-specific/ 2>&1 || echo "Warning: Failed to copy Step Functions"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "[STEP 7a] Copying scripts..."; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then cp -r /tmp/project-sources/scripts/* infrastructure/scripts/ 2>&1 || echo "Warning: Failed to copy scripts"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "[STEP 7b] Copying Athena table definitions..."; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then cp -r /tmp/project-sources/athena-tables/* infrastructure/athena-tables/ 2>&1 || echo "Warning: Failed to copy athena-tables"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "[STEP 8] Verifying copied files..."; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "Lambda functions in infrastructure/lambda/project-specific/:"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then ls -la infrastructure/lambda/project-specific/ | head -20 || echo "No Lambda functions found"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "Step Function definitions in infrastructure/stepfunctions/project-specific/:"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then ls -la infrastructure/stepfunctions/project-specific/ || echo "No Step Function definitions found"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "Scripts in infrastructure/scripts/:"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then ls -la infrastructure/scripts/ || echo "No scripts found"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "Athena table definitions in infrastructure/athena-tables/:"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then ls -la infrastructure/athena-tables/ || echo "No athena-tables found"; fi'
+      - 'if [ "$ACTION" = "destroy" ]; then echo "Skipping Lambda source download for destroy action"; fi'
+      
+      # Install CDK globally - use version that supports Node 22 and Python 3.12
+      - echo "[STEP 9] Installing AWS CDK..."
+      - npm install -g aws-cdk@2.170.0
+      - echo "CDK version:" && cdk --version
+      
+      # Change to infrastructure directory
+      - cd infrastructure
+      
+      # Verify files are still there after cd
+      - 'if [ "$ACTION" != "destroy" ]; then echo "[STEP 10] Verifying files after cd infrastructure..."; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "Current directory: $(pwd)"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "Lambda functions in ./lambda/project-specific/:"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then ls -la ./lambda/project-specific/ | head -20 || echo "ERROR: No Lambda functions found!"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then echo "Checking for component-similarity-athena-s3-wrapper:"; fi'
+      - 'if [ "$ACTION" != "destroy" ]; then ls -la ./lambda/project-specific/component-similarity-athena-s3-wrapper/ 2>&1 || echo "ERROR: component-similarity-athena-s3-wrapper not found!"; fi'
+      
+      # Create basic CDK app structure for project-specific deployment
+      - npm init -y
+      - npm install aws-cdk-lib@2.170.0 constructs@10.0.0 typescript@~5.0.0 ts-node@^10.0.0 @types/node@22.0.0
+      
+      # Create proper package.json with TypeScript support
+      - |
+        cat > package.json << 'EOFPACKAGE'
+        {
+          "name": "app-modex-project-infrastructure",
+          "version": "1.0.0",
+          "bin": {
+            "app": "bin/app.js"
+          },
+          "scripts": {
+            "build": "tsc",
+            "watch": "tsc -w",
+            "test": "jest",
+            "cdk": "cdk"
+          },
+          "devDependencies": {
+            "@types/jest": "^29.4.0",
+            "@types/node": "^22.0.0",
+            "jest": "^29.5.0",
+            "ts-jest": "^29.0.5",
+            "aws-cdk": "2.170.0",
+            "typescript": "~5.0.0",
+            "ts-node": "^10.0.0"
+          },
+          "dependencies": {
+            "aws-cdk-lib": "2.170.0",
+            "constructs": "^10.0.0"
+          }
+        }
+        EOFPACKAGE
+      
+      # Create tsconfig.json
+      - |
+        cat > tsconfig.json << 'EOFTSCONFIG'
+        {
+          "compilerOptions": {
+            "target": "ES2022",
+            "module": "commonjs",
+            "lib": [
+              "es2022"
+            ],
+            "declaration": true,
+            "strict": true,
+            "noImplicitAny": true,
+            "strictNullChecks": true,
+            "noImplicitThis": true,
+            "alwaysStrict": true,
+            "noUnusedLocals": false,
+            "noUnusedParameters": false,
+            "noImplicitReturns": true,
+            "noFallthroughCasesInSwitch": false,
+            "inlineSourceMap": true,
+            "inlineSources": true,
+            "experimentalDecorators": true,
+            "strictPropertyInitialization": false,
+            "typeRoots": [
+              "./node_modules/@types"
+            ]
+          },
+          "exclude": [
+            "node_modules",
+            "cdk.out"
+          ]
+        }
+        EOFTSCONFIG
+      
+      # NOTE: Individual projects no longer need their own data processing Lambda
+      # The master backend stack now handles data processing via SQS queues
+      # This buildspec now only creates project-specific resources:
+      # - S3 buckets for data storage
+      # - DynamoDB table for data sources metadata
+      # - Glue database and tables for Athena queries
+      # - IAM roles for project access
+      
+      # Create the project-specific CDK stack (SQS-compliant)
+      - |
+        cat > lib/project-stack.ts << 'EOFSTACK'
+        import * as cdk from 'aws-cdk-lib';
+        import { Construct } from 'constructs';
+        import * as s3 from 'aws-cdk-lib/aws-s3';
+        import * as iam from 'aws-cdk-lib/aws-iam';
+        import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+        import * as glue from 'aws-cdk-lib/aws-glue';
+        import * as sqs from 'aws-cdk-lib/aws-sqs';
+        import * as lambda from 'aws-cdk-lib/aws-lambda';
+        import * as sns from 'aws-cdk-lib/aws-sns';
+        import * as stepfunctions from 'aws-cdk-lib/aws-stepfunctions';
+        import * as stepfunctionsTasks from 'aws-cdk-lib/aws-stepfunctions-tasks';
+        import * as logs from 'aws-cdk-lib/aws-logs';
+
+        import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
+        import { Duration } from 'aws-cdk-lib';
+        import * as fs from 'fs';
+        import * as path from 'path';
+        
+        export interface ProjectStackProps extends cdk.StackProps {
+          projectId: string;
+          environment: string;
+          identityPoolId: string;
+        }
+        
+        export class ProjectStack extends cdk.Stack {
+          constructor(scope: Construct, id: string, props: ProjectStackProps) {
+            super(scope, id, props);
+            
+            // Import access logs bucket from backend stack (Remediation #25)
+            const accessLogsBucket = s3.Bucket.fromBucketName(
+              this,
+              'AccessLogsBucket',
+              cdk.Fn.importValue('AppModEx-AccessLogsBucketName')
+            );
+            
+            // Create S3 bucket for project assets
+            const projectBucket = new s3.Bucket(this, 'ProjectBucket', {
+              bucketName: `app-modex-data-${props.projectId}`.toLowerCase(),
+              removalPolicy: cdk.RemovalPolicy.DESTROY,
+              autoDeleteObjects: true,
+              versioned: true,
+              encryption: s3.BucketEncryption.S3_MANAGED,
+              blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+              serverAccessLogsBucket: accessLogsBucket,
+              serverAccessLogsPrefix: `project-${props.projectId}/data-bucket/`,
+              cors: [
+                {
+                  allowedMethods: [
+                    s3.HttpMethods.GET,
+                    s3.HttpMethods.PUT,
+                    s3.HttpMethods.POST,
+                    s3.HttpMethods.DELETE,
+                    s3.HttpMethods.HEAD,
+                  ],
+                  allowedOrigins: ['http://localhost:3000', 'https://*.amazonaws.com', 'https://*.cloudfront.net'],
+                  allowedHeaders: ['*'],
+                  exposedHeaders: ['ETag'],
+                  maxAge: 3000
+                }
+              ]
+            });
+
+            // SECURITY NOTE: Enforce encryption in transit (Remediation #7)
+            // Deny all requests that don't use HTTPS/TLS
+            projectBucket.addToResourcePolicy(new iam.PolicyStatement({
+              sid: 'DenyInsecureTransport',
+              effect: iam.Effect.DENY,
+              principals: [new iam.AnyPrincipal()],
+              actions: ['s3:*'],
+              resources: [
+                projectBucket.bucketArn,
+                `${projectBucket.bucketArn}/*`
+              ],
+              conditions: {
+                Bool: {
+                  'aws:SecureTransport': 'false'
+                }
+              }
+            }));
+            
+            // Create an S3 bucket for Athena query results
+            const resultsBucket = new s3.Bucket(this, 'ResultsBucket', {
+              bucketName: `app-modex-results-${props.projectId}`.toLowerCase(),
+              removalPolicy: cdk.RemovalPolicy.DESTROY,
+              autoDeleteObjects: true,
+              versioned: false,
+              encryption: s3.BucketEncryption.S3_MANAGED,
+              blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+              serverAccessLogsBucket: accessLogsBucket,
+              serverAccessLogsPrefix: `project-${props.projectId}/results-bucket/`,
+              lifecycleRules: [
+                {
+                  id: 'DeleteOldResults',
+                  enabled: true,
+                  expiration: cdk.Duration.days(7), // Delete query results after 7 days
+                },
+              ],
+            });
+
+            // SECURITY NOTE: Enforce encryption in transit (Remediation #7)
+            // Deny all requests that don't use HTTPS/TLS
+            resultsBucket.addToResourcePolicy(new iam.PolicyStatement({
+              sid: 'DenyInsecureTransport',
+              effect: iam.Effect.DENY,
+              principals: [new iam.AnyPrincipal()],
+              actions: ['s3:*'],
+              resources: [
+                resultsBucket.bucketArn,
+                `${resultsBucket.bucketArn}/*`
+              ],
+              conditions: {
+                Bool: {
+                  'aws:SecureTransport': 'false'
+                }
+              }
+            }));
+            
+            // Create Athena WorkGroup for query execution
+            const athenaWorkGroup = new cdk.CfnResource(this, 'AthenaWorkGroup', {
+              type: 'AWS::Athena::WorkGroup',
+              properties: {
+                Name: `app-modex-workgroup-${props.projectId}`.toLowerCase(),
+                Description: `Athena WorkGroup for App-ModEx project ${props.projectId}`,
+                State: 'ENABLED',
+                RecursiveDeleteOption: true,
+                WorkGroupConfiguration: {
+                  ResultConfiguration: {
+                    OutputLocation: `s3://${resultsBucket.bucketName}/athena-results/`,
+                    EncryptionConfiguration: {
+                      EncryptionOption: 'SSE_S3'
+                    }
+                  },
+                  EnforceWorkGroupConfiguration: true,
+                  BytesScannedCutoffPerQuery: 1000000000, // 1GB limit
+                  RequesterPaysEnabled: false
+                }
+              }
+            });
+            
+            // ===== PROJECT-SPECIFIC SQS QUEUES =====
+            
+            // NOTE: Project operations (create/delete) are handled by global queue in master backend
+            // Only data processing queues are project-specific for complete data isolation
+            
+            // Dead Letter Queue for data processing
+            const dataProcessingDLQ = new sqs.Queue(this, 'DataProcessingDLQ', {
+              queueName: `app-modex-data-${props.projectId}-dlq`.toLowerCase(),
+              retentionPeriod: Duration.days(14),
+              encryption: sqs.QueueEncryption.SQS_MANAGED,
+            });
+
+            // Main queue for data processing (file uploads)
+            const dataProcessingQueue = new sqs.Queue(this, 'DataProcessingQueue', {
+              queueName: `app-modex-data-${props.projectId}`.toLowerCase(),
+              visibilityTimeout: Duration.minutes(10), // Should be >= Lambda timeout
+              retentionPeriod: Duration.days(14),
+              encryption: sqs.QueueEncryption.SQS_MANAGED,
+              deadLetterQueue: {
+                queue: dataProcessingDLQ,
+                maxReceiveCount: 3,
+              },
+            });
+            
+            // Create a DynamoDB table for data sources (NO STREAMS - SQS handles processing)
+            const dataSourcesTable = new dynamodb.Table(this, 'DataSourcesTable', {
+              tableName: `app-modex-data-sources-${props.projectId}`.toLowerCase(),
+              partitionKey: { name: 'projectId', type: dynamodb.AttributeType.STRING },
+              sortKey: { name: 'id', type: dynamodb.AttributeType.STRING },
+              billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+              removalPolicy: cdk.RemovalPolicy.DESTROY,
+              // REMOVED: stream: dynamodb.StreamViewType.NEW_AND_OLD_IMAGES,
+              // Data processing is now handled by SQS queues in the master backend
+              pointInTimeRecovery: true,
+            });
+
+            // Add GSI for data source type queries
+            dataSourcesTable.addGlobalSecondaryIndex({
+              indexName: 'dataSourceType-index',
+              partitionKey: { name: 'dataSourceType', type: dynamodb.AttributeType.STRING },
+              sortKey: { name: 'timestamp', type: dynamodb.AttributeType.STRING },
+              projectionType: dynamodb.ProjectionType.ALL,
+            });
+            
+            // Create a DynamoDB table for process tracking
+            // NOTE: processId is unique (timestamp + random), so no sort key needed
+            const processTrackingTable = new dynamodb.Table(this, 'ProcessTrackingTable', {
+              tableName: `app-modex-process-${props.projectId}`.toLowerCase(),
+              partitionKey: { name: 'processId', type: dynamodb.AttributeType.STRING },
+              // REMOVED sortKey to prevent duplicate records - processId is already unique
+              billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+              removalPolicy: cdk.RemovalPolicy.DESTROY,
+              pointInTimeRecovery: true,
+            });
+
+            // Add GSI for process type queries (use startTime for sorting)
+            processTrackingTable.addGlobalSecondaryIndex({
+              indexName: 'processType-index',
+              partitionKey: { name: 'processType', type: dynamodb.AttributeType.STRING },
+              sortKey: { name: 'startTime', type: dynamodb.AttributeType.STRING },
+              projectionType: dynamodb.ProjectionType.ALL,
+            });
+
+            // Add GSI for status queries (use startTime for sorting)
+            processTrackingTable.addGlobalSecondaryIndex({
+              indexName: 'status-index',
+              partitionKey: { name: 'status', type: dynamodb.AttributeType.STRING },
+              sortKey: { name: 'startTime', type: dynamodb.AttributeType.STRING },
+              projectionType: dynamodb.ProjectionType.ALL,
+            });
+            
+            // Create IAM roles for project access
+            const projectReadRole = new iam.Role(this, 'ProjectReadRole', {
+              roleName: `app-modex-proj-${props.projectId}-read`,
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'ReadRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              assumedBy: new iam.FederatedPrincipal(
+                'cognito-identity.amazonaws.com',
+                {
+                  StringEquals: {
+                    'cognito-identity.amazonaws.com:aud': props.identityPoolId
+                  },
+                  'ForAnyValue:StringLike': {
+                    'cognito-identity.amazonaws.com:amr': 'authenticated'
+                  }
+                },
+                'sts:AssumeRoleWithWebIdentity'
+              ),
+              description: `Read-only access to App-ModEx project ${props.projectId}`
+            });
+            
+            const projectWriteRole = new iam.Role(this, 'ProjectWriteRole', {
+              roleName: `app-modex-proj-${props.projectId}-write`,
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'WriteRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              assumedBy: new iam.FederatedPrincipal(
+                'cognito-identity.amazonaws.com',
+                {
+                  StringEquals: {
+                    'cognito-identity.amazonaws.com:aud': props.identityPoolId
+                  },
+                  'ForAnyValue:StringLike': {
+                    'cognito-identity.amazonaws.com:amr': 'authenticated'
+                  }
+                },
+                'sts:AssumeRoleWithWebIdentity'
+              ),
+              description: `Read/write access to App-ModEx project ${props.projectId}`
+            });
+            
+            // Grant permissions
+            projectBucket.grantRead(projectReadRole);
+            projectBucket.grantReadWrite(projectWriteRole);
+            resultsBucket.grantRead(projectReadRole);
+            resultsBucket.grantRead(projectWriteRole);
+            
+            // Grant Athena service permissions to write query results to results bucket
+            // CONFUSED DEPUTY PREVENTION: SourceAccount condition prevents cross-account attacks
+            resultsBucket.addToResourcePolicy(new iam.PolicyStatement({
+              effect: iam.Effect.ALLOW,
+              principals: [new iam.ServicePrincipal('athena.amazonaws.com')],
+              actions: [
+                's3:GetBucketLocation',
+                's3:GetObject',
+                's3:ListBucket',
+                's3:ListBucketMultipartUploads',
+                's3:ListMultipartUploadParts',
+                's3:AbortMultipartUpload',
+                's3:PutObject'
+              ],
+              resources: [
+                resultsBucket.bucketArn,
+                `${resultsBucket.bucketArn}/*`
+              ],
+              conditions: {
+                StringEquals: {
+                  'aws:SourceAccount': cdk.Aws.ACCOUNT_ID
+                }
+              }
+            }));
+            
+            // Grant permissions for DynamoDB
+            dataSourcesTable.grantReadData(projectReadRole);
+            dataSourcesTable.grantReadWriteData(projectWriteRole);
+            
+            // Grant Athena permissions to project write role (for lambda execution)
+            projectWriteRole.addToPolicy(new iam.PolicyStatement({
+              effect: iam.Effect.ALLOW,
+              actions: [
+                'athena:StartQueryExecution',
+                'athena:GetQueryExecution',
+                'athena:GetQueryResults',
+                'athena:StopQueryExecution',
+                'athena:GetWorkGroup'
+              ],
+              resources: ['*']
+            }));
+            
+            // Create Glue Database for Athena
+            const glueDatabase = new glue.CfnDatabase(this, 'GlueDatabase', {
+              catalogId: cdk.Aws.ACCOUNT_ID,
+              databaseInput: {
+                name: `app_modex_${props.projectId}`.toLowerCase(),
+                description: `Glue database for App-ModEx project ${props.projectId}`,
+              }
+            });
+
+            // Helper function to create Athena tables
+            const createAthenaTable = (tableName: string, description: string, columns: any[], dataPath: string) => {
+              const table = new glue.CfnTable(this, `${tableName}Table`, {
+                catalogId: cdk.Aws.ACCOUNT_ID,
+                databaseName: glueDatabase.ref,
+                tableInput: {
+                  name: tableName.toLowerCase(),
+                  description: description,
+                  tableType: 'EXTERNAL_TABLE',
+                  parameters: {
+                    'classification': 'csv',
+                    'typeOfData': 'file',
+                    'skip.header.line.count': '1'
+                  },
+                  storageDescriptor: {
+                    columns: columns,
+                    location: `s3://${projectBucket.bucketName}/data-processed/${dataPath}/`,
+                    inputFormat: 'org.apache.hadoop.mapred.TextInputFormat',
+                    outputFormat: 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat',
+                    serdeInfo: {
+                      serializationLibrary: 'org.apache.hadoop.hive.serde2.OpenCSVSerde',
+                      parameters: {
+                        'separatorChar': ',',
+                        'quoteChar': '"',
+                        'escapeChar': '\\'
+                      }
+                    }
+                  }
+                }
+              });
+              
+              // Ensure table is created after database
+              table.addDependency(glueDatabase);
+              return table;
+            };
+
+            // Grant Glue permissions to project write role (for Athena to access tables)
+            projectWriteRole.addToPolicy(new iam.PolicyStatement({
+              effect: iam.Effect.ALLOW,
+              actions: [
+                'glue:GetDatabase',
+                'glue:GetTable',
+                'glue:GetTables',
+                'glue:GetPartition',
+                'glue:GetPartitions'
+              ],
+              resources: [
+                `arn:aws:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:catalog`,
+                `arn:aws:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:database/${glueDatabase.ref}`,
+                `arn:aws:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/${glueDatabase.ref}/*`
+              ]
+            }));
+
+            // Create all Athena tables for App-ModEx data sections
+            
+            // 1. Team Skills Table
+            const teamSkillsTable = createAthenaTable(
+              'team_skills',
+              'Team skills inventory data',
+              [
+                { name: 'id', type: 'string', comment: 'Unique identifier' },
+                { name: 'skill', type: 'string', comment: 'Skill name' },
+                { name: 'category', type: 'string', comment: 'Skill category' },
+                { name: 'proficiency', type: 'int', comment: 'Proficiency level (1-5)' },
+                { name: 'team', type: 'string', comment: 'Team name' },
+                { name: 'members', type: 'int', comment: 'Number of team members' },
+                { name: 'notes', type: 'string', comment: 'Additional notes' },
+
+                { name: 'processed_at', type: 'string', comment: 'Processed Date/Time' },
+                { name: 'project_id', type: 'string', comment: 'Project Id' },
+                { name: 'data_source_id', type: 'string', comment: 'Data Source Id' },
+                { name: 'transformation_type', type: 'string', comment: 'Transformation Type' },
+                { name: 'original_format', type: 'string', comment: 'Original File Format' }
+
+              ],
+              'team-skills'
+            );
+
+            // 2. Technology Vision Table
+            const techVisionTable = createAthenaTable(
+              'tech_vision',
+              'Technology vision and radar data',
+              [
+                { name: 'id', type: 'string', comment: 'Unique identifier' },
+                { name: 'technology', type: 'string', comment: 'Technology name' },
+                { name: 'quadrant', type: 'string', comment: 'Technology quadrant' },
+                { name: 'phase', type: 'string', comment: 'Adoption phase (Adopt, Trial, Assess, Hold)' },
+
+                { name: 'processed_at', type: 'string', comment: 'Processed Date/Time' },
+                { name: 'project_id', type: 'string', comment: 'Project Id' },
+                { name: 'data_source_id', type: 'string', comment: 'Data Source Id' },
+                { name: 'transformation_type', type: 'string', comment: 'Transformation Type' },
+                { name: 'original_format', type: 'string', comment: 'Original File Format' }
+
+              ],
+              'technology-vision'
+            );
+
+            // 3. Application Portfolio Table
+            const applicationPortfolioTable = createAthenaTable(
+              'application_portfolio',
+              'Application portfolio and assessment data',
+              [
+                { name: 'id', type: 'string', comment: 'Unique identifier' },
+                { name: 'applicationname', type: 'string', comment: 'Application name' },
+                { name: 'department', type: 'string', comment: 'Department' },
+                { name: 'criticality', type: 'string', comment: 'Business criticality' },
+                { name: 'purpose', type: 'string', comment: 'Application purpose' },
+
+                { name: 'processed_at', type: 'string', comment: 'Processed Date/Time' },
+                { name: 'project_id', type: 'string', comment: 'Project Id' },
+                { name: 'data_source_id', type: 'string', comment: 'Data Source Id' },
+                { name: 'transformation_type', type: 'string', comment: 'Transformation Type' },
+                { name: 'original_format', type: 'string', comment: 'Original File Format' }
+
+              ],
+              'applications-portfolio'
+            );
+
+            // 4. Technology Stack Table
+            const techStackTable = createAthenaTable(
+              'tech_stack',
+              'Technology stack components data',
+              [
+                { name: 'id', type: 'string', comment: 'Unique identifier' },
+                { name: 'applicationname', type: 'string', comment: 'Application name' },
+                { name: 'componentname', type: 'string', comment: 'Component name' },
+                { name: 'runtime', type: 'string', comment: 'Runtime environment' },
+                { name: 'framework', type: 'string', comment: 'Framework' },
+                { name: 'databases', type: 'string', comment: 'Databases used' },
+                { name: 'integrations', type: 'string', comment: 'Integration points' },
+                { name: 'storages', type: 'string', comment: 'Storage solutions' },
+
+                { name: 'processed_at', type: 'string', comment: 'Processed Date/Time' },
+                { name: 'project_id', type: 'string', comment: 'Project Id' },
+                { name: 'data_source_id', type: 'string', comment: 'Data Source Id' },
+                { name: 'transformation_type', type: 'string', comment: 'Transformation Type' },
+                { name: 'original_format', type: 'string', comment: 'Original File Format' }
+
+              ],
+              'applications-tech-stack'
+            );
+
+            // 5. Infrastructure Resources Table
+            const infrastructureTable = createAthenaTable(
+              'infrastructure_resources',
+              'Infrastructure resources and environment data',
+              [
+                { name: 'id', type: 'string', comment: 'Unique identifier' },
+                { name: 'applicationname', type: 'string', comment: 'Application name' },
+                { name: 'servername', type: 'string', comment: 'Server name/identifier' },
+                { name: 'servertype', type: 'string', comment: 'Server type (instance type)' },
+                { name: 'cpu', type: 'string', comment: 'CPU configuration' },
+                { name: 'memory', type: 'string', comment: 'Memory configuration' },
+                { name: 'storage', type: 'string', comment: 'Storage configuration' },
+                { name: 'region', type: 'string', comment: 'AWS region' },
+                { name: 'environment', type: 'string', comment: 'Environment (Production, Staging, etc.)' },
+                { name: 'notes', type: 'string', comment: 'Additional notes' },
+                { name: 'ostype', type: 'string', comment: 'Operating system type' },
+                { name: 'osversion', type: 'string', comment: 'Operating system version' },
+                { name: 'dbengineversion', type: 'string', comment: 'Database engine version' },
+                { name: 'dbclusterid', type: 'string', comment: 'Database cluster ID' },
+                { name: 'dbclustertype', type: 'string', comment: 'Database cluster type' },
+                { name: 'orchestrationplatform', type: 'string', comment: 'Orchestration platform' },
+
+                { name: 'processed_at', type: 'string', comment: 'Processed Date/Time' },
+                { name: 'project_id', type: 'string', comment: 'Project Id' },
+                { name: 'data_source_id', type: 'string', comment: 'Data Source Id' },
+                { name: 'transformation_type', type: 'string', comment: 'Transformation Type' },
+                { name: 'original_format', type: 'string', comment: 'Original File Format' }
+
+              ],
+              'applications-infrastructure'
+            );
+
+            // 6. Resource Utilization Table
+            const utilizationTable = createAthenaTable(
+              'resource_utilization',
+              'Resource utilization metrics and performance data',
+              [
+                { name: 'id', type: 'string', comment: 'Unique identifier' },
+                { name: 'applicationname', type: 'string', comment: 'Application name' },
+                { name: 'servername', type: 'string', comment: 'Server name/identifier' },
+                { name: 'timestamp', type: 'string', comment: 'Metric timestamp' },
+                { name: 'cpuutilization', type: 'double', comment: 'CPU utilization percentage' },
+                { name: 'memoryutilization', type: 'double', comment: 'Memory utilization percentage' },
+                { name: 'storageutilization', type: 'double', comment: 'Storage utilization percentage' },
+                { name: 'networkin', type: 'double', comment: 'Network inbound traffic (MB/s)' },
+                { name: 'networkout', type: 'double', comment: 'Network outbound traffic (MB/s)' },
+                { name: 'iops', type: 'int', comment: 'Input/Output Operations Per Second' },
+                { name: 'notes', type: 'string', comment: 'Additional notes' },
+
+                { name: 'processed_at', type: 'string', comment: 'Processed Date/Time' },
+                { name: 'project_id', type: 'string', comment: 'Project Id' },
+                { name: 'data_source_id', type: 'string', comment: 'Data Source Id' },
+                { name: 'transformation_type', type: 'string', comment: 'Transformation Type' },
+                { name: 'original_format', type: 'string', comment: 'Original File Format' }
+
+              ],
+              'applications-utilization'
+            );
+
+            // 7. Team Category Weights Table (CSV format)
+            const teamWeightsTable = createAthenaTable(
+              'team_category_weights',
+              'Team skill category weights data',
+              [
+                { name: 'projectid', type: 'string', comment: 'Project identifier' },
+                { name: 'teamname', type: 'string', comment: 'Team name' },
+                { name: 'category', type: 'string', comment: 'Skill category name' },
+                { name: 'weight', type: 'double', comment: 'Weight percentage for this category' },
+                { name: 'lastupdated', type: 'bigint', comment: 'Last update timestamp (Unix epoch)' },
+                { name: 'updatedby', type: 'string', comment: 'User who updated the weights' },
+                { name: 'version', type: 'int', comment: 'Version number' }
+              ],
+              'team-category-weights'
+            );
+
+            // 8. Skill Importance Scores Table (CSV format)
+            const skillImportanceScoresTable = createAthenaTable(
+              'skill_importance_scores',
+              'AI-generated skill importance scores per team',
+              [
+                { name: 'team', type: 'string', comment: 'Team name' },
+                { name: 'skill', type: 'string', comment: 'Skill name' },
+                { name: 'category', type: 'string', comment: 'Skill category' },
+                { name: 'importance_score', type: 'int', comment: 'Importance score (0-100)' },
+                { name: 'rationale', type: 'string', comment: 'AI rationale for the score' },
+                { name: 'confidence', type: 'int', comment: 'AI confidence level (0-100)' },
+                { name: 'timestamp', type: 'string', comment: 'Scoring timestamp' }
+              ],
+              'skill-importance-scores'
+            );
+
+
+            // Outputs
+            new cdk.CfnOutput(this, 'ProjectBucketName', {
+              value: projectBucket.bucketName,
+              description: 'Project S3 bucket name',
+            });
+            
+            new cdk.CfnOutput(this, 'ResultsBucketName', {
+              value: resultsBucket.bucketName,
+              description: 'Athena results S3 bucket name',
+            });
+            
+            new cdk.CfnOutput(this, 'DataSourcesTableName', {
+              value: dataSourcesTable.tableName,
+              description: 'Data Sources DynamoDB table name',
+            });
+            
+            new cdk.CfnOutput(this, 'ProjectReadRoleArn', {
+              value: projectReadRole.roleArn,
+              description: 'Project read-only role ARN',
+            });
+            
+            new cdk.CfnOutput(this, 'ProjectWriteRoleArn', {
+              value: projectWriteRole.roleArn,
+              description: 'Project read/write role ARN',
+            });
+            
+            new cdk.CfnOutput(this, 'GlueDatabaseName', {
+              value: glueDatabase.ref,
+              description: 'Glue database name',
+            });
+            
+            new cdk.CfnOutput(this, 'DataProcessingQueueUrl', {
+              value: dataProcessingQueue.queueUrl,
+              description: 'Data processing SQS queue URL',
+            });
+            
+            new cdk.CfnOutput(this, 'DataProcessingQueueArn', {
+              value: dataProcessingQueue.queueArn,
+              description: 'Data processing SQS queue ARN',
+            });
+            
+            new cdk.CfnOutput(this, 'ProcessTrackingTableName', {
+              value: processTrackingTable.tableName,
+              description: 'Process tracking DynamoDB table name',
+            });
+            
+            // ===== PROJECT-SPECIFIC LAMBDA FUNCTIONS =====
+            
+            // Create IAM role for project-specific Lambda functions
+            const projectLambdaRole = new iam.Role(this, 'ProjectLambdaRole', {
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'ProjectLambdaRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              )
+            });
+            
+            // Grant permissions to the project Lambda role
+            projectBucket.grantReadWrite(projectLambdaRole);
+            resultsBucket.grantReadWrite(projectLambdaRole);
+            dataSourcesTable.grantReadWriteData(projectLambdaRole);
+            processTrackingTable.grantReadWriteData(projectLambdaRole);
+            
+            // Grant SQS permissions
+            dataProcessingQueue.grantConsumeMessages(projectLambdaRole);
+            
+            // Grant permissions to access master backend DynamoDB tables
+            projectLambdaRole.addToPolicy(new iam.PolicyStatement({
+              actions: [
+                'dynamodb:GetItem',
+                'dynamodb:PutItem',
+                'dynamodb:UpdateItem',
+                'dynamodb:DeleteItem',
+                'dynamodb:Query',
+                'dynamodb:Scan'
+              ],
+              resources: [
+                `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-projects`,
+                `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-project-data`
+              ]
+            }));
+            
+
+            
+            // Grant Step Functions permissions to trigger normalization workflow
+            projectLambdaRole.addToPolicy(new iam.PolicyStatement({
+              actions: [
+                'states:StartExecution'
+              ],
+              resources: [
+                `arn:aws:states:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:stateMachine:app-modex-tech-stack-normalization`
+              ]
+            }));
+            
+            // Grant Lambda permissions to invoke global process tracking function
+            projectLambdaRole.addToPolicy(new iam.PolicyStatement({
+              actions: [
+                'lambda:InvokeFunction'
+              ],
+              resources: [
+                `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-process-tracking`
+              ]
+            }));
+            
+            // Grant Athena permissions for view creation
+            projectLambdaRole.addToPolicy(new iam.PolicyStatement({
+              actions: [
+                'athena:StartQueryExecution',
+                'athena:GetQueryExecution',
+                'athena:GetQueryResults',
+                'glue:GetDatabase',
+                'glue:GetTable',
+                'glue:GetPartitions',
+                'glue:CreateTable'
+              ],
+              resources: ['*']
+            }));
+            
+            // Grant S3 permissions for Athena query results
+            projectLambdaRole.addToPolicy(new iam.PolicyStatement({
+              effect: iam.Effect.ALLOW,
+              actions: [
+                's3:GetObject',
+                's3:PutObject',
+                's3:ListBucket',
+                's3:GetBucketLocation'
+              ],
+              resources: [
+                resultsBucket.bucketArn,
+                `${resultsBucket.bucketArn}/*`
+              ]
+            }));
+            
+            // Create shared Lambda layer for project-specific functions
+            const sharedLayer = new lambda.LayerVersion(this, 'SharedLayer', {
+              code: lambda.Code.fromAsset('lambda/layers/shared'),
+              compatibleRuntimes: [lambda.Runtime.NODEJS_22_X, lambda.Runtime.NODEJS_22_X],
+              description: 'Shared utilities for App-ModEx Lambda functions',
+            });
+            
+            // Data Processing Lambda Role (unique role for data processing function)
+            const dataProcessingRole = new iam.Role(this, 'DataProcessingRole', {
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'DataProcessingRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              )
+            });
+            
+            projectBucket.grantReadWrite(dataProcessingRole);
+            dataSourcesTable.grantReadWriteData(dataProcessingRole);
+            dataProcessingQueue.grantConsumeMessages(dataProcessingRole);
+            
+            dataProcessingRole.addToPolicy(new iam.PolicyStatement({
+              actions: ['states:StartExecution'],
+              resources: [`arn:aws:states:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:stateMachine:app-modex-tech-stack-normalization`]
+            }));
+            
+            dataProcessingRole.addToPolicy(new iam.PolicyStatement({
+              actions: ['lambda:InvokeFunction'],
+              resources: [`arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-process-tracking`]
+            }));
+            
+            // Project-specific data processing Lambda
+            const dataProcessingFunction = new lambda.Function(this, 'DataProcessingFunction', {
+              functionName: `app-modex-data-processing-${props.projectId}`.toLowerCase(),
+              runtime: lambda.Runtime.NODEJS_22_X,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/data-processing'),
+              environment: {
+                PROJECT_ID: props.projectId,
+                ENVIRONMENT: props.environment,
+                PROJECT_BUCKET: projectBucket.bucketName,
+                DATA_SOURCES_TABLE: dataSourcesTable.tableName,
+                TECH_STACK_NORMALIZATION_STATE_MACHINE_ARN: cdk.Fn.importValue('app-modex-normalization-state-machine-arn'),
+                VAR_AWS_REGION: cdk.Aws.REGION,
+                VAR_AWS_ACCOUNT_ID: cdk.Aws.ACCOUNT_ID
+              },
+              timeout: cdk.Duration.minutes(5),
+              memorySize: 512,
+              role: dataProcessingRole,
+              layers: [sharedLayer],
+            });
+            
+            // Add SQS event source to the data processing Lambda
+            // Add SQS event source to the data processing Lambda
+            dataProcessingFunction.addEventSource(new SqsEventSource(dataProcessingQueue, {
+              batchSize: 1,
+              maxBatchingWindow: cdk.Duration.seconds(0), // Process immediately
+              reportBatchItemFailures: true,
+            }));
+            
+            // ===== EXPORT SYSTEM INFRASTRUCTURE =====
+            
+            // Grant permissions for export operations to project Lambda role
+            projectLambdaRole.addToPolicy(new iam.PolicyStatement({
+              effect: iam.Effect.ALLOW,
+              actions: [
+                'dynamodb:GetItem',
+                'dynamodb:PutItem',
+                'dynamodb:UpdateItem',
+                'dynamodb:Query',
+                'dynamodb:Scan'
+              ],
+              resources: [
+                `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-export-history`,
+                `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-export-history/index/*`,
+                `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-projects`
+              ]
+            }));
+            
+            // S3 permissions for export files are already granted via projectBucket.grantReadWrite(projectLambdaRole)
+            
+            // Data Sourcing Lambda Role (unique role for data sourcing function)
+            const dataSourcingRole = new iam.Role(this, 'DataSourcingRole', {
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'DataSourcingRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              )
+            });
+            
+            // Create a single comprehensive policy for data sourcing
+            const dataSourcingPolicy = new iam.Policy(this, 'DataSourcingPolicy', {
+              statements: [
+                new iam.PolicyStatement({
+                  sid: 'S3Access',
+                  effect: iam.Effect.ALLOW,
+                  actions: [
+                    's3:GetObject',
+                    's3:PutObject',
+                    's3:ListBucket',
+                    's3:GetBucketLocation',
+                    's3:AbortMultipartUpload',
+                    's3:ListBucketMultipartUploads',
+                    's3:ListMultipartUploadParts'
+                  ],
+                  resources: [
+                    projectBucket.bucketArn,
+                    `${projectBucket.bucketArn}/*`,
+                    resultsBucket.bucketArn,
+                    `${resultsBucket.bucketArn}/*`
+                  ]
+                }),
+                new iam.PolicyStatement({
+                  sid: 'AthenaAndGlueAccess',
+                  effect: iam.Effect.ALLOW,
+                  actions: [
+                    'athena:StartQueryExecution',
+                    'athena:GetQueryExecution',
+                    'athena:GetQueryResults',
+                    'glue:GetDatabase',
+                    'glue:GetTable',
+                    'glue:GetPartitions'
+                  ],
+                  resources: ['*']
+                }),
+                new iam.PolicyStatement({
+                  sid: 'DynamoDBAccess',
+                  effect: iam.Effect.ALLOW,
+                  actions: [
+                    'dynamodb:GetItem',
+                    'dynamodb:Query',
+                    'dynamodb:Scan'
+                  ],
+                  resources: [
+                    `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-team-estimates-*`,
+                    `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-tco-estimates-*`,
+                    `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-application-buckets-*`,
+                    `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-pilot-results-*`,
+                    `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-skills-analysis-*`,
+                    `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-vision-analysis-*`,
+                    `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-tech-stack-analysis-*`,
+                    `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-infrastructure-analysis-*`,
+                    `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-utilization-analysis-*`,
+                    `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-team-analysis-*`
+                  ]
+                })
+              ]
+            });
+            
+            // Attach the policy to the role after both are created
+            dataSourcingPolicy.attachToRole(dataSourcingRole);
+            
+            // Data Sourcing Lambda Function
+            const dataSourcingFunction = new lambda.Function(this, 'DataSourcingFunction', {
+              functionName: `app-modex-data-sourcing-${props.projectId}`.toLowerCase(),
+              runtime: lambda.Runtime.NODEJS_22_X,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/data-sourcing'),
+              environment: {
+                PROJECT_ID: props.projectId,
+                ENVIRONMENT: props.environment,
+                PROJECT_BUCKET: projectBucket.bucketName,
+                RESULTS_BUCKET: resultsBucket.bucketName,
+                GLUE_DATABASE: glueDatabase.ref,
+                WORKGROUP_NAME: `app-modex-workgroup-${props.projectId}`.toLowerCase(),
+                USE_MOCK_DATA_DATA: 'true',
+                USE_MOCK_DATA_INSIGHTS: 'true',
+                USE_MOCK_DATA_PLANNING: 'true'
+              },
+              timeout: cdk.Duration.minutes(5),
+              memorySize: 1024,
+              role: dataSourcingRole,
+              layers: [sharedLayer],
+            });
+            
+            // Excel Generator Lambda Role (unique role for excel generator function)
+            const excelGeneratorRole = new iam.Role(this, 'ExcelGeneratorRole', {
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'ExcelGeneratorRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              )
+            });
+            
+            projectBucket.grantReadWrite(excelGeneratorRole);
+            
+            excelGeneratorRole.addToPolicy(new iam.PolicyStatement({
+              actions: ['dynamodb:GetItem'],
+              resources: [`arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-projects`]
+            }));
+            
+            // Excel Generator Lambda Function
+            const excelGeneratorFunction = new lambda.Function(this, 'ExcelGeneratorFunction', {
+              functionName: `app-modex-excel-generator-${props.projectId}`.toLowerCase(),
+              runtime: lambda.Runtime.NODEJS_22_X,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/excel-generator'),
+              environment: {
+                PROJECT_ID: props.projectId,
+                ENVIRONMENT: props.environment,
+                PROJECT_BUCKET: projectBucket.bucketName,
+                PROJECTS_TABLE: 'app-modex-projects'
+              },
+              timeout: cdk.Duration.minutes(10),
+              memorySize: 2048,
+              role: excelGeneratorRole,
+              layers: [sharedLayer],
+            });
+            
+            // ZIP Packager Lambda Role (unique role for zip packager function)
+            const zipPackagerRole = new iam.Role(this, 'ZipPackagerRole', {
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'ZipPackagerRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              )
+            });
+            
+            projectBucket.grantReadWrite(zipPackagerRole);
+            
+            zipPackagerRole.addToPolicy(new iam.PolicyStatement({
+              actions: ['dynamodb:GetItem'],
+              resources: [`arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-projects`]
+            }));
+            
+            // ZIP Packager Lambda Function
+            const zipPackagerFunction = new lambda.Function(this, 'ZipPackagerFunction', {
+              functionName: `app-modex-zip-packager-${props.projectId}`.toLowerCase(),
+              runtime: lambda.Runtime.NODEJS_22_X,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/zip-packager'),
+              environment: {
+                PROJECT_ID: props.projectId,
+                ENVIRONMENT: props.environment,
+                PROJECT_BUCKET: projectBucket.bucketName,
+                PROJECTS_TABLE: 'app-modex-projects'
+              },
+              timeout: cdk.Duration.minutes(5),
+              memorySize: 1024,
+              role: zipPackagerRole,
+              layers: [sharedLayer],
+            });
+            
+            // Export Step Function Role
+            const exportStepFunctionRole = new iam.Role(this, 'ExportStepFunctionRole', {
+              roleName: `app-modex-export-stepfn-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('states.amazonaws.com'),
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'ExportStepFunctionRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                ExportStepFunctionPolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      effect: iam.Effect.ALLOW,
+                      actions: ['lambda:InvokeFunction'],
+                      resources: [
+                        dataSourcingFunction.functionArn,
+                        excelGeneratorFunction.functionArn,
+                        zipPackagerFunction.functionArn,
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-process-tracking`
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      effect: iam.Effect.ALLOW,
+                      actions: [
+                        'dynamodb:UpdateItem',
+                        'dynamodb:GetItem'
+                      ],
+                      resources: [
+                        processTrackingTable.tableArn,
+                        `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-export-history`
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      effect: iam.Effect.ALLOW,
+                      actions: [
+                        'logs:CreateLogDelivery',
+                        'logs:GetLogDelivery',
+                        'logs:UpdateLogDelivery',
+                        'logs:DeleteLogDelivery',
+                        'logs:ListLogDeliveries',
+                        'logs:PutResourcePolicy',
+                        'logs:DescribeResourcePolicies',
+                        'logs:DescribeLogGroups',
+                        'logs:CreateLogGroup',
+                        'logs:CreateLogStream',
+                        'logs:PutLogEvents'
+                      ],
+                      resources: ['*']
+                    })
+                  ]
+                })
+              }
+            });
+            
+            // Load Export Step Function definition from external JSON file
+            const exportStepFunctionDefinitionPath = path.join(__dirname, '..', 'stepfunctions', 'project-specific', 'export-workflow.json');
+            let exportStepFunctionDefinition = JSON.parse(fs.readFileSync(exportStepFunctionDefinitionPath, 'utf8'));
+            
+            // Replace template placeholders with actual ARNs
+            const exportStepFunctionDefinitionString = JSON.stringify(exportStepFunctionDefinition)
+              .replace(/{{DATA_SOURCING_LAMBDA_ARN}}/g, dataSourcingFunction.functionArn)
+              .replace(/{{EXCEL_GENERATOR_LAMBDA_ARN}}/g, excelGeneratorFunction.functionArn)
+              .replace(/{{ZIP_PACKAGER_LAMBDA_ARN}}/g, zipPackagerFunction.functionArn)
+              .replace(/{{PROCESS_TRACKING_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-process-tracking`)
+              .replace(/{{EXPORT_HISTORY_TABLE_NAME}}/g, 'app-modex-export-history')
+              .replace(/\$\{cdk\.Aws\.REGION\}/g, cdk.Aws.REGION)
+              .replace(/\$\{cdk\.Aws\.ACCOUNT_ID\}/g, cdk.Aws.ACCOUNT_ID)
+              .replace(/\$\{props\.projectId\}/g, props.projectId);
+            
+            exportStepFunctionDefinition = JSON.parse(exportStepFunctionDefinitionString);
+
+            // Create log group for Export Step Function
+            const exportStepFunctionLogGroup = new logs.LogGroup(this, 'ExportStepFunctionLogGroup', {
+              logGroupName: `/aws/vendedlogs/states/app-modex-export-${props.projectId}`,
+              retention: logs.RetentionDays.ONE_WEEK,
+              removalPolicy: cdk.RemovalPolicy.DESTROY
+            });
+
+            // CloudWatch Logs permissions already granted in exportStepFunctionRole inline policy with wildcard resources
+
+            // Create Export Step Function (using IAM-based logging)
+            const exportStepFunction = new cdk.CfnResource(this, 'ExportWorkflowStateMachine', {
+              type: 'AWS::StepFunctions::StateMachine',
+              properties: {
+                StateMachineName: `app-modex-export-${props.projectId}`,
+                RoleArn: exportStepFunctionRole.roleArn,
+                DefinitionString: JSON.stringify(exportStepFunctionDefinition),
+                StateMachineType: 'STANDARD',
+                TracingConfiguration: {
+                  Enabled: true
+                },
+                LoggingConfiguration: {
+                  Level: 'ERROR',
+                  IncludeExecutionData: false,
+                  Destinations: [
+                    {
+                      CloudWatchLogsLogGroup: {
+                        LogGroupArn: exportStepFunctionLogGroup.logGroupArn
+                      }
+                    }
+                  ]
+                }
+              }
+            });
+            
+            exportStepFunction.node.addDependency(exportStepFunctionLogGroup);
+
+            // Output the Export Step Function ARN
+            new cdk.CfnOutput(this, 'ExportWorkflowStepFunctionArn', {
+              value: exportStepFunction.getAtt('Arn').toString(),
+              description: 'ARN of the Export Workflow Step Function',
+              exportName: `App-ModEx-ExportStepFunction-${props.projectId}`
+            });
+            
+            // ===== SIMILARITY ANALYSIS INFRASTRUCTURE =====
+            
+            // DynamoDB table for similarity results
+            const similarityTable = new dynamodb.Table(this, 'SimilarityResultsTable', {
+              tableName: `app-modex-app-sim-${props.projectId}`.toLowerCase(),
+              partitionKey: { name: 'application_id', type: dynamodb.AttributeType.STRING },
+              sortKey: { name: 'similar_app_id', type: dynamodb.AttributeType.STRING },
+              billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+              removalPolicy: cdk.RemovalPolicy.DESTROY,
+              timeToLiveAttribute: 'ttl',
+              pointInTimeRecovery: true,
+            });
+
+            // DynamoDB table for application clusters
+            const appClustersTable = new dynamodb.Table(this, 'AppClustersTable', {
+              tableName: `app-modex-app-clusters-${props.projectId}`.toLowerCase(),
+              partitionKey: { name: 'cluster_id', type: dynamodb.AttributeType.STRING },
+              billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+              removalPolicy: cdk.RemovalPolicy.DESTROY,
+              timeToLiveAttribute: 'ttl',
+              pointInTimeRecovery: true,
+            });
+
+            // SNS topic for app similarity notifications
+            const appNotificationTopic = new sns.Topic(this, 'AppNotificationTopic', {
+              topicName: `app-modex-app-notifications-${props.projectId}`.toLowerCase(),
+              displayName: `App-ModEx Application Similarity Notifications - ${props.projectId}`
+            });
+
+            // ===== APPLICATION SIMILARITY - DEDICATED IAM ROLES (LEAST PRIVILEGE) =====
+            
+            // 1. Step Function Execution Role
+            const appSimilarityStepFunctionRole = new iam.Role(this, 'AppSimilarityStepFunctionRole', {
+              roleName: `app-modex-app-similarity-stepfunction-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('states.amazonaws.com'),
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'AppSimilarityStepFunctionRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                AppSimilarityStepFunctionPolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      sid: 'UpdateProcessStatus',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['dynamodb:UpdateItem'],
+                      resources: [processTrackingTable.tableArn]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'InvokeLambdaFunctions',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['lambda:InvokeFunction'],
+                      resources: [
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-athena-s3-wrapper-${props.projectId}`,
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-app-partition-${props.projectId}`,
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-app-process-${props.projectId}`,
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-app-aggregate-${props.projectId}`,
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-app-clusters-${props.projectId}`,
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-app-store-${props.projectId}`
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'CloudWatchLogsDelivery',
+                      effect: iam.Effect.ALLOW,
+                      actions: [
+                        'logs:CreateLogDelivery',
+                        'logs:GetLogDelivery',
+                        'logs:UpdateLogDelivery',
+                        'logs:DeleteLogDelivery',
+                        'logs:ListLogDeliveries',
+                        'logs:PutResourcePolicy',
+                        'logs:DescribeResourcePolicies',
+                        'logs:DescribeLogGroups',
+                        'logs:CreateLogGroup',
+                        'logs:CreateLogStream',
+                        'logs:PutLogEvents'
+                      ],
+                      resources: ['*']
+                    })
+                  ]
+                })
+              }
+            });
+
+            // 2. Athena S3 Wrapper Lambda Role
+            const appSimilarityAthenaWrapperRole = new iam.Role(this, 'AppSimilarityAthenaWrapperRole', {
+              roleName: `app-modex-app-similarity-athena-wrapper-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'AppSimilarityAthenaWrapperRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                AthenaWrapperPolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      sid: 'InvokeAthenaLambda',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['lambda:InvokeFunction'],
+                      resources: [`arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-athena-query`]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'S3StoreAthenaResults',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:PutObject'],
+                      resources: [`${resultsBucket.bucketArn}/athena-results/*`]
+                    })
+                  ]
+                })
+              }
+            });
+
+            // 3. Partition Lambda Role
+            const appSimilarityPartitionRole = new iam.Role(this, 'AppSimilarityPartitionRole', {
+              roleName: `app-modex-app-similarity-partition-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'AppSimilarityPartitionRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                PartitionPolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      sid: 'S3ReadAthenaResults',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:GetObject'],
+                      resources: [`${resultsBucket.bucketArn}/athena-results/*`]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'S3WritePartitions',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:PutObject'],
+                      resources: [
+                        `${projectBucket.bucketArn}/app-partitions/*`,
+                        `${resultsBucket.bucketArn}/app-partitions/*`
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'DynamoDBQueryApplications',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['dynamodb:Query'],
+                      resources: [
+                        `${dataSourcesTable.tableArn}`,
+                        `${dataSourcesTable.tableArn}/index/*`
+                      ]
+                    })
+                  ]
+                })
+              }
+            });
+
+            // 4. Process Lambda Role (runs in parallel)
+            const appSimilarityProcessRole = new iam.Role(this, 'AppSimilarityProcessRole', {
+              roleName: `app-modex-app-similarity-process-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'AppSimilarityProcessRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                ProcessPolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      sid: 'S3ReadPartitions',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:GetObject'],
+                      resources: [`${projectBucket.bucketArn}/app-partitions/*`]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'S3ReadPartitionsFromResults',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:GetObject'],
+                      resources: [`${resultsBucket.bucketArn}/app-partitions/*`]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'S3WriteResults',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:PutObject'],
+                      resources: [`${resultsBucket.bucketArn}/app-results/*`]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'DynamoDBWriteSimilarities',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['dynamodb:PutItem', 'dynamodb:BatchWriteItem'],
+                      resources: [similarityTable.tableArn]
+                    })
+                  ]
+                })
+              }
+            });
+
+            // 5. Aggregate Lambda Role
+            const appSimilarityAggregateRole = new iam.Role(this, 'AppSimilarityAggregateRole', {
+              roleName: `app-modex-app-similarity-aggregate-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'AppSimilarityAggregateRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                AggregatePolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      sid: 'S3ReadPartitionResults',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:GetObject'],
+                      resources: [
+                        `${projectBucket.bucketArn}/app-results/*`,
+                        `${resultsBucket.bucketArn}/app-results/*`
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'S3WriteFinalReports',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:PutObject'],
+                      resources: [
+                        `${resultsBucket.bucketArn}/similarity-reports/*`,
+                        `${resultsBucket.bucketArn}/app-aggregated-results/*`
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'DynamoDBQueryAndWrite',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['dynamodb:Query', 'dynamodb:PutItem', 'dynamodb:BatchWriteItem'],
+                      resources: [
+                        similarityTable.tableArn,
+                        `${similarityTable.tableArn}/index/*`,
+                        `${dataSourcesTable.tableArn}`,
+                        `${dataSourcesTable.tableArn}/index/*`
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'SNSPublishNotifications',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['sns:Publish'],
+                      resources: [appNotificationTopic.topicArn]
+                    })
+                  ]
+                })
+              }
+            });
+
+            // ===== GENERIC SIMILARITY ANALYSIS - DEDICATED IAM ROLES (LEAST PRIVILEGE) =====
+            
+            // 1. Data Partitioning Lambda Role
+            const genericPartitionRole = new iam.Role(this, 'GenericPartitionRole', {
+              roleName: `app-modex-generic-similarity-partition-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'GenericPartitionRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                PartitionPolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      sid: 'S3ReadSourceData',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:GetObject'],
+                      resources: [`${projectBucket.bucketArn}/data-processed/*`]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'S3WritePartitions',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:PutObject'],
+                      resources: [`${projectBucket.bucketArn}/similarity-partitions/*`]
+                    })
+                  ]
+                })
+              }
+            });
+
+            // 2. Data Processing Lambda Role
+            const genericDataProcessRole = new iam.Role(this, 'GenericDataProcessRole', {
+              roleName: `app-modex-generic-similarity-dataproc-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'GenericDataProcessRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                DataProcessPolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      sid: 'S3ReadPartitions',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:GetObject'],
+                      resources: [`${projectBucket.bucketArn}/similarity-partitions/*`]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'S3WriteProcessedData',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:PutObject'],
+                      resources: [`${projectBucket.bucketArn}/similarity-processed/*`]
+                    })
+                  ]
+                })
+              }
+            });
+
+            // 3. Feature Consolidation Lambda Role
+            const genericFeatureConsolidationRole = new iam.Role(this, 'GenericFeatureConsolidationRole', {
+              roleName: `app-modex-generic-similarity-features-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'GenericFeatureConsolidationRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                FeatureConsolidationPolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      sid: 'S3ReadProcessedData',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:GetObject'],
+                      resources: [`${projectBucket.bucketArn}/similarity-processed/*`]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'S3WriteConsolidatedFeatures',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:PutObject'],
+                      resources: [`${projectBucket.bucketArn}/similarity-features/*`]
+                    })
+                  ]
+                })
+              }
+            });
+
+            // 4. Similarity Processing Lambda Role
+            const genericSimilarityProcessRole = new iam.Role(this, 'GenericSimilarityProcessRole', {
+              roleName: `app-modex-generic-similarity-process-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'GenericSimilarityProcessRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                SimilarityProcessPolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      sid: 'S3ReadFeatures',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:GetObject'],
+                      resources: [`${projectBucket.bucketArn}/similarity-features/*`]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'S3WriteSimilarityScores',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:PutObject'],
+                      resources: [`${projectBucket.bucketArn}/similarity-scores/*`]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'DynamoDBWriteSimilarities',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['dynamodb:PutItem', 'dynamodb:BatchWriteItem'],
+                      resources: [similarityTable.tableArn]
+                    })
+                  ]
+                })
+              }
+            });
+
+            // 5. Results Aggregation Lambda Role
+            const genericResultsAggregationRole = new iam.Role(this, 'GenericResultsAggregationRole', {
+              roleName: `app-modex-generic-similarity-aggregate-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'GenericResultsAggregationRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                ResultsAggregationPolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      sid: 'S3ReadSimilarityScores',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:GetObject'],
+                      resources: [`${projectBucket.bucketArn}/similarity-scores/*`]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'S3WriteFinalResults',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:PutObject'],
+                      resources: [`${resultsBucket.bucketArn}/generic-similarity-results/*`]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'DynamoDBQueryAndWrite',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['dynamodb:Query', 'dynamodb:PutItem', 'dynamodb:BatchWriteItem'],
+                      resources: [
+                        similarityTable.tableArn,
+                        `${similarityTable.tableArn}/index/*`
+                      ]
+                    })
+                  ]
+                })
+              }
+            });
+
+            // ===== PILOT ANALYSIS - DEDICATED STEP FUNCTION ROLE =====
+            const pilotAnalysisStepFunctionRole = new iam.Role(this, 'PilotAnalysisStepFunctionRole', {
+              roleName: `app-modex-pilot-analysis-stepfunction-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('states.amazonaws.com'),
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'PilotAnalysisStepFunctionRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                PilotAnalysisStepFunctionPolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      sid: 'UpdateProcessStatus',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['dynamodb:UpdateItem'],
+                      resources: [processTrackingTable.tableArn]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'InvokeLambdaFunctions',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['lambda:InvokeFunction'],
+                      resources: [
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-pilot-*`,
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-athena-s3-wrapper-${props.projectId}`,
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-gather-context-data`,
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-ai-enhance-scores`,
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-combine-scores`
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'CloudWatchLogsDelivery',
+                      effect: iam.Effect.ALLOW,
+                      actions: [
+                        'logs:CreateLogDelivery',
+                        'logs:GetLogDelivery',
+                        'logs:UpdateLogDelivery',
+                        'logs:DeleteLogDelivery',
+                        'logs:ListLogDeliveries',
+                        'logs:PutResourcePolicy',
+                        'logs:DescribeResourcePolicies',
+                        'logs:DescribeLogGroups'
+                      ],
+                      resources: ['*']
+                    })
+                  ]
+                })
+              }
+            });
+
+            // ===== SKILL IMPORTANCE - DEDICATED STEP FUNCTION ROLE =====
+            const skillImportanceStepFunctionRole = new iam.Role(this, 'SkillImportanceStepFunctionRole', {
+              roleName: `app-modex-skill-importance-stepfunction-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('states.amazonaws.com'),
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'SkillImportanceStepFunctionRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                SkillImportanceStepFunctionPolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      sid: 'UpdateProcessStatus',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['dynamodb:UpdateItem'],
+                      resources: [processTrackingTable.tableArn]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'InvokeLambdaFunctions',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['lambda:InvokeFunction'],
+                      resources: [
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-skill-importance-*`
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'CloudWatchLogsDelivery',
+                      effect: iam.Effect.ALLOW,
+                      actions: [
+                        'logs:CreateLogDelivery',
+                        'logs:GetLogDelivery',
+                        'logs:UpdateLogDelivery',
+                        'logs:DeleteLogDelivery',
+                        'logs:ListLogDeliveries',
+                        'logs:PutResourcePolicy',
+                        'logs:DescribeResourcePolicies',
+                        'logs:DescribeLogGroups'
+                      ],
+                      resources: ['*']
+                    })
+                  ]
+                })
+              }
+            });
+
+            // Lambda Functions for Similarity Analysis
+            
+            // Step 0: Reference the existing working global Athena Query Lambda
+            // Instead of creating a duplicate lambda, use the proven working one
+            const athenaQueryLambda = lambda.Function.fromFunctionName(
+              this, 
+              'AthenaQueryLambda', 
+              'app-modex-athena-query'  // Use the existing working global lambda
+            );
+
+            // S3 wrapper Lambda to handle large datasets (shared by both app and component similarities)
+            const athenaQueryS3WrapperLambda = new lambda.Function(this, 'AthenaQueryS3WrapperLambda', {
+              functionName: `app-modex-athena-s3-wrapper-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.lambda_handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/athena-s3-wrapper'),
+              timeout: Duration.minutes(15),
+              memorySize: 1024,
+              role: appSimilarityAthenaWrapperRole,
+              environment: {
+                PROJECT_ID: props.projectId,
+                RESULTS_BUCKET: resultsBucket.bucketName,
+                ORIGINAL_ATHENA_FUNCTION: 'app-modex-athena-query',
+                WORKGROUP_NAME: `app-modex-workgroup-${props.projectId}`.toLowerCase()
+              }
+            });
+
+
+
+            // Step 1a: Data Partitioning Lambda
+            const dataPartitioningLambda = new lambda.Function(this, 'DataPartitioningLambda', {
+              functionName: `app-modex-partition-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/similarity-data-partitioning'),
+              timeout: Duration.minutes(5),
+              memorySize: 1024,
+              role: genericPartitionRole,
+              environment: {
+                MAX_ROWS_PER_PARTITION: '10000',
+                PROJECT_ID: props.projectId
+              }
+            });
+
+            // Step 1b: Data Processing Lambda
+            const similarityDataProcessingLambda = new lambda.Function(this, 'SimilarityDataProcessingLambda', {
+              functionName: `app-modex-sim-dataproc-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/similarity-data-processing'),
+              timeout: Duration.minutes(15),
+              memorySize: 3008,
+              role: genericDataProcessRole,
+              environment: {
+                PROJECT_ID: props.projectId
+              }
+            });
+
+            // Step 1c: Feature Consolidation Lambda
+            const featureConsolidationLambda = new lambda.Function(this, 'FeatureConsolidationLambda', {
+              functionName: `app-modex-features-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/similarity-feature-consolidation'),
+              timeout: Duration.minutes(10),
+              memorySize: 2048,
+              role: genericFeatureConsolidationRole,
+              environment: {
+                PROJECT_ID: props.projectId
+              }
+            });
+
+            // Step 2: Similarity Processing Lambda
+            const similarityProcessingLambda = new lambda.Function(this, 'SimilarityProcessingLambda', {
+              functionName: `app-modex-similarity-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/similarity-processing'),
+              timeout: Duration.minutes(15),
+              memorySize: 3008,
+              role: genericSimilarityProcessRole,
+              environment: {
+                SIMILARITY_TABLE: similarityTable.tableName,
+                PROJECT_ID: props.projectId
+              }
+            });
+
+            // Step 3: Results Aggregation Lambda
+            const resultsAggregationLambda = new lambda.Function(this, 'ResultsAggregationLambda', {
+              functionName: `app-modex-results-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/similarity-results-aggregation'),
+              timeout: Duration.minutes(10),
+              memorySize: 2048,
+              role: genericResultsAggregationRole,
+              environment: {
+                SIMILARITY_TABLE: similarityTable.tableName,
+                PROJECT_ID: props.projectId
+              }
+            });
+
+            // ===== SIMPLIFIED LAMBDA FUNCTIONS FOR REDESIGNED WORKFLOW =====
+            
+            // App Dataset Partitioning Lambda - Partitions all datasets (small and large)
+            const appPartitionLambda = new lambda.Function(this, 'AppPartitionLambda', {
+              functionName: `app-modex-app-partition-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/app-similarity-partition'),
+              timeout: Duration.minutes(5),
+              memorySize: 1024,
+              role: appSimilarityPartitionRole,
+              environment: {
+                PROJECT_ID: props.projectId,
+                S3_BUCKET: resultsBucket.bucketName
+              }
+            });
+
+            // App Partition Processing Lambda - Processes individual partitions
+            const appProcessLambda = new lambda.Function(this, 'AppProcessLambda', {
+              functionName: `app-modex-app-process-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/app-similarity-process'),
+              timeout: Duration.minutes(15),
+              memorySize: 3008,
+              role: appSimilarityProcessRole,
+              environment: {
+                SIMILARITY_TABLE: similarityTable.tableName,
+                PROJECT_ID: props.projectId,
+                S3_BUCKET: resultsBucket.bucketName
+              }
+            });
+
+            // App Results Aggregation Lambda - Aggregates final results
+            const appAggregateLambda = new lambda.Function(this, 'AppAggregateLambda', {
+              functionName: `app-modex-app-aggregate-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/app-similarity-aggregate'),
+              timeout: Duration.minutes(10),
+              memorySize: 2048,
+              role: appSimilarityAggregateRole,
+              environment: {
+                SIMILARITY_TABLE: similarityTable.tableName,
+                PROJECT_ID: props.projectId,
+                S3_BUCKET: resultsBucket.bucketName,
+                SNS_TOPIC: appNotificationTopic.topicArn
+              }
+            });
+
+            // ===== APPLICATION SIMILARITY - GENERATE CLUSTERS & STORE RESULTS (LEAST PRIVILEGE) =====
+
+            // Generate Clusters Role - Only S3 write permissions to results bucket
+            const appGenerateClustersRole = new iam.Role(this, 'AppGenerateClustersRole', {
+              roleName: `app-modex-app-clusters-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'AppGenerateClustersRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                GenerateClustersPolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      sid: 'S3ReadAggregatedResults',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:GetObject'],
+                      resources: [`${resultsBucket.bucketArn}/app-aggregated-results/*`]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'S3WriteClusters',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:PutObject'],
+                      resources: [`${resultsBucket.bucketArn}/application-clusters/*`]
+                    })
+                  ]
+                })
+              }
+            });
+
+            // Store Results Role - DynamoDB write permissions to both similarity and clusters tables, SNS publish, S3 read for aggregated results
+            const appStoreResultsRole = new iam.Role(this, 'AppStoreResultsRole', {
+              roleName: `app-modex-app-store-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'AppStoreResultsRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                StoreResultsPolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      sid: 'DynamoDBWriteSimilarities',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['dynamodb:PutItem', 'dynamodb:BatchWriteItem'],
+                      resources: [similarityTable.tableArn]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'DynamoDBWriteClusters',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['dynamodb:PutItem', 'dynamodb:BatchWriteItem'],
+                      resources: [appClustersTable.tableArn]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'SNSPublish',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['sns:Publish'],
+                      resources: [appNotificationTopic.topicArn]
+                    }),
+                    new iam.PolicyStatement({
+                      sid: 'S3ReadAggregatedResults',
+                      effect: iam.Effect.ALLOW,
+                      actions: ['s3:GetObject'],
+                      resources: [`${resultsBucket.bucketArn}/app-aggregated-results/*`]
+                    })
+                  ]
+                })
+              }
+            });
+
+            // Generate Clusters Lambda - Generates application clusters from aggregated results
+            const appGenerateClustersLambda = new lambda.Function(this, 'AppGenerateClustersLambda', {
+              functionName: `app-modex-app-clusters-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/app-similarity-generate-clusters'),
+              timeout: Duration.minutes(10),
+              memorySize: 1024,
+              role: appGenerateClustersRole,
+              environment: {
+                S3_BUCKET: resultsBucket.bucketName,
+                PROJECT_ID: props.projectId
+              }
+            });
+
+            // Store Results Lambda - Stores final application similarity results in DynamoDB
+            const appStoreResultsLambda = new lambda.Function(this, 'AppStoreResultsLambda', {
+              functionName: `app-modex-app-store-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/app-similarity-store-results'),
+              timeout: Duration.minutes(5),
+              memorySize: 512,
+              role: appStoreResultsRole,
+              environment: {
+                S3_BUCKET: resultsBucket.bucketName,
+                SIMILARITY_TABLE: similarityTable.tableName,
+                CLUSTERS_TABLE: appClustersTable.tableName,
+                SNS_TOPIC: appNotificationTopic.topicArn,
+                PROJECT_ID: props.projectId
+              }
+            });
+
+            // Step Function for Similarity Analysis - Uses dedicated app similarity step function role
+            const stepFunctionRole = appSimilarityStepFunctionRole;
+
+            // Application Similarity Step Function Definition - Loaded from external JSON file
+            
+            // Load Step Function definition from external JSON file
+            const stepFunctionDefinitionPath = path.join(__dirname, '..', 'stepfunctions', 'project-specific', 'application-similarity.json');
+            let stepFunctionDefinition = JSON.parse(fs.readFileSync(stepFunctionDefinitionPath, 'utf8'));
+            
+            // Replace template placeholders with actual ARNs
+            const stepFunctionDefinitionString = JSON.stringify(stepFunctionDefinition)
+              .replace(/{{ATHENA_S3_WRAPPER_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-athena-s3-wrapper-${props.projectId}`)
+              .replace(/{{APP_PARTITION_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-app-partition-${props.projectId}`)
+              .replace(/{{APP_PROCESS_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-app-process-${props.projectId}`)
+              .replace(/{{APP_AGGREGATE_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-app-aggregate-${props.projectId}`)
+              .replace(/{{APP_CLUSTERS_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-app-clusters-${props.projectId}`)
+              .replace(/{{APP_STORE_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-app-store-${props.projectId}`)
+              .replace(/\$\{cdk\.Aws\.REGION\}/g, cdk.Aws.REGION)
+              .replace(/\$\{cdk\.Aws\.ACCOUNT_ID\}/g, cdk.Aws.ACCOUNT_ID)
+              .replace(/\$\{props\.projectId\}/g, props.projectId);
+            
+            stepFunctionDefinition = JSON.parse(stepFunctionDefinitionString);
+
+            // Create log group for App Similarity Step Function (AFTER role creation, matching Export/Skill Importance pattern)
+            const stepFunctionLogGroup = new logs.LogGroup(this, 'SimilarityStepFunctionLogGroup', {
+              logGroupName: `/aws/vendedlogs/states/app-modex-app-sim-${props.projectId}`,
+              retention: logs.RetentionDays.ONE_WEEK,
+              removalPolicy: cdk.RemovalPolicy.DESTROY
+            });
+
+            // CloudWatch Logs permissions already granted in appSimilarityStepFunctionRole inline policy with wildcard resources
+
+            // Create Step Function (using shared CloudWatch Logs resource policy from backend stack)
+            const similarityStepFunction = new cdk.CfnResource(this, 'AppSimilarityAnalysisStateMachine', {
+              type: 'AWS::StepFunctions::StateMachine',
+              properties: {
+                StateMachineName: `app-modex-app-sim-analysis-${props.projectId}`,
+                RoleArn: stepFunctionRole.roleArn,
+                DefinitionString: JSON.stringify(stepFunctionDefinition),
+                StateMachineType: 'STANDARD',
+                TracingConfiguration: {
+                  Enabled: true
+                },
+                LoggingConfiguration: {
+                  Level: 'ERROR',
+                  IncludeExecutionData: false,
+                  Destinations: [
+                    {
+                      CloudWatchLogsLogGroup: {
+                        LogGroupArn: stepFunctionLogGroup.logGroupArn
+                      }
+                    }
+                  ]
+                }
+              }
+            });
+            
+            similarityStepFunction.node.addDependency(stepFunctionLogGroup);
+
+            // Output the Step Function ARN
+            new cdk.CfnOutput(this, 'AppSimilarityAnalysisStepFunctionArn', {
+              value: similarityStepFunction.getAtt('Arn').toString(),
+              description: 'ARN of the Application Similarity Analysis Step Function',
+              exportName: `App-ModEx-AppSimilarityStepFunction-${props.projectId}`
+            });
+
+            // Output the similarity table name
+            new cdk.CfnOutput(this, 'SimilarityTableName', {
+              value: similarityTable.tableName,
+              description: 'Name of the Similarity Results DynamoDB table',
+              exportName: `App-ModEx-SimilarityTable-${props.projectId}`
+            });
+
+            // Output the app notification topic ARN
+            new cdk.CfnOutput(this, 'AppNotificationTopicArn', {
+              value: appNotificationTopic.topicArn,
+              description: 'ARN of the Application Similarity Notification SNS topic',
+              exportName: `App-ModEx-AppNotificationTopic-${props.projectId}`
+            });
+
+            // ===== COMPONENT SIMILARITIES INFRASTRUCTURE =====
+            
+            // DynamoDB table for component similarity results
+            const componentSimilarityTable = new dynamodb.Table(this, 'ComponentSimilarityTable', {
+              tableName: `app-modex-comp-sim-${props.projectId}`.toLowerCase(),
+              partitionKey: { name: 'component_id', type: dynamodb.AttributeType.STRING },
+              sortKey: { name: 'similar_component_id', type: dynamodb.AttributeType.STRING },
+              billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+              removalPolicy: cdk.RemovalPolicy.DESTROY,
+              timeToLiveAttribute: 'ttl',
+              pointInTimeRecovery: true,
+            });
+
+            // DynamoDB table for component clusters
+            const compClustersTable = new dynamodb.Table(this, 'CompClustersTable', {
+              tableName: `app-modex-comp-clusters-${props.projectId}`.toLowerCase(),
+              partitionKey: { name: 'cluster_id', type: dynamodb.AttributeType.STRING },
+              billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+              removalPolicy: cdk.RemovalPolicy.DESTROY,
+              timeToLiveAttribute: 'ttl',
+              pointInTimeRecovery: true,
+            });
+
+            // DynamoDB table for component patterns
+            const compPatternsTable = new dynamodb.Table(this, 'CompPatternsTable', {
+              tableName: `app-modex-comp-patterns-${props.projectId}`.toLowerCase(),
+              partitionKey: { name: 'pattern_id', type: dynamodb.AttributeType.STRING },
+              billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+              removalPolicy: cdk.RemovalPolicy.DESTROY,
+              timeToLiveAttribute: 'ttl',
+              pointInTimeRecovery: true,
+            });
+
+            // S3 bucket for component similarity processing
+            const componentProcessingBucket = new s3.Bucket(this, 'ComponentProcessingBucket', {
+              bucketName: `app-modex-comp-proc-${props.projectId}`.toLowerCase(),
+              removalPolicy: cdk.RemovalPolicy.DESTROY,
+              autoDeleteObjects: true,
+              versioned: false,
+              encryption: s3.BucketEncryption.S3_MANAGED,
+              blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+              serverAccessLogsBucket: accessLogsBucket,
+              serverAccessLogsPrefix: `project-${props.projectId}/comp-processing/`,
+              lifecycleRules: [
+                {
+                  id: 'DeleteProcessingFiles',
+                  enabled: true,
+                  expiration: cdk.Duration.days(3), // Delete processing files after 3 days
+                },
+              ],
+            });
+
+            // SNS topic for component similarity notifications
+            const componentNotificationTopic = new sns.Topic(this, 'ComponentNotificationTopic', {
+              topicName: `app-modex-comp-notifications-${props.projectId}`.toLowerCase(),
+              displayName: `App-ModEx Component Similarity Notifications - ${props.projectId}`,
+            });
+
+            // IAM Role for Component Similarity Lambda functions
+            // ===== COMPONENT SIMILARITY LAMBDA FUNCTIONS WITH UNIQUE ROLES =====
+
+            // Helper function to create unique role for each Component Similarity function
+            const createComponentSimilarityRole = (functionName: string, permissions: string[]) => {
+              const role = new iam.Role(this, `${functionName}Role`, {
+                roleName: `app-modex-comp-${functionName}-${props.projectId}`,
+                assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+                managedPolicies: [
+                  iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+                ],
+                permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                  this,
+                  `${functionName}RoleBoundary`,
+                  cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+                )
+              });
+
+              // Grant S3 permissions (all functions need S3 access)
+              if (permissions.includes('s3')) {
+                role.addToPolicy(new iam.PolicyStatement({
+                  effect: iam.Effect.ALLOW,
+                  actions: [
+                    's3:GetObject',
+                    's3:PutObject',
+                    's3:DeleteObject',
+                    's3:ListBucket'
+                  ],
+                  resources: [
+                    projectBucket.bucketArn,
+                    `${projectBucket.bucketArn}/*`,
+                    componentProcessingBucket.bucketArn,
+                    `${componentProcessingBucket.bucketArn}/*`,
+                    resultsBucket.bucketArn,
+                    `${resultsBucket.bucketArn}/*`
+                  ]
+                }));
+              }
+
+              // Grant DynamoDB permissions (most functions need DynamoDB access)
+              if (permissions.includes('dynamodb')) {
+                role.addToPolicy(new iam.PolicyStatement({
+                  effect: iam.Effect.ALLOW,
+                  actions: [
+                    'dynamodb:PutItem',
+                    'dynamodb:GetItem',
+                    'dynamodb:Query',
+                    'dynamodb:Scan',
+                    'dynamodb:UpdateItem',
+                    'dynamodb:DeleteItem',
+                    'dynamodb:BatchWriteItem'
+                  ],
+                  resources: [
+                    componentSimilarityTable.tableArn,
+                    compClustersTable.tableArn,
+                    compPatternsTable.tableArn,
+                    similarityTable.tableArn,
+                    dataSourcesTable.tableArn
+                  ]
+                }));
+              }
+
+              // Grant SNS permissions (store results function needs SNS)
+              if (permissions.includes('sns')) {
+                role.addToPolicy(new iam.PolicyStatement({
+                  effect: iam.Effect.ALLOW,
+                  actions: ['sns:Publish'],
+                  resources: [componentNotificationTopic.topicArn]
+                }));
+              }
+
+              // Grant Athena permissions (partition and process functions need Athena)
+              if (permissions.includes('athena')) {
+                role.addToPolicy(new iam.PolicyStatement({
+                  effect: iam.Effect.ALLOW,
+                  actions: [
+                    'athena:StartQueryExecution',
+                    'athena:GetQueryExecution',
+                    'athena:GetQueryResults',
+                    'athena:StopQueryExecution',
+                    'athena:GetWorkGroup'
+                  ],
+                  resources: ['*']
+                }));
+              }
+
+              // Grant Glue permissions (partition and process functions need Glue)
+              if (permissions.includes('glue')) {
+                role.addToPolicy(new iam.PolicyStatement({
+                  effect: iam.Effect.ALLOW,
+                  actions: [
+                    'glue:GetDatabase',
+                    'glue:GetTable',
+                    'glue:GetTables',
+                    'glue:GetPartition',
+                    'glue:GetPartitions'
+                  ],
+                  resources: [
+                    `arn:aws:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:catalog`,
+                    `arn:aws:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:database/${glueDatabase.ref}`,
+                    `arn:aws:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/${glueDatabase.ref}/*`
+                  ]
+                }));
+              }
+
+              // Grant Lambda invoke permissions (partition function needs to invoke athena-query)
+              if (permissions.includes('lambda')) {
+                role.addToPolicy(new iam.PolicyStatement({
+                  effect: iam.Effect.ALLOW,
+                  actions: ['lambda:InvokeFunction'],
+                  resources: [
+                    `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-athena-query`
+                  ]
+                }));
+              }
+
+              return role;
+            };
+
+            // Create unique roles for each function with specific permissions
+            const partitionDatasetRole = createComponentSimilarityRole('partition', ['s3', 'athena', 'glue', 'lambda']);
+            const processPartitionRole = createComponentSimilarityRole('process', ['s3', 'dynamodb', 'athena', 'glue']);
+            const aggregateResultsRole = createComponentSimilarityRole('aggregate', ['s3', 'dynamodb']);
+            const generateClustersRole = createComponentSimilarityRole('clusters', ['s3', 'dynamodb']);
+            const findPatternsRole = createComponentSimilarityRole('patterns', ['s3', 'dynamodb']);
+            const storeResultsRole = createComponentSimilarityRole('store', ['s3', 'dynamodb', 'sns']);
+            const athenaS3WrapperRole = createComponentSimilarityRole('athena-wrapper', ['s3', 'athena', 'glue']);
+
+            // PartitionDataset Lambda - Partitions large datasets for distributed processing
+            const partitionDatasetLambda = new lambda.Function(this, 'PartitionDatasetLambda', {
+              functionName: `app-modex-comp-partition-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/component-similarity-partition-dataset'),
+              timeout: cdk.Duration.minutes(5),
+              memorySize: 512,
+              role: partitionDatasetRole,
+              environment: {
+                S3_BUCKET: componentProcessingBucket.bucketName,
+                PROCESSING_BUCKET: componentProcessingBucket.bucketName,
+                RESULTS_BUCKET: resultsBucket.bucketName,
+                PROJECT_ID: props.projectId
+              }
+            });
+
+            // ProcessPartition Lambda - Processes individual partitions
+            const processPartitionLambda = new lambda.Function(this, 'ProcessPartitionLambda', {
+              functionName: `app-modex-comp-process-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/component-similarity-process-partition'),
+              timeout: cdk.Duration.minutes(15),
+              memorySize: 1024,
+              role: processPartitionRole,
+              environment: {
+                S3_BUCKET: componentProcessingBucket.bucketName,
+                PROJECT_ID: props.projectId
+              }
+            });
+
+            // AggregateResults Lambda - Aggregates results from all partitions
+            const aggregateResultsLambda = new lambda.Function(this, 'AggregateResultsLambda', {
+              functionName: `app-modex-comp-aggregate-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/component-similarity-aggregate-results'),
+              timeout: cdk.Duration.minutes(10),
+              memorySize: 1024,
+              role: aggregateResultsRole,
+              environment: {
+                S3_BUCKET: componentProcessingBucket.bucketName,
+                DYNAMODB_TABLE: componentSimilarityTable.tableName,
+                PROJECT_ID: props.projectId
+              }
+            });
+
+            // GenerateClusters Lambda - Generates component clusters
+            const generateClustersLambda = new lambda.Function(this, 'GenerateClustersLambda', {
+              functionName: `app-modex-comp-clusters-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/component-similarity-generate-clusters'),
+              timeout: cdk.Duration.minutes(10),
+              memorySize: 1024,
+              role: generateClustersRole,
+              environment: {
+                DYNAMODB_TABLE: componentSimilarityTable.tableName,
+                S3_BUCKET: componentProcessingBucket.bucketName,
+                PROJECT_ID: props.projectId
+              }
+            });
+
+            // FindPatterns Lambda - Identifies repeated patterns
+            const findPatternsLambda = new lambda.Function(this, 'FindPatternsLambda', {
+              functionName: `app-modex-comp-patterns-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/component-similarity-find-patterns'),
+              timeout: cdk.Duration.minutes(10),
+              memorySize: 1024,
+              role: findPatternsRole,
+              environment: {
+                DYNAMODB_TABLE: componentSimilarityTable.tableName,
+                S3_BUCKET: componentProcessingBucket.bucketName,
+                PROJECT_ID: props.projectId
+              }
+            });
+
+            // StoreResults Lambda - Stores final results
+            const storeResultsLambda = new lambda.Function(this, 'StoreResultsLambda', {
+              functionName: `app-modex-comp-store-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/component-similarity-store-results'),
+              timeout: cdk.Duration.minutes(5),
+              memorySize: 512,
+              role: storeResultsRole,
+              environment: {
+                S3_BUCKET: componentProcessingBucket.bucketName,
+                DYNAMODB_TABLE: componentSimilarityTable.tableName,
+                CLUSTERS_TABLE: compClustersTable.tableName,
+                PATTERNS_TABLE: compPatternsTable.tableName,
+                SNS_TOPIC: componentNotificationTopic.topicArn,
+                PROJECT_ID: props.projectId
+              }
+            });
+
+            // AthenaS3Wrapper Lambda - Wraps Athena queries with S3 operations
+            // COMMENTED OUT: Duplicate of athenaQueryS3WrapperLambda defined earlier (line ~1176)
+            // Both app and component similarity workflows use the same athenaQueryS3WrapperLambda
+            /*
+            const athenaS3WrapperLambda = new lambda.Function(this, 'AthenaS3WrapperLambda', {
+              functionName: `app-modex-athena-s3-wrapper-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/athena-s3-wrapper'),
+              timeout: cdk.Duration.minutes(10),
+              memorySize: 512,
+              role: athenaS3WrapperRole,
+              environment: {
+                S3_BUCKET: componentProcessingBucket.bucketName,
+                RESULTS_BUCKET: resultsBucket.bucketName,
+                PROJECT_ID: props.projectId
+              }
+            });
+            */
+
+
+
+            // Component Similarity Step Function Role
+            const componentStepFunctionRole = new iam.Role(this, 'ComponentStepFunctionRole', {
+              roleName: `app-modex-comp-stepfn-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('states.amazonaws.com'),
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'ComponentStepFunctionRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                ComponentStepFunctionPolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      effect: iam.Effect.ALLOW,
+                      actions: ['dynamodb:UpdateItem'],
+                      resources: [processTrackingTable.tableArn]
+                    }),
+                    new iam.PolicyStatement({
+                      effect: iam.Effect.ALLOW,
+                      actions: ['lambda:InvokeFunction'],
+                      resources: [
+                        athenaQueryLambda.functionArn,
+                        athenaQueryS3WrapperLambda.functionArn,
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-comp-partition-${props.projectId}`,
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-comp-process-${props.projectId}`,
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-comp-aggregate-${props.projectId}`,
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-comp-clusters-${props.projectId}`,
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-comp-patterns-${props.projectId}`,
+                        `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-comp-store-${props.projectId}`
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      effect: iam.Effect.ALLOW,
+                      actions: [
+                        'logs:CreateLogDelivery',
+                        'logs:GetLogDelivery',
+                        'logs:UpdateLogDelivery',
+                        'logs:DeleteLogDelivery',
+                        'logs:ListLogDeliveries',
+                        'logs:PutResourcePolicy',
+                        'logs:DescribeResourcePolicies',
+                        'logs:DescribeLogGroups',
+                        'logs:CreateLogGroup',
+                        'logs:CreateLogStream',
+                        'logs:PutLogEvents'
+                      ],
+                      resources: ['*']
+                    })
+                  ]
+                })
+              }
+            });
+            
+            // Load Component Similarity Step Function definition from external JSON file
+            const componentStepFunctionDefinitionPath = path.join(__dirname, '..', 'stepfunctions', 'project-specific', 'component-similarity.json');
+            let componentStepFunctionDefinition = JSON.parse(fs.readFileSync(componentStepFunctionDefinitionPath, 'utf8'));
+            
+            // Replace template placeholders with actual ARNs
+            const componentStepFunctionDefinitionString = JSON.stringify(componentStepFunctionDefinition)
+              .replace(/{{ATHENA_S3_WRAPPER_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-athena-s3-wrapper-${props.projectId}`)
+              .replace(/{{COMP_PARTITION_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-comp-partition-${props.projectId}`)
+              .replace(/{{COMP_PROCESS_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-comp-process-${props.projectId}`)
+              .replace(/{{COMP_AGGREGATE_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-comp-aggregate-${props.projectId}`)
+              .replace(/{{COMP_CLUSTERS_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-comp-clusters-${props.projectId}`)
+              .replace(/{{COMP_PATTERNS_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-comp-patterns-${props.projectId}`)
+              .replace(/{{COMP_STORE_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-comp-store-${props.projectId}`)
+              .replace(/\$\{cdk\.Aws\.REGION\}/g, cdk.Aws.REGION)
+              .replace(/\$\{cdk\.Aws\.ACCOUNT_ID\}/g, cdk.Aws.ACCOUNT_ID)
+              .replace(/\$\{props\.projectId\}/g, props.projectId);
+            
+            componentStepFunctionDefinition = JSON.parse(componentStepFunctionDefinitionString);
+
+            // Create log group for Component Similarity Step Function
+            const componentStepFunctionLogGroup = new logs.LogGroup(this, 'ComponentSimilarityStepFunctionLogGroup', {
+              logGroupName: `/aws/vendedlogs/states/app-modex-comp-sim-${props.projectId}`,
+              retention: logs.RetentionDays.ONE_WEEK,
+              removalPolicy: cdk.RemovalPolicy.DESTROY
+            });
+
+            // CloudWatch Logs permissions already granted in componentStepFunctionRole inline policy with wildcard resources
+
+            // Create Component Similarity Step Function (using shared CloudWatch Logs resource policy from backend stack)
+            const componentSimilarityStepFunction = new cdk.CfnResource(this, 'ComponentSimilarityStateMachine', {
+              type: 'AWS::StepFunctions::StateMachine',
+              properties: {
+                StateMachineName: `app-modex-comp-sim-analysis-${props.projectId}`,
+                RoleArn: componentStepFunctionRole.roleArn,
+                DefinitionString: JSON.stringify(componentStepFunctionDefinition),
+                StateMachineType: 'STANDARD',
+                TracingConfiguration: {
+                  Enabled: true
+                },
+                LoggingConfiguration: {
+                  Level: 'ERROR',
+                  IncludeExecutionData: false,
+                  Destinations: [
+                    {
+                      CloudWatchLogsLogGroup: {
+                        LogGroupArn: componentStepFunctionLogGroup.logGroupArn
+                      }
+                    }
+                  ]
+                }
+              }
+            });
+            
+            componentSimilarityStepFunction.node.addDependency(componentStepFunctionLogGroup);
+
+            // Component Similarity Outputs
+            new cdk.CfnOutput(this, 'ComponentSimilarityStepFunctionArn', {
+              value: componentSimilarityStepFunction.getAtt('Arn').toString(),
+              description: 'ARN of the Component Similarity Analysis Step Function',
+              exportName: `App-ModEx-ComponentSimilarityStepFunction-${props.projectId}`
+            });
+
+            new cdk.CfnOutput(this, 'ComponentSimilarityTableName', {
+              value: componentSimilarityTable.tableName,
+              description: 'Name of the Component Similarity Results DynamoDB table',
+              exportName: `App-ModEx-ComponentSimilarityTable-${props.projectId}`
+            });
+
+            new cdk.CfnOutput(this, 'ComponentClustersTableName', {
+              value: compClustersTable.tableName,
+              description: 'Name of the Component Clusters DynamoDB table',
+              exportName: `App-ModEx-ComponentClustersTable-${props.projectId}`
+            });
+
+            new cdk.CfnOutput(this, 'ComponentProcessingBucketName', {
+              value: componentProcessingBucket.bucketName,
+              description: 'Name of the Component Processing S3 bucket',
+              exportName: `App-ModEx-ComponentProcessingBucket-${props.projectId}`
+            });
+
+            // ===== PILOT ANALYSIS LAMBDA FUNCTIONS =====
+            
+            // Create shared role for Pilot Analysis functions (temporary - will be refactored to unique roles in future)
+            const pilotAnalysisLambdaRole = new iam.Role(this, 'PilotAnalysisLambdaRole', {
+              roleName: `app-modex-pilot-lambda-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'PilotAnalysisLambdaRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                PilotAnalysisPolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      effect: iam.Effect.ALLOW,
+                      actions: [
+                        's3:GetObject',
+                        's3:PutObject',
+                        's3:DeleteObject',
+                        's3:ListBucket'
+                      ],
+                      resources: [
+                        projectBucket.bucketArn,
+                        `${projectBucket.bucketArn}/*`,
+                        componentProcessingBucket.bucketArn,
+                        `${componentProcessingBucket.bucketArn}/*`,
+                        resultsBucket.bucketArn,
+                        `${resultsBucket.bucketArn}/*`
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      effect: iam.Effect.ALLOW,
+                      actions: [
+                        'dynamodb:PutItem',
+                        'dynamodb:GetItem',
+                        'dynamodb:Query',
+                        'dynamodb:Scan',
+                        'dynamodb:UpdateItem',
+                        'dynamodb:DeleteItem',
+                        'dynamodb:BatchWriteItem'
+                      ],
+                      resources: [
+                        `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-pilot-*`,
+                        `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-app-sim-*`
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      effect: iam.Effect.ALLOW,
+                      actions: [
+                        'athena:StartQueryExecution',
+                        'athena:GetQueryExecution',
+                        'athena:GetQueryResults',
+                        'athena:StopQueryExecution',
+                        'athena:GetWorkGroup'
+                      ],
+                      resources: ['*']
+                    }),
+                    new iam.PolicyStatement({
+                      effect: iam.Effect.ALLOW,
+                      actions: [
+                        'glue:GetDatabase',
+                        'glue:GetTable',
+                        'glue:GetTables',
+                        'glue:GetPartition',
+                        'glue:GetPartitions'
+                      ],
+                      resources: [
+                        `arn:aws:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:catalog`,
+                        `arn:aws:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:database/${glueDatabase.ref}`,
+                        `arn:aws:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/${glueDatabase.ref}/*`
+                      ]
+                    })
+                  ]
+                })
+              }
+            });
+            
+            // Pilot Dataset Partitioning Lambda - Partitions pilot datasets for distributed processing
+            const pilotPartitionLambda = new lambda.Function(this, 'PilotPartitionLambda', {
+              functionName: `app-modex-pilot-partition-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/pilot-partition'),
+              timeout: cdk.Duration.minutes(5),
+              memorySize: 512,
+              role: pilotAnalysisLambdaRole,
+              environment: {
+                S3_BUCKET: componentProcessingBucket.bucketName,
+                PROCESSING_BUCKET: componentProcessingBucket.bucketName,
+                RESULTS_BUCKET: resultsBucket.bucketName,
+                PROJECT_ID: props.projectId
+              }
+            });
+
+            // Pilot Partition Processing Lambda - Processes individual pilot partitions
+            const pilotProcessLambda = new lambda.Function(this, 'PilotProcessLambda', {
+              functionName: `app-modex-pilot-process-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/pilot-process'),
+              timeout: cdk.Duration.minutes(15),
+              memorySize: 1024,
+              role: pilotAnalysisLambdaRole,
+              environment: {
+                S3_BUCKET: componentProcessingBucket.bucketName,
+                PROJECT_ID: props.projectId
+              }
+            });
+
+            // Pilot Results Aggregation Lambda - Aggregates results from all pilot partitions
+            const pilotAggregateLambda = new lambda.Function(this, 'PilotAggregateLambda', {
+              functionName: `app-modex-pilot-aggregate-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/pilot-aggregate'),
+              timeout: cdk.Duration.minutes(10),
+              memorySize: 1024,
+              role: pilotAnalysisLambdaRole,
+              environment: {
+                S3_BUCKET: componentProcessingBucket.bucketName,
+                PROJECT_ID: props.projectId
+              }
+            });
+
+            // Pilot Ranking Lambda - Ranks and scores pilot candidates
+            const pilotRankLambda = new lambda.Function(this, 'PilotRankLambda', {
+              functionName: `app-modex-pilot-rank-${props.projectId}`,
+              runtime: lambda.Runtime.PYTHON_3_12,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/pilot-rank'),
+              timeout: cdk.Duration.minutes(10),
+              memorySize: 1024,
+              role: pilotAnalysisLambdaRole,
+              environment: {
+                S3_BUCKET: componentProcessingBucket.bucketName,
+                PROJECT_ID: props.projectId
+              }
+            });
+
+            // ===== PILOT IDENTIFICATION INFRASTRUCTURE =====
+            
+            // DynamoDB table for pilot analysis jobs
+            const pilotAnalysisJobsTable = new dynamodb.Table(this, 'PilotAnalysisJobsTable', {
+              tableName: `app-modex-pilot-jobs-${props.projectId}`.toLowerCase(),
+              partitionKey: { 
+                name: 'jobId', 
+                type: dynamodb.AttributeType.STRING 
+              },
+              billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+              encryption: dynamodb.TableEncryption.AWS_MANAGED,
+              removalPolicy: cdk.RemovalPolicy.DESTROY,
+              
+              // TTL for automatic cleanup of old jobs (30 days)
+              timeToLiveAttribute: 'ttl'
+            });
+
+            // Add GSI for querying jobs by project and status
+            pilotAnalysisJobsTable.addGlobalSecondaryIndex({
+              indexName: 'ProjectStatusIndex',
+              partitionKey: { 
+                name: 'projectId', 
+                type: dynamodb.AttributeType.STRING 
+              },
+              sortKey: { 
+                name: 'status', 
+                type: dynamodb.AttributeType.STRING 
+              },
+              projectionType: dynamodb.ProjectionType.ALL,
+            });
+
+            // DynamoDB table for pilot candidates results
+            const pilotCandidatesResultsTable = new dynamodb.Table(this, 'PilotCandidatesResultsTable', {
+              tableName: `app-modex-pilot-results-${props.projectId}`.toLowerCase(),
+              partitionKey: { 
+                name: 'jobId', 
+                type: dynamodb.AttributeType.STRING 
+              },
+              sortKey: {
+                name: 'candidateId',
+                type: dynamodb.AttributeType.STRING
+              },
+              billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+              encryption: dynamodb.TableEncryption.AWS_MANAGED,
+              removalPolicy: cdk.RemovalPolicy.DESTROY,
+              
+              // TTL for automatic cleanup of old results (30 days)
+              timeToLiveAttribute: 'ttl'
+            });
+
+            // Grant permissions for pilot identification tables
+            pilotAnalysisJobsTable.grantReadWriteData(projectLambdaRole);
+            pilotCandidatesResultsTable.grantReadWriteData(projectLambdaRole);
+            
+            // Grant pilot analysis table permissions to pilot analysis role
+            pilotAnalysisJobsTable.grantReadWriteData(pilotAnalysisLambdaRole);
+            pilotCandidatesResultsTable.grantReadWriteData(pilotAnalysisLambdaRole);
+
+            // ===== APPLICATION BUCKETS INFRASTRUCTURE =====
+
+            // Application Buckets Table
+            const applicationBucketsTable = new dynamodb.Table(this, 'ApplicationBucketsTable', {
+              tableName: `app-modex-application-buckets-${props.projectId}`.toLowerCase(),
+              partitionKey: { name: 'projectId', type: dynamodb.AttributeType.STRING },
+              sortKey: { name: 'bucketId', type: dynamodb.AttributeType.STRING },
+              billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+              encryption: dynamodb.TableEncryption.AWS_MANAGED,
+              removalPolicy: cdk.RemovalPolicy.DESTROY
+            });
+
+            // Grant permissions for application buckets table
+            applicationBucketsTable.grantReadWriteData(projectLambdaRole);
+
+            // ===== TCO ESTIMATES INFRASTRUCTURE =====
+
+            // TCO Estimates Table
+            const tcoEstimatesTable = new dynamodb.Table(this, 'TCOEstimatesTable', {
+              tableName: `app-modex-tco-estimates-${props.projectId}`.toLowerCase(),
+              partitionKey: { name: 'projectId', type: dynamodb.AttributeType.STRING },
+              sortKey: { name: 'tcoId', type: dynamodb.AttributeType.STRING },
+              billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+              encryption: dynamodb.TableEncryption.AWS_MANAGED,
+              removalPolicy: cdk.RemovalPolicy.DESTROY
+            });
+
+            // Grant permissions for TCO estimates table
+            tcoEstimatesTable.grantReadWriteData(projectLambdaRole);
+
+            // ===== TEAM ESTIMATES INFRASTRUCTURE =====
+
+            // Team Estimates Table
+            const teamEstimatesTable = new dynamodb.Table(this, 'TeamEstimatesTable', {
+              tableName: `app-modex-team-estimates-${props.projectId}`.toLowerCase(),
+              partitionKey: { name: 'projectId', type: dynamodb.AttributeType.STRING },
+              sortKey: { name: 'teamEstimateId', type: dynamodb.AttributeType.STRING },
+              billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+              encryption: dynamodb.TableEncryption.AWS_MANAGED,
+              removalPolicy: cdk.RemovalPolicy.DESTROY
+            });
+
+            // Grant permissions for team estimates table
+            teamEstimatesTable.grantReadWriteData(projectLambdaRole);
+
+            // Load Pilot Analysis Step Function definition from external JSON file
+            const pilotAnalysisStepFunctionDefinitionPath = path.join(__dirname, '..', 'stepfunctions', 'project-specific', 'pilot-analysis.json');
+            let pilotAnalysisStepFunctionDefinition = JSON.parse(fs.readFileSync(pilotAnalysisStepFunctionDefinitionPath, 'utf8'));
+            
+            // Replace template placeholders with actual ARNs
+            const pilotAnalysisStepFunctionDefinitionString = JSON.stringify(pilotAnalysisStepFunctionDefinition)
+              .replace(/{{ATHENA_S3_WRAPPER_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-athena-s3-wrapper-${props.projectId}`)
+              .replace(/{{PILOT_PARTITION_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-pilot-partition-${props.projectId}`)
+              .replace(/{{PILOT_PROCESS_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-pilot-process-${props.projectId}`)
+              .replace(/{{PILOT_AGGREGATE_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-pilot-aggregate-${props.projectId}`)
+              .replace(/{{PILOT_RANK_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-pilot-rank-${props.projectId}`)
+              .replace(/{{GATHER_CONTEXT_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-gather-context-data`)
+              .replace(/{{AI_ENHANCE_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-ai-enhance-scores`)
+              .replace(/{{COMBINE_SCORES_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-combine-scores`)
+              .replace(/{{PILOT_JOBS_TABLE_NAME}}/g, pilotAnalysisJobsTable.tableName)
+              .replace(/{{PILOT_RESULTS_TABLE_NAME}}/g, pilotCandidatesResultsTable.tableName)
+              .replace(/\$\{cdk\.Aws\.REGION\}/g, cdk.Aws.REGION)
+              .replace(/\$\{cdk\.Aws\.ACCOUNT_ID\}/g, cdk.Aws.ACCOUNT_ID)
+              .replace(/\$\{props\.projectId\}/g, props.projectId)
+              .replace(/\$\{glueDatabase\.ref\}/g, glueDatabase.ref)
+              .replace(/pilotAnalysisJobsTable\.tableName/g, pilotAnalysisJobsTable.tableName)
+              .replace(/pilotCandidatesResultsTable\.tableName/g, pilotCandidatesResultsTable.tableName);
+
+            pilotAnalysisStepFunctionDefinition = JSON.parse(pilotAnalysisStepFunctionDefinitionString);
+
+            // Create CloudWatch Log Group for Pilot Analysis Step Function
+            const pilotAnalysisLogGroup = new logs.LogGroup(this, 'PilotAnalysisLogGroup', {
+              logGroupName: `/aws/vendedlogs/states/app-modex-pilot-analysis-${props.projectId}`.toLowerCase(),
+              retention: logs.RetentionDays.ONE_WEEK,
+              removalPolicy: cdk.RemovalPolicy.DESTROY
+            });
+
+            // CloudWatch Logs permissions already granted in pilotAnalysisStepFunctionRole inline policy with wildcard resources
+
+            // Create Step Function for pilot analysis orchestration (using shared CloudWatch Logs resource policy from backend stack)
+            const pilotAnalysisStateMachine = new cdk.CfnResource(this, 'PilotAnalysisStateMachine', {
+              type: 'AWS::StepFunctions::StateMachine',
+              properties: {
+                StateMachineName: `app-modex-pilot-analysis-${props.projectId}`.toLowerCase(),
+                RoleArn: pilotAnalysisStepFunctionRole.roleArn,
+                DefinitionString: JSON.stringify(pilotAnalysisStepFunctionDefinition),
+                StateMachineType: 'STANDARD',
+                TracingConfiguration: {
+                  Enabled: true
+                },
+                LoggingConfiguration: {
+                  Level: 'ERROR',
+                  IncludeExecutionData: false,
+                  Destinations: [
+                    {
+                      CloudWatchLogsLogGroup: {
+                        LogGroupArn: pilotAnalysisLogGroup.logGroupArn
+                      }
+                    }
+                  ]
+                }
+              }
+            });
+            
+            pilotAnalysisStateMachine.node.addDependency(pilotAnalysisLogGroup);
+
+            // The Step Function will automatically depend on the log group through LogGroupArn reference
+            
+            // Grant permissions for project Lambda role to start executions
+            projectLambdaRole.addToPolicy(new iam.PolicyStatement({
+              actions: ['states:StartExecution'],
+              resources: [pilotAnalysisStateMachine.getAtt('Arn').toString()]
+            }));
+
+            new cdk.CfnOutput(this, 'ComponentNotificationTopicArn', {
+              value: componentNotificationTopic.topicArn,
+              description: 'ARN of the Component Notification SNS topic',
+              exportName: `App-ModEx-ComponentNotificationTopic-${props.projectId}`
+            });
+
+            new cdk.CfnOutput(this, 'PilotAnalysisJobsTableName', {
+              value: pilotAnalysisJobsTable.tableName,
+              description: 'Name of the Pilot Analysis Jobs DynamoDB table',
+              exportName: `App-ModEx-PilotJobsTable-${props.projectId}`
+            });
+
+            new cdk.CfnOutput(this, 'PilotCandidatesResultsTableName', {
+              value: pilotCandidatesResultsTable.tableName,
+              description: 'Name of the Pilot Candidates Results DynamoDB table',
+              exportName: `App-ModEx-PilotResultsTable-${props.projectId}`
+            });
+
+            new cdk.CfnOutput(this, 'PilotAnalysisStateMachineArn', {
+              value: pilotAnalysisStateMachine.getAtt('Arn').toString(),
+              description: 'ARN of the Pilot Analysis Step Function',
+              exportName: `App-ModEx-PilotStateMachine-${props.projectId}`
+            });
+
+            new cdk.CfnOutput(this, 'TeamEstimatesTableName', {
+              value: teamEstimatesTable.tableName,
+              description: 'Name of the Team Estimates DynamoDB table',
+              exportName: `App-ModEx-TeamEstimatesTable-${props.projectId}`
+            });
+
+            // ===== SKILL IMPORTANCE SCORING INFRASTRUCTURE =====
+
+            // IAM Role for Skill Importance Lambda functions
+            const skillImportanceLambdaRole = new iam.Role(this, 'SkillImportanceLambdaRole', {
+              roleName: `app-modex-skill-importance-lambda-${props.projectId}`,
+              assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+              managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+              ],
+              permissionsBoundary: iam.ManagedPolicy.fromManagedPolicyArn(
+                this,
+                'SkillImportanceLambdaRoleBoundary',
+                cdk.Fn.importValue('AppModEx-CDKPermissionsBoundaryArn')
+              ),
+              inlinePolicies: {
+                SkillImportancePolicy: new iam.PolicyDocument({
+                  statements: [
+                    new iam.PolicyStatement({
+                      effect: iam.Effect.ALLOW,
+                      actions: [
+                        's3:GetObject',
+                        's3:PutObject'
+                      ],
+                      resources: [
+                        `${projectBucket.bucketArn}/*`,
+                        `${resultsBucket.bucketArn}/*`
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      effect: iam.Effect.ALLOW,
+                      actions: [
+                        's3:ListBucket',
+                        's3:GetBucketLocation'
+                      ],
+                      resources: [
+                        projectBucket.bucketArn,
+                        resultsBucket.bucketArn
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      effect: iam.Effect.ALLOW,
+                      actions: [
+                        'athena:StartQueryExecution',
+                        'athena:GetQueryExecution',
+                        'athena:GetQueryResults',
+                        'athena:StopQueryExecution',
+                        'athena:GetWorkGroup'
+                      ],
+                      resources: [
+                        `arn:aws:athena:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:workgroup/app-modex-*`
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      effect: iam.Effect.ALLOW,
+                      actions: [
+                        'glue:GetDatabase',
+                        'glue:GetTable',
+                        'glue:GetPartitions'
+                      ],
+                      resources: [
+                        `arn:aws:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:catalog`,
+                        `arn:aws:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:database/app_modex_${props.projectId.toLowerCase()}`,
+                        `arn:aws:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app_modex_${props.projectId.toLowerCase()}/*`
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      effect: iam.Effect.ALLOW,
+                      actions: [
+                        'bedrock:InvokeModel'
+                      ],
+                      resources: [
+                        `arn:aws:bedrock:${cdk.Aws.REGION}::foundation-model/amazon.nova-lite-v1:0`
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      effect: iam.Effect.ALLOW,
+                      actions: [
+                        'dynamodb:GetItem',
+                        'dynamodb:Query'
+                      ],
+                      resources: [
+                        `arn:aws:dynamodb:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:table/app-modex-prompt-templates`
+                      ]
+                    }),
+                    new iam.PolicyStatement({
+                      effect: iam.Effect.ALLOW,
+                      actions: [
+                        'dynamodb:PutItem',
+                        'dynamodb:UpdateItem'
+                      ],
+                      resources: [
+                        processTrackingTable.tableArn
+                      ]
+                    })
+                  ]
+                })
+              }
+            });
+
+            // Skill Importance Orchestrator Lambda
+            const skillImportanceOrchestratorLambda = new lambda.Function(this, 'SkillImportanceOrchestratorLambda', {
+              functionName: `app-modex-skill-importance-orchestrator-${props.projectId}`,
+              runtime: lambda.Runtime.NODEJS_22_X,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/skill-importance-orchestrator'),
+              timeout: cdk.Duration.minutes(5),
+              memorySize: 512,
+              role: skillImportanceLambdaRole,
+              environment: {
+                PROJECT_ID: props.projectId,
+                PROJECT_BUCKET: projectBucket.bucketName,
+                RESULTS_BUCKET: resultsBucket.bucketName,
+                GLUE_DATABASE: glueDatabase.ref,
+                WORKGROUP_NAME: `app-modex-workgroup-${props.projectId}`.toLowerCase()
+              },
+              layers: [sharedLayer],
+            });
+
+            // Skill Importance Scorer Lambda
+            const skillImportanceScorerLambda = new lambda.Function(this, 'SkillImportanceScorerLambda', {
+              functionName: `app-modex-skill-importance-scorer-${props.projectId}`,
+              runtime: lambda.Runtime.NODEJS_22_X,
+              handler: 'index.handler',
+              code: lambda.Code.fromAsset('lambda/project-specific/skill-importance-scorer'),
+              timeout: cdk.Duration.minutes(10),
+              memorySize: 1024,
+              role: skillImportanceLambdaRole,
+              environment: {
+                PROJECT_ID: props.projectId
+              },
+              layers: [sharedLayer],
+            });
+
+            // Load Skill Importance Step Function definition from external JSON file
+            const skillImportanceStepFunctionDefinitionPath = path.join(__dirname, '..', 'stepfunctions', 'project-specific', 'skill-importance.json');
+            let skillImportanceStepFunctionDefinition = JSON.parse(fs.readFileSync(skillImportanceStepFunctionDefinitionPath, 'utf8'));
+            
+            // Replace template placeholders with actual ARNs
+            /*
+            const skillImportanceStepFunctionDefinitionString = JSON.stringify(skillImportanceStepFunctionDefinition)
+              .replace(/{{SKILL_ORCHESTRATOR_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-skill-importance-orchestrator-${props.projectId}`)
+              .replace(/{{SKILL_SCORER_LAMBDA_ARN}}/g, `arn:aws:lambda:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:function:app-modex-skill-importance-scorer-${props.projectId}`);
+            
+            skillImportanceStepFunctionDefinition = JSON.parse(skillImportanceStepFunctionDefinitionString);
+            */
+
+            // Replace CDK template variables with actual values
+            let skillImportanceStepFunctionDefinitionString = JSON.stringify(skillImportanceStepFunctionDefinition)
+              .replace(/\$\{cdk\.Aws\.REGION\}/g, cdk.Aws.REGION)
+              .replace(/\$\{cdk\.Aws\.ACCOUNT_ID\}/g, cdk.Aws.ACCOUNT_ID)
+              .replace(/\$\{props\.projectId\}/g, props.projectId);
+
+            skillImportanceStepFunctionDefinition = JSON.parse(skillImportanceStepFunctionDefinitionString);
+
+
+            // Create CloudWatch Log Group for Skill Importance Step Function
+            const skillImportanceLogGroup = new logs.LogGroup(this, 'SkillImportanceLogGroup', {
+              logGroupName: `/aws/vendedlogs/states/app-modex-skill-importance-${props.projectId}`.toLowerCase(),
+              retention: logs.RetentionDays.ONE_WEEK,
+              removalPolicy: cdk.RemovalPolicy.DESTROY
+            });
+
+            // CloudWatch Logs permissions already granted in skillImportanceStepFunctionRole inline policy with wildcard resources
+
+            // Create Skill Importance Step Function (using shared CloudWatch Logs resource policy from backend stack)
+            const skillImportanceStateMachine = new cdk.CfnResource(this, 'SkillImportanceStateMachine', {
+              type: 'AWS::StepFunctions::StateMachine',
+              properties: {
+                StateMachineName: `app-modex-skill-importance-${props.projectId}`.toLowerCase(),
+                RoleArn: skillImportanceStepFunctionRole.roleArn,
+                DefinitionString: JSON.stringify(skillImportanceStepFunctionDefinition),
+                StateMachineType: 'STANDARD',
+                TracingConfiguration: {
+                  Enabled: true
+                },
+                LoggingConfiguration: {
+                  Level: 'ERROR',
+                  IncludeExecutionData: false,
+                  Destinations: [
+                    {
+                      CloudWatchLogsLogGroup: {
+                        LogGroupArn: skillImportanceLogGroup.logGroupArn
+                      }
+                    }
+                  ]
+                }
+              }
+            });
+            
+            skillImportanceStateMachine.node.addDependency(skillImportanceLogGroup);
+
+            // Grant permissions for project Lambda role to start skill importance executions
+            projectLambdaRole.addToPolicy(new iam.PolicyStatement({
+              actions: ['states:StartExecution'],
+              resources: [skillImportanceStateMachine.getAtt('Arn').toString()]
+            }));
+
+            // Output Skill Importance Step Function ARN
+            new cdk.CfnOutput(this, 'SkillImportanceStateMachineArn', {
+              value: skillImportanceStateMachine.getAtt('Arn').toString(),
+              description: 'ARN of the Skill Importance Scoring Step Function',
+              exportName: `App-ModEx-SkillImportanceStateMachine-${props.projectId}`
+            });
+          }
+        }
+        EOFSTACK
+      
+      # Lambda functions now use external files with fromAsset() - no mkdir needed
+      # All Lambda code moved to infrastructure/lambda/project-specific/ directories
+
+        # ===== APP SIMILARITY LAMBDA FUNCTIONS (SIMPLIFIED) =====
+        
+        # App Similarity Partition Lambda - now uses external files
+
+        # App Similarity Process Lambda - now uses external files
+
+        # App Similarity Aggregate Lambda - now uses external files
+        
+        # ===== COMPONENT SIMILARITY LAMBDA FUNCTIONS =====
+        
+        # Component Similarity Process Small Dataset Lambda - now uses external files
+
+        # Component Similarity Partition Dataset Lambda - now uses external files
+
+        # Add placeholder Lambda functions for the remaining component similarity functions
+        # These would be implemented with full logic in a production system
+        
+        # Component Similarity Process Partition Lambda - now uses external files
+        
+        # Component Similarity Aggregate Results Lambda - now uses external files
+
+        # Component Similarity Generate Clusters Lambda - now uses external files
+
+        # Component Similarity Find Patterns Lambda - Identifies repeated patterns
+
+
+        # Component Similarity Store Results Lambda - Stores final results
+
+
+        # ===== PILOT ANALYSIS LAMBDA FUNCTIONS =====
+        
+        # Pilot Partition Lambda - Partitions pilot datasets for distributed processing
+
+
+        # Pilot Process Lambda - Processes individual pilot partitions
+
+
+        # Pilot Aggregate Lambda - Aggregates results from all pilot partitions
+
+
+        # Pilot Rank Lambda - Ranks and scores pilot candidates
+
+
+        # Skill Importance Orchestrator Lambda - now uses external files
+
+        # Skill Importance Scorer Lambda - now uses external files
+
+        # Data Processing Lambda - now uses external files
+
+      # Create CDK app entry point
+      - |
+        cat > bin/app.ts << 'EOFAPP'
+        #!/usr/bin/env node
+        import * as cdk from 'aws-cdk-lib';
+        import { ProjectStack } from '../lib/project-stack';
+        
+        const app = new cdk.App();
+        
+        const projectId = process.env.PROJECT_ID || 'default';
+        const environment = process.env.ENVIRONMENT || 'dev';
+        const identityPoolId = process.env.IDENTITY_POOL_ID || '';
+        
+        const stack = new ProjectStack(app, `App-ModEx-Project-${projectId}`, {
+          projectId,
+          environment,
+          identityPoolId,
+          env: {
+            account: process.env.CDK_DEFAULT_ACCOUNT,
+            region: process.env.CDK_DEFAULT_REGION,
+          },
+        });
+        
+        // Add Application tags to the project stack for AWS Applications Console integration
+        cdk.Tags.of(stack).add('Application', 'App-ModEx');
+        EOFAPP
+      
+      # Lambda functions now use external files with fromAsset() - no mkdir needed
+      
+      # Create CDK config
+      - |
+        cat > cdk.json << 'EOFCDK'
+        {
+          "app": "node bin/app.js",
+          "watch": {
+            "include": [
+              "**"
+            ],
+            "exclude": [
+              "README.md",
+              "cdk*.json",
+              "**/*.d.ts",
+              "**/*.js",
+              "tsconfig.json",
+              "package*.json",
+              "yarn.lock",
+              "node_modules",
+              "test"
+            ]
+          },
+          "context": {
+            "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
+            "@aws-cdk/core:checkSecretUsage": true,
+            "@aws-cdk/core:target-partitions": [
+              "aws",
+              "aws-cn"
+            ],
+            "@aws-cdk-containers/ecs-service-extensions:enableDefaultLogDriver": true,
+            "@aws-cdk/aws-ec2:uniqueImdsv2TemplateName": true,
+            "@aws-cdk/aws-ecs:arnFormatIncludesClusterName": true,
+            "@aws-cdk/aws-iam:minimizePolicies": true,
+            "@aws-cdk/core:validateSnapshotRemovalPolicy": true,
+            "@aws-cdk/aws-codepipeline:crossAccountKeyAliasStackSafeResourceName": true,
+            "@aws-cdk/aws-s3:createDefaultLoggingPolicy": true,
+            "@aws-cdk/aws-sns-subscriptions:restrictSqsDescryption": true,
+            "@aws-cdk/aws-apigateway:disableCloudWatchRole": true,
+            "@aws-cdk/core:enablePartitionLiterals": true,
+            "@aws-cdk/aws-events:eventsTargetQueueSameAccount": true,
+            "@aws-cdk/aws-iam:standardizedServicePrincipals": true,
+            "@aws-cdk/aws-ecs:disableExplicitDeploymentControllerForCircuitBreaker": true,
+            "@aws-cdk/aws-iam:importedRoleStackSafeDefaultPolicyName": true,
+            "@aws-cdk/aws-s3:serverAccessLogsUseBucketPolicy": true,
+            "@aws-cdk/aws-route53-patters:useCertificate": true,
+            "@aws-cdk/customresources:installLatestAwsSdkDefault": false,
+            "@aws-cdk/aws-rds:databaseProxyUniqueResourceName": true,
+            "@aws-cdk/aws-codedeploy:removeAlarmsFromDeploymentGroup": true,
+            "@aws-cdk/aws-apigateway:authorizerChangeDeploymentLogicalId": true,
+            "@aws-cdk/aws-ec2:launchTemplateDefaultUserData": true,
+            "@aws-cdk/aws-secretsmanager:useAttachedSecretResourcePolicyForSecretTargetAttachments": true,
+            "@aws-cdk/aws-redshift:columnId": true,
+            "@aws-cdk/aws-stepfunctions-tasks:enableLogging": true,
+            "@aws-cdk/aws-ec2:restrictDefaultSecurityGroup": true,
+            "@aws-cdk/aws-apigateway:requestValidatorUniqueId": true,
+            "@aws-cdk/aws-kms:aliasNameRef": true,
+            "@aws-cdk/aws-autoscaling:generateLaunchTemplateInsteadOfLaunchConfig": true,
+            "@aws-cdk/core:includePrefixInUniqueNameGeneration": true,
+            "@aws-cdk/aws-efs:denyAnonymousAccess": true,
+            "@aws-cdk/aws-opensearchservice:enableLogging": true,
+            "@aws-cdk/aws-nordicapis-apigateway:authorizerChangeDeploymentLogicalId": true,
+            "@aws-cdk/aws-lambda:useNodeJs22Runtime": true,
+            "@aws-cdk/aws-s3objectlambda:writePermissionsToLambda": true,
+            "@aws-cdk/aws-rds:auroraClusterChangeScopeOfInstanceParameterGroupWithEachParameters": true,
+            "@aws-cdk/aws-appsync:useArnForSourceApiAssociationIdentifier": true,
+            "@aws-cdk/aws-rds:preventRenderingDeprecatedCredentials": true,
+            "@aws-cdk/aws-codepipeline-actions:useNewDefaultBranchForSourceAction": true
+          }
+        }
+        EOFCDK
+      
+      - cd ..
+
+  pre_build:
+    commands:
+      - echo Preparing for CDK deployment...
+      - export PROJECT_STACK_NAME="App-ModEx-Project-${PROJECT_ID}"
+      - echo "Deploying stack with PROJECT_STACK_NAME variable"
+      - echo "Environment variables:"
+      - echo "PROJECT_ID set"
+      - echo "ENVIRONMENT set"
+      - echo "ACTION set"
+      - echo "IDENTITY_POOL_ID set"
+      - echo "[INFO] SQS Architecture - Data processing handled by master backend"
+      
+      # SECURITY NOTE: Bucket ownership verification (Remediation #24)
+      # Verify S3 bucket ownership and region before deployment
+      - |
+        echo "=== Verifying S3 Bucket Region ==="
+        # Extract account ID from STS since AWS_ACCOUNT_ID may not be set in CodeBuild
+        ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+        DEPLOYMENT_BUCKET_NAME="app-modex-deployment-${ACCOUNT_ID}-${AWS_REGION}"
+        echo "Checking bucket: $DEPLOYMENT_BUCKET_NAME"
+        
+        # Verify bucket region
+        BUCKET_REGION=$(aws s3api get-bucket-location --bucket $DEPLOYMENT_BUCKET_NAME --query 'LocationConstraint' --output text 2>/dev/null)
+        if [ $? -ne 0 ]; then
+          echo "ERROR: Failed to retrieve bucket location. Bucket may not exist or access denied."
+          exit 1
+        fi
+        
+        if [ "$BUCKET_REGION" = "None" ]; then
+          BUCKET_REGION="us-east-1"
+        fi
+        echo "✓ Bucket region verified: $BUCKET_REGION"
+        
+        # Verify bucket is in expected region
+        if [ "$BUCKET_REGION" != "$AWS_REGION" ]; then
+          echo "WARNING: Bucket region ($BUCKET_REGION) does not match deployment region ($AWS_REGION)"
+          echo "  This may cause deployment issues."
+        fi
+        echo "=== Bucket Verification Complete ==="
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - cd infrastructure
+      - echo "Checking action type - ACTION=$ACTION"
+      - echo "Starting conditional deployment logic..."
+      - 'if [ "$ACTION" = "deploy" ]; then echo "[INFO] === DEPLOY ACTION ==="; fi'
+      - 'if [ "$ACTION" = "deploy" ]; then echo "[INFO] Assuming CDK Deployment Role for elevated permissions..."; fi'
+      - |
+        if [ "$ACTION" = "deploy" ]; then
+          ROLE_ARN="arn:aws:iam::594072238132:role/app-modex-cdk-deployment-role"
+          CREDENTIALS=$(aws sts assume-role --role-arn $ROLE_ARN --role-session-name CodeBuildCDKDeployment --duration-seconds 3600 --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' --output text)
+          
+          if [ $? -ne 0 ]; then
+            echo "[ERROR] Failed to assume CDK Deployment Role"
+            exit 1
+          fi
+          
+          export AWS_ACCESS_KEY_ID=$(echo $CREDENTIALS | awk '{print $1}')
+          export AWS_SECRET_ACCESS_KEY=$(echo $CREDENTIALS | awk '{print $2}')
+          export AWS_SESSION_TOKEN=$(echo $CREDENTIALS | awk '{print $3}')
+          
+          echo "[SUCCESS] Assumed CDK Deployment Role with temporary credentials"
+        fi
+      - 'if [ "$ACTION" = "deploy" ]; then echo "[INFO] Compiling TypeScript..."; fi'
+      - 'if [ "$ACTION" = "deploy" ]; then npm run build; fi'
+      - 'if [ "$ACTION" = "deploy" ]; then echo "[INFO] Verifying Lambda assets are available..."; fi'
+      - 'if [ "$ACTION" = "deploy" ]; then echo "Current directory: $(pwd)"; fi'
+      - 'if [ "$ACTION" = "deploy" ]; then echo "Lambda directory contents:"; fi'
+      - 'if [ "$ACTION" = "deploy" ]; then ls -la lambda/project-specific/ 2>&1 | head -30; fi'
+      - 'if [ "$ACTION" = "deploy" ]; then echo "Checking for athena-s3-wrapper:"; fi'
+      - 'if [ "$ACTION" = "deploy" ]; then test -d lambda/project-specific/athena-s3-wrapper && echo "FOUND" || echo "NOT FOUND"; fi'
+      - 'if [ "$ACTION" = "deploy" ]; then echo "[INFO] Deploying CDK stack $PROJECT_STACK_NAME..."; fi'
+      - 'if [ "$ACTION" = "deploy" ]; then cdk deploy $PROJECT_STACK_NAME --context environment="$ENVIRONMENT" --require-approval never; fi'
+      - 'if [ "$ACTION" = "deploy" ]; then echo "[INFO] Associating project stack with App-ModEx application..."; fi'
+      - 'if [ "$ACTION" = "deploy" ]; then echo "[INFO] Project stack deployed successfully - resources will be visible in Resource Groups via Application=App-ModEx tag"; fi'
+      - 'if [ "$ACTION" = "destroy" ]; then echo "[INFO] === DESTROY ACTION ==="; fi'
+      - 'if [ "$ACTION" = "destroy" ]; then echo "[INFO] Assuming CDK Destroy Role for stack deletion..."; fi'
+      - 'if [ "$ACTION" = "destroy" ]; then DESTROY_ROLE_ARN="arn:aws:iam::594072238132:role/app-modex-cdk-destroy-role"; fi'
+      - 'if [ "$ACTION" = "destroy" ]; then ASSUMED_ROLE=$(aws sts assume-role --role-arn $DESTROY_ROLE_ARN --role-session-name codebuild-destroy-session --duration-seconds 3600); fi'
+      - 'if [ "$ACTION" = "destroy" ]; then export AWS_ACCESS_KEY_ID=$(echo $ASSUMED_ROLE | jq -r ".Credentials.AccessKeyId"); fi'
+      - 'if [ "$ACTION" = "destroy" ]; then export AWS_SECRET_ACCESS_KEY=$(echo $ASSUMED_ROLE | jq -r ".Credentials.SecretAccessKey"); fi'
+      - 'if [ "$ACTION" = "destroy" ]; then export AWS_SESSION_TOKEN=$(echo $ASSUMED_ROLE | jq -r ".Credentials.SessionToken"); fi'
+      - 'if [ "$ACTION" = "destroy" ]; then echo "[INFO] Deleting CloudFormation stack $PROJECT_STACK_NAME..."; fi'
+      - 'if [ "$ACTION" = "destroy" ]; then aws cloudformation delete-stack --stack-name $PROJECT_STACK_NAME; fi'
+      - 'if [ "$ACTION" = "destroy" ]; then echo "[INFO] Waiting for stack deletion to complete..."; fi'
+      - 'if [ "$ACTION" = "destroy" ]; then aws cloudformation wait stack-delete-complete --stack-name $PROJECT_STACK_NAME; fi'
+      - 'if [ "$ACTION" = "destroy" ]; then echo "[SUCCESS] Stack $PROJECT_STACK_NAME deleted successfully"; fi'
+      - 'if [ "$ACTION" != "deploy" ] && [ "$ACTION" != "destroy" ]; then echo "[ERROR] Unknown action $ACTION"; fi'
+      - 'if [ "$ACTION" != "deploy" ] && [ "$ACTION" != "destroy" ]; then echo "[ERROR] Valid actions are: deploy, destroy"; fi'
+      - 'if [ "$ACTION" != "deploy" ] && [ "$ACTION" != "destroy" ]; then exit 1; fi'
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo "Current directory:" && pwd
+      - echo "Stack outputs:"
+      - cdk list || echo "No stacks to list"
+      # Ensure the results bucket exists
+      - |
+        if [ "$ACTION" = "deploy" ]; then
+          echo "[INFO] Ensuring results bucket exists..."
+          # Create the bucket if it doesn't exist (ignore error if it already exists)
+          BUCKET_NAME=$(echo "app-modex-results-${PROJECT_ID}" | tr '[:upper:]' '[:lower:]')
+          aws s3api create-bucket --bucket ${BUCKET_NAME} --region ${AWS_REGION} --create-bucket-configuration LocationConstraint=${AWS_REGION} || true
+          
+          # Disable block public access for the bucket (if needed for Athena)
+          aws s3api put-public-access-block --bucket ${BUCKET_NAME} --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true"
+          
+          echo "[SUCCESS] Results bucket setup complete."
+        fi
+      # Create project-specific deduplication views
+      - 'if [ "$ACTION" = "deploy" ]; then chmod +x scripts/create-project-views.sh && ./scripts/create-project-views.sh; fi'
+      - echo "[INFO] Project deployment complete"
+
+artifacts:
+  files:
+    - infrastructure/cdk.out/**/*
+  base-directory: '.'

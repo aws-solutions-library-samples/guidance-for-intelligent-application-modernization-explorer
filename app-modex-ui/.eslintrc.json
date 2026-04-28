@@ -1,0 +1,35 @@
+{
+  "extends": [
+    "react-app",
+    "react-app/jest"
+  ],
+  "rules": {
+    "no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": true,
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+    "react-hooks/exhaustive-deps": "warn",
+    "no-useless-escape": "warn",
+    "import/no-anonymous-default-export": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["src/utils/errorHandlers.js", "src/index.js"],
+      "rules": {
+        "no-console": "off"
+      }
+    },
+    {
+      "files": ["src/components/charts/*.js"],
+      "rules": {
+        "react-hooks/exhaustive-deps": "off"
+      }
+    }
+  ]
+}

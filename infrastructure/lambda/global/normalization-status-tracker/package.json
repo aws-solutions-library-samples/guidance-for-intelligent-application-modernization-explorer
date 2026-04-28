@@ -1,0 +1,10 @@
+{
+  "name": "app-modex-normalization-status-tracker",
+  "version": "1.0.0",
+  "description": "Update process tracking status at each Step Function state",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.700.0",
+    "@aws-sdk/lib-dynamodb": "^3.700.0"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "normalization-trigger",
+  "version": "1.0.0",
+  "description": "Trigger Step Function workflow for technology normalization",
+  "main": "index.js",
+  "dependencies": {},
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

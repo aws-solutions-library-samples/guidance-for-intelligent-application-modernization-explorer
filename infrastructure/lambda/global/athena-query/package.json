@@ -1,0 +1,12 @@
+{
+  "name": "app-modex-athena-query",
+  "version": "1.0.0",
+  "description": "Lambda function for executing Athena queries",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.1550.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

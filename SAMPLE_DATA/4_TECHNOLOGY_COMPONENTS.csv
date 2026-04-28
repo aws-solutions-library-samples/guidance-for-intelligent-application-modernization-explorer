@@ -1,0 +1,444 @@
+id,applicationName,componentName,runtime,framework,databases,integrations,storages
+tech-1,Procurement Management System 1,Procurement Management System 1 Frontend,Ruby 3.0,Express.js,,EventBridge,"FSx,EBS"
+tech-2,Procurement Management System 1,Procurement Management System 1 Backend,.NET 7,Django,CouchDB,"RabbitMQ,Kafka,EventBridge","FSx,Backup,CloudFront"
+tech-3,Procurement Management System 1,Procurement Management System 1 Backend,PHP 8.1,Remix,DynamoDB,GraphQL,EFS
+tech-4,Procurement Management System 1,Procurement Management System 1 Frontend,Python 3.12,Nuxt.js,Redshift,"SNS,REST API,Kinesis","EBS,FSx"
+tech-5,Legal Gateway 2,Legal Gateway 2 Worker,Ruby 3.0,Fiber,"Redshift,DocumentDB","RabbitMQ,REST API,Kinesis,MQTT","S3,EBS,Glacier"
+tech-6,Legal Gateway 2,Legal Gateway 2 API,Ruby 3.0,Remix,"Aurora MySQL,PostgreSQL",Cognito,"Backup,FSx"
+tech-7,Legal Gateway 2,Legal Gateway 2 Processor,.NET 8,Django,Cassandra,EventBridge,FSx
+tech-8,Legal Gateway 2,Legal Gateway 2 Processor,PHP 8.2,Django,,"Kinesis,REST API","EFS,Backup,EBS"
+tech-9,Legal Gateway 2,Legal Gateway 2 API,PHP 8.1,Ruby on Rails,"Aurora PostgreSQL,CouchDB",MQTT,"CloudFront,S3,Storage Gateway"
+tech-10,Analytics Platform 3,Analytics Platform 3 Processor,.NET 6,Nuxt.js,Oracle,"Kafka,SQS,SNS","FSx,Storage Gateway"
+tech-11,Analytics Platform 3,Analytics Platform 3 Service,Ruby 3.0,Express.js,"Redis,MongoDB,Redshift",Auth0,"EBS,S3"
+tech-12,Analytics Platform 3,Analytics Platform 3 Service,.NET 7,Vue.js,Oracle,"Cognito,SQS","EBS,S3"
+tech-13,Analytics Platform 3,Analytics Platform 3 Worker,.NET 7,Ruby on Rails,"Redis,DynamoDB,PostgreSQL",AMQP,"Glacier,EBS,Storage Gateway"
+tech-14,Risk Management Engine 4,Risk Management Engine 4,Python 3.11,Nuxt.js,"Redis,MySQL","SNS,Kafka","EBS,CloudFront"
+tech-15,Procurement Service 5,Procurement Service 5,.NET 6,React,"CouchDB,Redshift,MySQL",Auth0,S3
+tech-16,Marketing Application,Marketing Application Backend,Python 3.9,Laravel,"SQL Server,Timestream",gRPC,EFS
+tech-17,Marketing Application,Marketing Application API,Node.js 18,Next.js,,WebSockets,"EFS,FSx"
+tech-18,Marketing Application,Marketing Application Worker,.NET 8,Flask,"Aurora PostgreSQL,Neo4j","Cognito,GraphQL","Backup,EBS"
+tech-19,Marketing Application,Marketing Application Processor,Python 3.12,Fiber,,REST API,"CloudFront,Backup,EBS"
+tech-20,Marketing Application,Marketing Application Processor,Java 11,FastAPI,"DocumentDB,Neo4j","REST API,Kinesis,SQS",Storage Gateway
+tech-21,Customer Service Gateway,Customer Service Gateway Worker,PHP 8.2,React,"Neo4j,Neptune","WebSockets,Cognito,REST API,Auth0","Glacier,CloudFront,FSx"
+tech-22,Customer Service Gateway,Customer Service Gateway API,Go 1.21,Echo,"Aurora MySQL,Neptune,CouchDB","MQTT,RabbitMQ",Backup
+tech-23,Sales Gateway,Sales Gateway Processor,.NET 7,ASP.NET Core,Oracle,"Step Functions,AMQP,Kinesis","FSx,Glacier,EBS"
+tech-24,Sales Gateway,Sales Gateway Frontend,Node.js 20,React,Redshift,"gRPC,WebSockets,Auth0","FSx,Glacier,S3"
+tech-25,Sales Gateway,Sales Gateway Frontend,.NET 7,Gin,Redshift,RabbitMQ,"S3,Backup,EFS"
+tech-26,Finance Dashboard,Finance Dashboard API,Ruby 3.0,React,"Timestream,Neptune","Step Functions,Kinesis,REST API","FSx,Glacier"
+tech-27,Finance Dashboard,Finance Dashboard Processor,Ruby 3.1,Angular,,Kafka,"S3,CloudFront"
+tech-28,Finance Dashboard,Finance Dashboard Service,Ruby 3.1,FastAPI,PostgreSQL,"AMQP,Kafka,MQTT,REST API","CloudFront,Backup,S3"
+tech-29,Finance Dashboard,Finance Dashboard Frontend,Python 3.12,Ruby on Rails,,GraphQL,"Backup,FSx"
+tech-30,Engineering Engine,Engineering Engine Processor,.NET 6,Solid.js,Cassandra,Kafka,"EFS,Storage Gateway"
+tech-31,Engineering Engine,Engineering Engine Backend,Python 3.10,Spring Boot,"MariaDB,Cassandra,Aurora MySQL","Auth0,WebSockets,Cognito","FSx,Storage Gateway"
+tech-32,E-Commerce Management System,E-Commerce Management System,PHP 8.1,Svelte,Redis,"Auth0,Step Functions,gRPC","CloudFront,Backup,S3"
+tech-33,IT Application,IT Application Backend,PHP 8.2,Svelte,"Cassandra,Redshift,Aurora PostgreSQL",Kafka,EBS
+tech-34,IT Application,IT Application Processor,.NET 6,FastAPI,"Elasticsearch,Redshift","GraphQL,Kinesis,WebSockets",Storage Gateway
+tech-35,IT Controller,IT Controller Frontend,Node.js 16,Solid.js,PostgreSQL,"Step Functions,Cognito,RabbitMQ,MQTT",EFS
+tech-36,IT Controller,IT Controller Service,PHP 8.1,Spring Boot,,"MQTT,GraphQL,Kafka,SQS",FSx
+tech-37,IT Controller,IT Controller Backend,Java 11,Vue.js,"Timestream,DocumentDB,MySQL","Kinesis,Cognito","EBS,S3"
+tech-38,Risk Management Controller,Risk Management Controller Worker,.NET 7,FastAPI,Aurora MySQL,"WebSockets,RabbitMQ,EventBridge,AMQP",Glacier
+tech-39,Risk Management Controller,Risk Management Controller API,Java 11,Svelte,Neptune,"SQS,GraphQL",FSx
+tech-40,Risk Management Controller,Risk Management Controller Backend,Python 3.12,Remix,,"Kafka,Auth0,RabbitMQ","FSx,EBS"
+tech-41,Risk Management Controller,Risk Management Controller Processor,Python 3.9,Spring Boot,"Neptune,Timestream","MQTT,Auth0,GraphQL","CloudFront,EBS,FSx"
+tech-42,Risk Management Controller,Risk Management Controller Backend,Python 3.10,Gin,Timestream,"GraphQL,AMQP","EFS,S3,CloudFront"
+tech-43,Sales Engine 15,Sales Engine 15 Processor,Go 1.21,Svelte,Oracle,Auth0,FSx
+tech-44,Sales Engine 15,Sales Engine 15 Backend,Go 1.20,Next.js,"MongoDB,Redis,Neo4j",GraphQL,FSx
+tech-45,Sales Engine 15,Sales Engine 15 Frontend,PHP 8.2,Ruby on Rails,"Oracle,DocumentDB","GraphQL,Auth0",Backup
+tech-46,Sales Engine 15,Sales Engine 15 API,Node.js 16,ASP.NET Core,"Elasticsearch,PostgreSQL,SQL Server","SQS,Kafka,GraphQL",Glacier
+tech-47,Sales Engine 15,Sales Engine 15 Backend,Node.js 20,Nuxt.js,,"RabbitMQ,Kafka,MQTT,SNS","FSx,EFS,Glacier"
+tech-48,Sales Dashboard,Sales Dashboard,Ruby 3.0,Echo,,"AMQP,SNS,Auth0,gRPC",EBS
+tech-49,Manufacturing Portal 17,Manufacturing Portal 17 Service,Python 3.9,React,Aurora PostgreSQL,"Cognito,SNS",Storage Gateway
+tech-50,Manufacturing Portal 17,Manufacturing Portal 17 Backend,Python 3.12,Echo,"Redshift,Aurora MySQL,Aurora PostgreSQL","Auth0,WebSockets","FSx,EBS,S3"
+tech-51,Manufacturing Portal 17,Manufacturing Portal 17 Service,Java 17,Echo,,"Cognito,gRPC","S3,Storage Gateway"
+tech-52,Manufacturing Portal 17,Manufacturing Portal 17 Worker,Node.js 18,Ruby on Rails,,"WebSockets,Kafka,Step Functions,gRPC",EFS
+tech-53,Manufacturing Portal 17,Manufacturing Portal 17 API,Python 3.12,Ruby on Rails,Aurora MySQL,REST API,"FSx,S3"
+tech-54,Customer Service Dashboard,Customer Service Dashboard Service,Node.js 16,Flask,"MySQL,Timestream","Kafka,GraphQL,REST API,MQTT","Backup,CloudFront,EBS"
+tech-55,Customer Service Dashboard,Customer Service Dashboard Processor,Node.js 18,Svelte,"PostgreSQL,MySQL,Oracle","Cognito,Step Functions,Kinesis,AMQP","EFS,CloudFront,Backup"
+tech-56,Customer Service Dashboard,Customer Service Dashboard Service,.NET 7,Flask,"Oracle,Aurora PostgreSQL","SNS,AMQP,GraphQL,RabbitMQ",EBS
+tech-57,Customer Service Dashboard,Customer Service Dashboard Worker,Ruby 3.0,Vue.js,"PostgreSQL,MySQL","RabbitMQ,Kinesis,EventBridge,REST API",Storage Gateway
+tech-58,Customer Service Dashboard,Customer Service Dashboard Frontend,Go 1.20,React,"CouchDB,Timestream,MongoDB","REST API,Step Functions,SNS",Backup
+tech-59,Business Development Platform,Business Development Platform Backend,Java 11,ASP.NET Core,,REST API,"Storage Gateway,FSx,EFS"
+tech-60,Business Development Platform,Business Development Platform Service,Python 3.9,Laravel,,"REST API,AMQP,EventBridge,SNS",CloudFront
+tech-61,Business Development Platform,Business Development Platform Frontend,Python 3.12,Vue.js,"PostgreSQL,MySQL","RabbitMQ,REST API",FSx
+tech-62,Manufacturing Tool,Manufacturing Tool Service,.NET 7,Express.js,,MQTT,EBS
+tech-63,Manufacturing Tool,Manufacturing Tool API,Node.js 18,Flask,,"Cognito,REST API,SNS",CloudFront
+tech-64,Finance Tracker,Finance Tracker API,Node.js 20,Spring Boot,,Kinesis,"EBS,Storage Gateway,Backup"
+tech-65,Finance Tracker,Finance Tracker Service,Python 3.12,Svelte,"Elasticsearch,MariaDB","GraphQL,SQS,AMQP,Kafka","EBS,Glacier"
+tech-66,Finance Tracker,Finance Tracker Processor,Python 3.11,FastAPI,"DynamoDB,SQL Server,DocumentDB",MQTT,CloudFront
+tech-67,Finance Tracker,Finance Tracker Worker,PHP 8.1,Next.js,"DocumentDB,Neo4j","GraphQL,MQTT,RabbitMQ",EFS
+tech-68,Legal Monitor 22,Legal Monitor 22 Frontend,Java 11,Express.js,"Aurora PostgreSQL,DocumentDB",Kafka,"Glacier,S3"
+tech-69,Legal Monitor 22,Legal Monitor 22 Processor,Ruby 3.0,ASP.NET Core,MySQL,"gRPC,WebSockets,SQS,MQTT",CloudFront
+tech-70,Legal Monitor 22,Legal Monitor 22 Processor,Node.js 16,Flask,"CouchDB,PostgreSQL","RabbitMQ,gRPC",FSx
+tech-71,Legal Monitor 22,Legal Monitor 22 API,PHP 8.1,Svelte,"Oracle,Elasticsearch","MQTT,Kafka,gRPC,GraphQL","CloudFront,FSx,S3"
+tech-72,Legal Monitor 22,Legal Monitor 22 Service,Java 21,FastAPI,"Oracle,Redshift,CouchDB","Cognito,MQTT,gRPC","Glacier,CloudFront"
+tech-73,R&D Gateway,R&D Gateway API,Node.js 18,Django,MongoDB,"SQS,Cognito,gRPC,Kinesis","Backup,EBS,FSx"
+tech-74,R&D Gateway,R&D Gateway Frontend,PHP 8.1,Django,Elasticsearch,"Kafka,WebSockets,Cognito",CloudFront
+tech-75,R&D Gateway,R&D Gateway Worker,.NET 6,Echo,"Aurora MySQL,SQL Server","WebSockets,Cognito","Backup,CloudFront"
+tech-76,R&D Gateway,R&D Gateway Service,PHP 8.1,Flask,Aurora PostgreSQL,"WebSockets,Cognito","S3,EFS"
+tech-77,Product Portal 24,Product Portal 24 Frontend,Python 3.10,Spring Boot,CouchDB,"GraphQL,AMQP,RabbitMQ","Backup,EFS"
+tech-78,Product Portal 24,Product Portal 24 Frontend,PHP 8.2,Next.js,"Cassandra,Aurora MySQL,CouchDB",Step Functions,EBS
+tech-79,Product Portal 24,Product Portal 24 Backend,Java 21,Laravel,"MariaDB,Neo4j,CouchDB","WebSockets,MQTT","FSx,S3"
+tech-80,Product Portal 24,Product Portal 24 Worker,Java 11,FastAPI,MongoDB,"Auth0,RabbitMQ",Storage Gateway
+tech-81,Sales Tool,Sales Tool Backend,PHP 8.1,React,Neo4j,"Kafka,Kinesis",S3
+tech-82,Sales Tool,Sales Tool Worker,Python 3.9,Express.js,,RabbitMQ,"Storage Gateway,EFS,FSx"
+tech-83,Sales Tool,Sales Tool Worker,PHP 8.2,Echo,SQL Server,"WebSockets,RabbitMQ,MQTT,Auth0","FSx,S3,Backup"
+tech-84,Manufacturing Controller,Manufacturing Controller,Node.js 20,Django,"PostgreSQL,Oracle","Step Functions,RabbitMQ,SNS,Kafka","FSx,CloudFront"
+tech-85,Compliance Processor,Compliance Processor Processor,Node.js 18,Express.js,"Timestream,SQL Server",MQTT,"Backup,CloudFront"
+tech-86,Compliance Processor,Compliance Processor API,Ruby 3.0,Vue.js,,SNS,"S3,Glacier"
+tech-87,Analytics Controller,Analytics Controller Service,Python 3.9,React,"DynamoDB,Aurora PostgreSQL","WebSockets,SNS,REST API","Glacier,Storage Gateway,EBS"
+tech-88,Analytics Controller,Analytics Controller Frontend,Python 3.9,ASP.NET Core,PostgreSQL,GraphQL,"Glacier,Storage Gateway"
+tech-89,Analytics Controller,Analytics Controller Worker,Node.js 18,Express.js,"DynamoDB,Aurora MySQL,SQL Server","RabbitMQ,Cognito,SQS,MQTT","S3,FSx"
+tech-90,Analytics Controller,Analytics Controller API,Python 3.11,FastAPI,"Redshift,Cassandra,DocumentDB","REST API,EventBridge,GraphQL,AMQP","S3,Storage Gateway"
+tech-91,HR Monitor,HR Monitor Worker,Python 3.12,Angular,"Neo4j,DynamoDB","gRPC,Kafka,Auth0,WebSockets","EBS,Storage Gateway,S3"
+tech-92,HR Monitor,HR Monitor Service,Node.js 18,Solid.js,,"gRPC,Kinesis,Kafka,SNS","FSx,S3,CloudFront"
+tech-93,Legal Application,Legal Application API,Go 1.21,Ruby on Rails,"Aurora PostgreSQL,Redis","Cognito,Kafka,AMQP","Backup,Storage Gateway,Glacier"
+tech-94,Legal Application,Legal Application Backend,PHP 8.2,Solid.js,"Aurora MySQL,DynamoDB","gRPC,RabbitMQ,EventBridge,SQS",EFS
+tech-95,Quality Assurance Processor,Quality Assurance Processor Worker,Java 11,Solid.js,"Neo4j,MySQL","gRPC,Auth0,SNS","CloudFront,FSx,EFS"
+tech-96,Quality Assurance Processor,Quality Assurance Processor Frontend,.NET 7,Gin,,"MQTT,EventBridge,Auth0",Storage Gateway
+tech-97,Risk Management Processor 32,Risk Management Processor 32 Backend,PHP 8.1,Remix,"MariaDB,Timestream","EventBridge,SNS,Kafka","Storage Gateway,S3,EBS"
+tech-98,Risk Management Processor 32,Risk Management Processor 32 API,Node.js 16,Laravel,Aurora MySQL,"Cognito,RabbitMQ,EventBridge,AMQP","Backup,S3"
+tech-99,Risk Management Processor 32,Risk Management Processor 32 API,Python 3.10,Flask,DocumentDB,"REST API,GraphQL,SQS",Storage Gateway
+tech-100,Risk Management Processor 32,Risk Management Processor 32 Processor,Python 3.10,Ruby on Rails,"SQL Server,MongoDB,Redshift","GraphQL,Step Functions","EBS,CloudFront,S3"
+tech-101,Risk Management Processor 32,Risk Management Processor 32 API,Node.js 20,Vue.js,"Timestream,Elasticsearch",AMQP,"Storage Gateway,CloudFront,EFS"
+tech-102,Manufacturing Monitor 33,Manufacturing Monitor 33 Service,Python 3.9,Spring Boot,"Timestream,Redshift,Cassandra",MQTT,"EFS,Storage Gateway"
+tech-103,Manufacturing Monitor 33,Manufacturing Monitor 33 Backend,Go 1.20,Flask,"MariaDB,Aurora PostgreSQL,Elasticsearch","MQTT,Kafka,GraphQL,Auth0",Storage Gateway
+tech-104,Manufacturing Monitor 33,Manufacturing Monitor 33 Frontend,.NET 8,Solid.js,"Redshift,Oracle","WebSockets,Kafka","Storage Gateway,Glacier,Backup"
+tech-105,Manufacturing Monitor 33,Manufacturing Monitor 33 Service,Java 17,Django,"Cassandra,DocumentDB,Timestream","AMQP,MQTT",CloudFront
+tech-106,Manufacturing Monitor 33,Manufacturing Monitor 33 Service,Go 1.21,Remix,,"REST API,gRPC,WebSockets,SQS",Glacier
+tech-107,Manufacturing Service,Manufacturing Service API,.NET 6,Express.js,"PostgreSQL,DocumentDB,MySQL","Auth0,SQS,EventBridge",Storage Gateway
+tech-108,Manufacturing Service,Manufacturing Service Service,Go 1.21,Svelte,"Cassandra,Aurora PostgreSQL","SNS,gRPC,Cognito","CloudFront,Glacier"
+tech-109,Manufacturing Service,Manufacturing Service Worker,Python 3.9,Vue.js,MariaDB,"REST API,Kinesis,SNS","S3,Backup"
+tech-110,Procurement Controller,Procurement Controller Worker,Python 3.12,Fiber,"MongoDB,Redshift","Kafka,Kinesis,GraphQL,SQS",Storage Gateway
+tech-111,Procurement Controller,Procurement Controller API,Node.js 16,Angular,"PostgreSQL,DocumentDB","SNS,EventBridge,SQS","Storage Gateway,S3"
+tech-112,Procurement Controller,Procurement Controller Service,Python 3.9,Spring Boot,"Timestream,Redis","SQS,RabbitMQ,SNS,MQTT","CloudFront,FSx,EBS"
+tech-113,Procurement Controller,Procurement Controller Worker,Node.js 20,Django,"MySQL,Cassandra,PostgreSQL",MQTT,"Backup,Storage Gateway,CloudFront"
+tech-114,Procurement Controller,Procurement Controller Backend,Node.js 20,Gin,"Neptune,Cassandra","WebSockets,Auth0,AMQP,Cognito","Storage Gateway,Backup,S3"
+tech-115,Product Controller,Product Controller Service,.NET 6,Angular,"Oracle,SQL Server,PostgreSQL","GraphQL,SQS,RabbitMQ,SNS",EBS
+tech-116,Product Controller,Product Controller Frontend,.NET 7,Fiber,"DynamoDB,Cassandra,SQL Server",REST API,S3
+tech-117,Product Controller,Product Controller Backend,Python 3.10,Vue.js,,"SQS,WebSockets",EBS
+tech-118,Product Controller,Product Controller Frontend,PHP 8.1,Spring Boot,Redshift,"Auth0,RabbitMQ,gRPC,EventBridge","Storage Gateway,CloudFront"
+tech-119,Product Controller,Product Controller Backend,.NET 6,Laravel,,EventBridge,"CloudFront,Glacier"
+tech-120,Engineering Gateway,Engineering Gateway Worker,Ruby 3.1,Spring Boot,,"Kinesis,RabbitMQ,SQS,Auth0","CloudFront,Backup,FSx"
+tech-121,Engineering Gateway,Engineering Gateway Backend,Go 1.20,Gin,Timestream,"SNS,EventBridge,Auth0,WebSockets",Glacier
+tech-122,Engineering Gateway,Engineering Gateway Worker,.NET 6,Echo,"DocumentDB,Redshift,Timestream","AMQP,Kinesis,SNS,Step Functions","EFS,Backup"
+tech-123,Engineering Gateway,Engineering Gateway Worker,Ruby 3.1,Ruby on Rails,MySQL,"Cognito,WebSockets,MQTT","Storage Gateway,CloudFront"
+tech-124,Engineering Service,Engineering Service,PHP 8.1,ASP.NET Core,"DynamoDB,Aurora MySQL",REST API,"Glacier,FSx,EFS"
+tech-125,Business Development Gateway,Business Development Gateway Frontend,Python 3.11,Spring Boot,"Timestream,Neo4j,Aurora MySQL",EventBridge,FSx
+tech-126,Business Development Gateway,Business Development Gateway Backend,Python 3.10,Gin,"Neo4j,Elasticsearch,PostgreSQL","GraphQL,REST API,Auth0","EFS,CloudFront,FSx"
+tech-127,Business Development Gateway,Business Development Gateway API,Java 11,FastAPI,"DynamoDB,Redis,Timestream",AMQP,EBS
+tech-128,Quality Assurance Tracker,Quality Assurance Tracker API,PHP 8.1,Next.js,MongoDB,"SNS,Kinesis,Auth0",EFS
+tech-129,Quality Assurance Tracker,Quality Assurance Tracker Worker,Python 3.9,React,,"GraphQL,REST API,SQS,SNS","Glacier,Storage Gateway,FSx"
+tech-130,Quality Assurance Tracker,Quality Assurance Tracker Service,Node.js 16,Ruby on Rails,"Neo4j,Oracle",WebSockets,"Backup,FSx,EBS"
+tech-131,Quality Assurance Tracker,Quality Assurance Tracker API,Ruby 3.1,Gin,,"GraphQL,RabbitMQ,Auth0,WebSockets",EBS
+tech-132,Analytics Application,Analytics Application Service,Ruby 3.1,Ruby on Rails,"Cassandra,Neo4j","Kafka,REST API","Glacier,S3,Backup"
+tech-133,Analytics Application,Analytics Application API,Java 17,FastAPI,,"Kinesis,Step Functions","Backup,Glacier,CloudFront"
+tech-134,Analytics Application,Analytics Application Backend,.NET 8,Vue.js,,REST API,"S3,FSx,CloudFront"
+tech-135,Analytics Application,Analytics Application API,Python 3.12,Flask,Timestream,"RabbitMQ,REST API,Cognito",S3
+tech-136,R&D Portal 42,R&D Portal 42 Service,Python 3.11,React,"Timestream,Redis,Redshift","Kafka,gRPC,Auth0","Glacier,EFS,CloudFront"
+tech-137,R&D Portal 42,R&D Portal 42 Backend,.NET 6,Solid.js,"Oracle,Aurora MySQL,Redshift","Step Functions,RabbitMQ","Backup,Storage Gateway,EFS"
+tech-138,R&D Portal 42,R&D Portal 42 Worker,PHP 8.1,Svelte,,"MQTT,Kafka",Glacier
+tech-139,R&D Portal 42,R&D Portal 42 Service,Node.js 20,Spring Boot,"MongoDB,Redshift",WebSockets,"Glacier,FSx"
+tech-140,R&D Portal 42,R&D Portal 42 Worker,Python 3.10,Spring Boot,"Aurora PostgreSQL,Elasticsearch","GraphQL,RabbitMQ,Auth0,gRPC","Glacier,Storage Gateway,EBS"
+tech-141,Manufacturing Tool,Manufacturing Tool Worker,PHP 8.1,Nuxt.js,"MongoDB,MySQL,DynamoDB","EventBridge,Kinesis",FSx
+tech-142,Manufacturing Tool,Manufacturing Tool API,Node.js 18,Spring Boot,"Elasticsearch,Neo4j,Timestream","REST API,Auth0","EFS,S3,EBS"
+tech-143,R&D Tracker,R&D Tracker Backend,Ruby 3.1,Laravel,"Neptune,SQL Server,DocumentDB","Step Functions,RabbitMQ","FSx,EBS,S3"
+tech-144,R&D Tracker,R&D Tracker Backend,Python 3.12,Solid.js,,SNS,"Storage Gateway,EBS,EFS"
+tech-145,R&D Tracker,R&D Tracker Frontend,.NET 7,Vue.js,"DynamoDB,Redis","Kafka,EventBridge,WebSockets","Backup,EFS,Storage Gateway"
+tech-146,R&D Tracker,R&D Tracker Backend,Python 3.10,Spring Boot,"Oracle,Redis,MongoDB","AMQP,SNS","Storage Gateway,EBS,Backup"
+tech-147,R&D Management System 45,R&D Management System 45 API,Python 3.12,Svelte,"Redis,Elasticsearch,DynamoDB",SNS,Glacier
+tech-148,R&D Management System 45,R&D Management System 45 API,Python 3.9,Express.js,"Redis,Oracle,Cassandra","EventBridge,RabbitMQ","CloudFront,Storage Gateway"
+tech-149,Customer Service Platform,Customer Service Platform Frontend,Go 1.21,Angular,MySQL,Step Functions,"EFS,CloudFront,Storage Gateway"
+tech-150,Customer Service Platform,Customer Service Platform Backend,.NET 7,Flask,Aurora PostgreSQL,"AMQP,Kafka","FSx,S3,EBS"
+tech-151,Analytics Hub,Analytics Hub,Go 1.21,Fiber,Timestream,AMQP,"Storage Gateway,Glacier,EBS"
+tech-152,E-Commerce Controller,E-Commerce Controller Processor,Python 3.9,Remix,SQL Server,"Kafka,GraphQL,EventBridge","CloudFront,Storage Gateway,FSx"
+tech-153,E-Commerce Controller,E-Commerce Controller Service,Node.js 18,ASP.NET Core,"Cassandra,DynamoDB","SNS,SQS,Cognito","EBS,FSx"
+tech-154,E-Commerce Controller,E-Commerce Controller API,.NET 6,Solid.js,"SQL Server,MongoDB","REST API,Cognito","EBS,CloudFront"
+tech-155,Marketing Dashboard,Marketing Dashboard API,PHP 8.2,Solid.js,"MongoDB,DocumentDB,Elasticsearch","Kafka,REST API","EBS,Glacier"
+tech-156,Marketing Dashboard,Marketing Dashboard Backend,.NET 6,Vue.js,,"GraphQL,RabbitMQ,Kafka","EBS,Glacier"
+tech-157,Marketing Dashboard,Marketing Dashboard Frontend,Python 3.10,Gin,"Aurora MySQL,CouchDB",RabbitMQ,"EBS,Glacier,EFS"
+tech-158,Marketing Dashboard,Marketing Dashboard Processor,Python 3.9,Fiber,,Step Functions,Backup
+tech-159,Marketing Dashboard,Marketing Dashboard Backend,Go 1.20,Echo,"MySQL,Cassandra,MariaDB","Kafka,REST API,SQS",Glacier
+tech-160,Legal Dashboard,Legal Dashboard Backend,Node.js 20,React,Redis,"RabbitMQ,Cognito,MQTT","EFS,EBS,Backup"
+tech-161,Legal Dashboard,Legal Dashboard Worker,.NET 7,Echo,"Neo4j,PostgreSQL","Auth0,AMQP",Storage Gateway
+tech-162,Legal Dashboard,Legal Dashboard Worker,Python 3.11,Svelte,"Redis,Elasticsearch,SQL Server","RabbitMQ,Cognito,EventBridge","FSx,Storage Gateway"
+tech-163,HR Tracker,HR Tracker Worker,.NET 6,Ruby on Rails,"Cassandra,Redshift","MQTT,GraphQL,SNS,RabbitMQ",CloudFront
+tech-164,HR Tracker,HR Tracker Frontend,Go 1.21,Remix,,"Kinesis,REST API,Kafka","CloudFront,EBS"
+tech-165,Business Development Gateway,Business Development Gateway Frontend,Node.js 20,Solid.js,Redis,"Step Functions,gRPC,AMQP","Glacier,CloudFront"
+tech-166,Business Development Gateway,Business Development Gateway Service,Ruby 3.1,Gin,"DynamoDB,Cassandra","Step Functions,RabbitMQ","EFS,Backup"
+tech-167,Business Development Gateway,Business Development Gateway Worker,Python 3.11,Django,"Redshift,Aurora PostgreSQL,Redis","Kafka,Cognito,Kinesis",FSx
+tech-168,Business Development Gateway,Business Development Gateway Worker,.NET 6,Remix,Aurora PostgreSQL,"Kafka,GraphQL,Cognito,Step Functions",Backup
+tech-169,Product Engine,Product Engine,Go 1.20,Fiber,"Redshift,Neptune","RabbitMQ,WebSockets","CloudFront,EBS"
+tech-170,Operations Service,Operations Service,Python 3.10,Next.js,,Kafka,"FSx,S3,EFS"
+tech-171,Legal Tracker,Legal Tracker Backend,.NET 7,Express.js,,MQTT,S3
+tech-172,Legal Tracker,Legal Tracker Service,PHP 8.1,Next.js,"Redis,Aurora PostgreSQL","WebSockets,SNS","Glacier,CloudFront,EBS"
+tech-173,Legal Tracker,Legal Tracker Worker,PHP 8.1,Gin,"DocumentDB,Oracle",REST API,"Glacier,CloudFront"
+tech-174,Legal Tracker,Legal Tracker Frontend,Java 21,Laravel,"PostgreSQL,Redis","REST API,WebSockets,Kinesis","FSx,EFS"
+tech-175,Sales Platform,Sales Platform Processor,.NET 8,Vue.js,Cassandra,"SNS,WebSockets,gRPC","EBS,FSx"
+tech-176,Sales Platform,Sales Platform Frontend,Python 3.10,Laravel,,EventBridge,"Glacier,EFS"
+tech-177,Sales Platform,Sales Platform Service,PHP 8.2,Echo,"SQL Server,Oracle,Aurora PostgreSQL","REST API,Auth0,gRPC,Step Functions","CloudFront,Storage Gateway"
+tech-178,IT Engine,IT Engine API,Go 1.21,Laravel,MongoDB,"Auth0,GraphQL,EventBridge,Kinesis","Storage Gateway,Glacier"
+tech-179,IT Engine,IT Engine Frontend,Java 11,React,"Aurora MySQL,SQL Server,DynamoDB","EventBridge,Kinesis,SNS,RabbitMQ","CloudFront,Backup"
+tech-180,IT Engine,IT Engine Service,Go 1.20,Svelte,Neptune,"AMQP,RabbitMQ,EventBridge,Cognito","S3,EBS,CloudFront"
+tech-181,IT Engine,IT Engine Frontend,PHP 8.2,Spring Boot,"CouchDB,Timestream,Cassandra","EventBridge,Kinesis","Storage Gateway,S3"
+tech-182,Business Development Hub,Business Development Hub Frontend,PHP 8.2,Laravel,Redshift,"Kafka,Cognito","Storage Gateway,CloudFront,Glacier"
+tech-183,Business Development Hub,Business Development Hub Backend,Node.js 18,Gin,"Redis,MySQL","SNS,Kinesis",EBS
+tech-184,Business Development Hub,Business Development Hub Frontend,.NET 6,Gin,,gRPC,"EBS,S3,EFS"
+tech-185,Business Development Hub,Business Development Hub Processor,PHP 8.1,ASP.NET Core,"DynamoDB,PostgreSQL","Cognito,AMQP,RabbitMQ","CloudFront,EFS,FSx"
+tech-186,Finance Analyzer,Finance Analyzer,Node.js 16,Vue.js,Elasticsearch,"REST API,Step Functions,Cognito","Backup,Glacier,EBS"
+tech-187,Engineering Service,Engineering Service API,Python 3.9,Nuxt.js,"SQL Server,MariaDB,MySQL","SQS,Kinesis,EventBridge","FSx,CloudFront"
+tech-188,Engineering Service,Engineering Service Worker,Go 1.20,Echo,Redis,"EventBridge,Auth0","Glacier,FSx"
+tech-189,Engineering Service,Engineering Service Frontend,Node.js 20,Vue.js,"CouchDB,Aurora MySQL,MySQL","REST API,GraphQL,WebSockets,EventBridge","Backup,Storage Gateway"
+tech-190,Procurement Monitor,Procurement Monitor Backend,Node.js 20,Express.js,,"EventBridge,GraphQL,AMQP,WebSockets","Glacier,CloudFront"
+tech-191,Procurement Monitor,Procurement Monitor Processor,.NET 7,Angular,"Aurora PostgreSQL,Redshift,Aurora MySQL","SQS,Auth0",Glacier
+tech-192,Procurement Monitor,Procurement Monitor Backend,Node.js 16,Remix,"PostgreSQL,DocumentDB",SQS,"S3,EBS"
+tech-193,E-Commerce Dashboard 62,E-Commerce Dashboard 62 Processor,.NET 6,Flask,DynamoDB,"Cognito,WebSockets","S3,Storage Gateway,Backup"
+tech-194,E-Commerce Dashboard 62,E-Commerce Dashboard 62 API,Python 3.12,Angular,"SQL Server,CouchDB,Redis",Cognito,"EBS,Glacier"
+tech-195,E-Commerce Dashboard 62,E-Commerce Dashboard 62 Processor,Python 3.9,Express.js,Redis,"Step Functions,REST API,Kinesis",EBS
+tech-196,E-Commerce Dashboard 62,E-Commerce Dashboard 62 Worker,Java 17,Solid.js,"Redis,Redshift","SQS,AMQP,MQTT,WebSockets","S3,EFS,FSx"
+tech-197,E-Commerce Dashboard 62,E-Commerce Dashboard 62 Worker,Java 17,Express.js,Aurora PostgreSQL,"Step Functions,MQTT,AMQP,REST API",Backup
+tech-198,HR Platform,HR Platform Service,PHP 8.2,Fiber,CouchDB,"Cognito,SQS,MQTT,RabbitMQ","S3,Storage Gateway,EBS"
+tech-199,HR Platform,HR Platform Processor,Java 11,React,"Elasticsearch,Neptune,PostgreSQL","Kafka,WebSockets",EBS
+tech-200,Product Management System 64,Product Management System 64,PHP 8.1,Spring Boot,"Redis,SQL Server,Timestream","EventBridge,WebSockets","EFS,FSx"
+tech-201,IT Tracker,IT Tracker Worker,PHP 8.2,React,"Aurora PostgreSQL,Timestream","GraphQL,Cognito,RabbitMQ,WebSockets","Backup,FSx,EBS"
+tech-202,IT Tracker,IT Tracker Frontend,Ruby 3.0,React,,RabbitMQ,"Storage Gateway,FSx"
+tech-203,IT Tracker,IT Tracker Worker,Java 11,FastAPI,"Oracle,Neo4j","GraphQL,REST API",EBS
+tech-204,IT Tracker,IT Tracker Worker,Python 3.9,Vue.js,"DocumentDB,MariaDB,MongoDB",Cognito,"FSx,EBS,EFS"
+tech-205,Finance Controller 66,Finance Controller 66 Worker,Java 21,Spring Boot,,"Cognito,WebSockets,SNS,Kinesis",Glacier
+tech-206,Finance Controller 66,Finance Controller 66 Worker,Java 11,Angular,,gRPC,"Glacier,EBS,S3"
+tech-207,Finance Controller 66,Finance Controller 66 Frontend,PHP 8.1,React,"MongoDB,CouchDB","SQS,REST API,gRPC","Glacier,EBS,Storage Gateway"
+tech-208,Engineering Hub,Engineering Hub Frontend,Node.js 20,Angular,PostgreSQL,"SNS,WebSockets,REST API,Step Functions","Storage Gateway,EFS"
+tech-209,Engineering Hub,Engineering Hub API,.NET 8,Ruby on Rails,"Aurora MySQL,Oracle,DynamoDB","Auth0,REST API,Kafka","S3,EFS"
+tech-210,E-Commerce Hub,E-Commerce Hub Service,Python 3.11,Spring Boot,MariaDB,Kafka,CloudFront
+tech-211,E-Commerce Hub,E-Commerce Hub API,Python 3.9,Fiber,Cassandra,EventBridge,"Storage Gateway,CloudFront,FSx"
+tech-212,E-Commerce Hub,E-Commerce Hub Processor,Node.js 18,Gin,"Redshift,MongoDB,Neo4j",Step Functions,"S3,EBS,Backup"
+tech-213,E-Commerce Hub,E-Commerce Hub Service,Node.js 18,Gin,Oracle,Step Functions,"S3,EBS,Backup"
+tech-214,E-Commerce Hub,E-Commerce Hub Service,Node.js 16,FastAPI,"SQL Server,DocumentDB","WebSockets,Auth0,RabbitMQ","S3,EFS,CloudFront"
+tech-215,Legal Hub,Legal Hub API,Java 21,Next.js,,"Kinesis,gRPC,Step Functions","Glacier,S3,Backup"
+tech-216,Legal Hub,Legal Hub Processor,Python 3.10,Django,"Timestream,Aurora MySQL,Redshift","SQS,AMQP,Cognito,Kinesis","Storage Gateway,EFS,S3"
+tech-217,Legal Hub,Legal Hub Worker,Python 3.12,Solid.js,"Aurora PostgreSQL,DynamoDB,Redis",EventBridge,"Storage Gateway,CloudFront,EBS"
+tech-218,Legal Hub,Legal Hub API,Node.js 18,Fiber,Redshift,"SQS,Kafka,WebSockets","EFS,CloudFront"
+tech-219,Legal Hub,Legal Hub API,Python 3.12,Express.js,"SQL Server,DynamoDB",Auth0,"Glacier,Storage Gateway"
+tech-220,Product Dashboard 70,Product Dashboard 70,PHP 8.2,Flask,MongoDB,"MQTT,SNS",EBS
+tech-221,Legal Application 71,Legal Application 71,Node.js 16,Svelte,"Timestream,Redis",AMQP,"Glacier,CloudFront,Storage Gateway"
+tech-222,Finance Controller 72,Finance Controller 72 Processor,Java 17,Ruby on Rails,"MongoDB,Oracle,MySQL","SNS,EventBridge","FSx,S3,Storage Gateway"
+tech-223,Finance Controller 72,Finance Controller 72 Frontend,Java 17,Laravel,,"gRPC,SNS,Kafka,Kinesis",Backup
+tech-224,Finance Controller 72,Finance Controller 72 Frontend,Go 1.21,Angular,,REST API,Glacier
+tech-225,Finance Controller 72,Finance Controller 72 Service,PHP 8.2,Gin,,"Auth0,GraphQL,EventBridge","FSx,Backup"
+tech-226,HR Controller,HR Controller Service,Java 17,Django,"Timestream,Redshift","EventBridge,Kafka,MQTT,RabbitMQ","Backup,Storage Gateway,FSx"
+tech-227,HR Controller,HR Controller Service,Go 1.20,Echo,,"SQS,Step Functions","S3,Backup,CloudFront"
+tech-228,HR Controller,HR Controller Service,Node.js 20,React,DocumentDB,"RabbitMQ,Cognito,SNS","FSx,CloudFront"
+tech-229,HR Controller,HR Controller Service,.NET 7,Angular,"CouchDB,Aurora PostgreSQL","Step Functions,Kafka,WebSockets,Auth0","EFS,Backup,CloudFront"
+tech-230,Business Development Service,Business Development Service API,Go 1.21,Fiber,Aurora PostgreSQL,"Kinesis,Step Functions,Auth0","FSx,EFS,Storage Gateway"
+tech-231,Business Development Service,Business Development Service API,Python 3.10,FastAPI,"Neo4j,MySQL,MongoDB","Kinesis,GraphQL,RabbitMQ","FSx,CloudFront,EBS"
+tech-232,Business Development Service,Business Development Service Worker,Java 17,Nuxt.js,,"Kafka,MQTT,WebSockets",S3
+tech-233,Procurement Controller,Procurement Controller Worker,Python 3.9,Gin,"Neptune,Elasticsearch,Aurora PostgreSQL","REST API,SQS,SNS,Cognito",CloudFront
+tech-234,Procurement Controller,Procurement Controller Worker,Ruby 3.0,Spring Boot,,"Cognito,SQS,AMQP","S3,Backup"
+tech-235,Procurement Controller,Procurement Controller Backend,Node.js 20,Remix,,"Kafka,MQTT,EventBridge","S3,EBS"
+tech-236,Sales Portal,Sales Portal Worker,Go 1.20,ASP.NET Core,"DynamoDB,Oracle","Kafka,gRPC,SQS,REST API","FSx,S3,Storage Gateway"
+tech-237,Sales Portal,Sales Portal Service,Python 3.10,Spring Boot,"Cassandra,Timestream",REST API,Backup
+tech-238,Sales Portal,Sales Portal Processor,Java 17,Express.js,DynamoDB,"SQS,Cognito",CloudFront
+tech-239,R&D Portal,R&D Portal API,.NET 6,React,"SQL Server,Neptune,DynamoDB",Kafka,EFS
+tech-240,R&D Portal,R&D Portal Worker,Python 3.11,Django,Aurora MySQL,"SNS,MQTT,AMQP,RabbitMQ","S3,EFS,Glacier"
+tech-241,R&D Portal,R&D Portal Processor,Go 1.21,Echo,"SQL Server,PostgreSQL",Step Functions,"EBS,S3"
+tech-242,R&D Portal,R&D Portal Service,Go 1.21,Next.js,,"RabbitMQ,MQTT","S3,EFS"
+tech-243,Supply Chain Dashboard,Supply Chain Dashboard,PHP 8.1,Flask,,"SQS,Kinesis","FSx,S3,Storage Gateway"
+tech-244,Risk Management Controller,Risk Management Controller Worker,Java 21,Gin,"Redis,MariaDB","MQTT,Step Functions,gRPC","CloudFront,Glacier,EFS"
+tech-245,Risk Management Controller,Risk Management Controller API,Java 17,Vue.js,"Neptune,MongoDB,MariaDB",RabbitMQ,"Storage Gateway,FSx,EBS"
+tech-246,Risk Management Controller,Risk Management Controller Worker,.NET 7,Fiber,,MQTT,"Storage Gateway,Backup"
+tech-247,Risk Management Controller,Risk Management Controller Frontend,Node.js 16,Gin,,"MQTT,gRPC",EBS
+tech-248,Risk Management Controller,Risk Management Controller API,PHP 8.1,Django,Timestream,"Kinesis,Step Functions","CloudFront,EFS"
+tech-249,Legal Application,Legal Application,PHP 8.1,Solid.js,"Cassandra,CouchDB,Neptune","EventBridge,Auth0,Kinesis,WebSockets","FSx,S3,Glacier"
+tech-250,Legal Processor,Legal Processor,Ruby 3.1,React,"DynamoDB,PostgreSQL","AMQP,gRPC","FSx,CloudFront"
+tech-251,Sales Dashboard,Sales Dashboard Processor,.NET 7,Spring Boot,"Oracle,MySQL","GraphQL,Cognito",Glacier
+tech-252,Sales Dashboard,Sales Dashboard Service,Node.js 16,Svelte,"Neo4j,MySQL,Oracle","MQTT,REST API",CloudFront
+tech-253,Sales Dashboard,Sales Dashboard Worker,Python 3.11,Django,"PostgreSQL,Timestream,Neo4j","REST API,SQS,EventBridge,Step Functions","FSx,Glacier,EFS"
+tech-254,Operations Service 83,Operations Service 83 API,PHP 8.1,FastAPI,"Neo4j,Redis,MariaDB",REST API,"EBS,S3"
+tech-255,Operations Service 83,Operations Service 83 Backend,Java 17,Remix,,"gRPC,SQS,Step Functions,GraphQL","Storage Gateway,Backup"
+tech-256,Operations Service 83,Operations Service 83 Backend,Node.js 20,React,SQL Server,"RabbitMQ,WebSockets","CloudFront,Backup"
+tech-257,Operations Service 83,Operations Service 83 Service,Go 1.20,Django,"Aurora MySQL,DocumentDB,MySQL","WebSockets,Kinesis,Kafka","FSx,EBS"
+tech-258,Operations Service 83,Operations Service 83 Processor,Python 3.12,Gin,"Elasticsearch,DynamoDB",Auth0,"Backup,Glacier"
+tech-259,Supply Chain Engine,Supply Chain Engine,Node.js 16,Flask,"SQL Server,MariaDB","gRPC,EventBridge","S3,Backup,EBS"
+tech-260,Marketing Platform,Marketing Platform Worker,Java 11,Svelte,"Elasticsearch,PostgreSQL,SQL Server","GraphQL,Cognito","FSx,EFS,Backup"
+tech-261,Marketing Platform,Marketing Platform Worker,Python 3.9,Remix,,Cognito,"Glacier,S3,EBS"
+tech-262,Marketing Platform,Marketing Platform Processor,.NET 7,Solid.js,"Redis,Oracle","Auth0,WebSockets,REST API","Backup,Storage Gateway,FSx"
+tech-263,Quality Assurance Analyzer,Quality Assurance Analyzer Service,.NET 8,Vue.js,"MongoDB,Elasticsearch,Redshift","WebSockets,EventBridge,Auth0,SQS",EFS
+tech-264,Quality Assurance Analyzer,Quality Assurance Analyzer API,Python 3.11,Remix,"Neptune,SQL Server,Oracle","SNS,MQTT,gRPC",FSx
+tech-265,Finance Tool 87,Finance Tool 87 Service,Node.js 20,FastAPI,,"Step Functions,AMQP",EBS
+tech-266,Finance Tool 87,Finance Tool 87 Backend,Go 1.21,Solid.js,"DocumentDB,Aurora MySQL","GraphQL,EventBridge",Storage Gateway
+tech-267,Finance Tool 87,Finance Tool 87 API,Go 1.21,Flask,"PostgreSQL,Aurora PostgreSQL,SQL Server",Kinesis,"S3,Backup"
+tech-268,Operations Tool,Operations Tool Worker,PHP 8.2,Remix,CouchDB,"REST API,Auth0,GraphQL","EBS,FSx,Backup"
+tech-269,Operations Tool,Operations Tool Backend,PHP 8.2,Laravel,MongoDB,"SNS,Auth0,Kinesis,MQTT",CloudFront
+tech-270,Operations Tool,Operations Tool API,Python 3.9,Ruby on Rails,"Redshift,DynamoDB",gRPC,FSx
+tech-271,Operations Tool,Operations Tool Service,Node.js 20,Svelte,"CouchDB,MariaDB,Redshift","gRPC,MQTT,Kinesis","EBS,Storage Gateway"
+tech-272,Operations Tool,Operations Tool Worker,.NET 7,ASP.NET Core,,"Kafka,Auth0,EventBridge,Cognito","FSx,EBS"
+tech-273,Legal Tracker 89,Legal Tracker 89 Frontend,.NET 6,Vue.js,,"SNS,WebSockets,GraphQL,EventBridge","CloudFront,Storage Gateway"
+tech-274,Legal Tracker 89,Legal Tracker 89 Worker,Go 1.21,Nuxt.js,"Redis,DocumentDB,Elasticsearch","AMQP,Kafka,GraphQL,Cognito","S3,Storage Gateway,FSx"
+tech-275,Legal Tracker 89,Legal Tracker 89 Processor,Java 11,React,,"Cognito,AMQP,Kinesis,REST API",Storage Gateway
+tech-276,Legal Tracker 89,Legal Tracker 89 Backend,.NET 8,Flask,Oracle,"MQTT,RabbitMQ","Glacier,EBS"
+tech-277,Sales Hub,Sales Hub Processor,PHP 8.2,Vue.js,"DocumentDB,SQL Server","Step Functions,SQS,Auth0",FSx
+tech-278,Sales Hub,Sales Hub Frontend,Node.js 16,Echo,,"REST API,Kinesis,Kafka",EFS
+tech-279,Sales Hub,Sales Hub Frontend,Ruby 3.0,Nuxt.js,"MongoDB,Aurora MySQL,CouchDB","AMQP,EventBridge","Backup,Storage Gateway,Glacier"
+tech-280,Sales Hub,Sales Hub Frontend,.NET 6,Gin,,GraphQL,"Backup,EFS,Glacier"
+tech-281,Sales Hub,Sales Hub Worker,PHP 8.2,Next.js,,"Cognito,Auth0","Backup,Storage Gateway,S3"
+tech-282,Procurement Gateway 91,Procurement Gateway 91 Backend,Ruby 3.0,ASP.NET Core,"CouchDB,Oracle,Neptune","SNS,gRPC,AMQP,MQTT","EFS,FSx"
+tech-283,Procurement Gateway 91,Procurement Gateway 91 API,Python 3.12,Django,"Redshift,Cassandra,DynamoDB","REST API,AMQP",FSx
+tech-284,Finance Service,Finance Service Backend,.NET 6,Gin,Neo4j,"SNS,Step Functions,Cognito","FSx,EFS"
+tech-285,Finance Service,Finance Service Service,.NET 6,Gin,"DynamoDB,Aurora PostgreSQL","Kafka,RabbitMQ,Kinesis",EFS
+tech-286,Finance Service,Finance Service Service,Java 21,Gin,Timestream,"SQS,REST API,Kafka,Step Functions",CloudFront
+tech-287,Finance Service,Finance Service Service,PHP 8.2,Vue.js,"Redis,Cassandra",AMQP,"Glacier,Backup,FSx"
+tech-288,Finance Service,Finance Service Processor,PHP 8.1,Express.js,"Elasticsearch,MongoDB,Redis","gRPC,SQS","Backup,Storage Gateway,EBS"
+tech-289,Quality Assurance Engine,Quality Assurance Engine,Python 3.9,Vue.js,"MariaDB,SQL Server","SQS,MQTT,AMQP,REST API","CloudFront,EBS"
+tech-290,Supply Chain Controller 94,Supply Chain Controller 94 API,Ruby 3.1,Vue.js,,SNS,Glacier
+tech-291,Supply Chain Controller 94,Supply Chain Controller 94 Processor,Node.js 18,React,"SQL Server,Neo4j,Redis","Step Functions,AMQP","CloudFront,Storage Gateway,EFS"
+tech-292,Supply Chain Controller 94,Supply Chain Controller 94 Worker,Go 1.20,Vue.js,"Aurora PostgreSQL,CouchDB,Redshift","RabbitMQ,gRPC,WebSockets,EventBridge","S3,FSx,Storage Gateway"
+tech-293,Supply Chain Controller 94,Supply Chain Controller 94 Service,Python 3.10,Angular,Oracle,"RabbitMQ,Kafka,SQS",CloudFront
+tech-294,Supply Chain Controller 94,Supply Chain Controller 94 Frontend,Ruby 3.0,Fiber,"Aurora MySQL,Redis","SQS,Step Functions","Storage Gateway,FSx,CloudFront"
+tech-295,Marketing Analyzer,Marketing Analyzer Backend,PHP 8.1,Express.js,"Oracle,Redshift",RabbitMQ,Backup
+tech-296,Marketing Analyzer,Marketing Analyzer Processor,Java 17,Nuxt.js,"MongoDB,MariaDB","Step Functions,WebSockets,GraphQL",EBS
+tech-297,Marketing Analyzer,Marketing Analyzer Frontend,Python 3.11,Echo,,"EventBridge,REST API,Cognito","CloudFront,S3,FSx"
+tech-298,Customer Service Application,Customer Service Application Processor,Python 3.9,Spring Boot,DocumentDB,"SQS,Kafka,Step Functions","FSx,Storage Gateway"
+tech-299,Customer Service Application,Customer Service Application Frontend,Python 3.10,Ruby on Rails,"Redshift,CouchDB",AMQP,EFS
+tech-300,Customer Service Application,Customer Service Application API,Python 3.10,Ruby on Rails,,"SNS,RabbitMQ,SQS",Backup
+tech-301,Customer Service Application,Customer Service Application Worker,.NET 7,Django,Timestream,"REST API,SQS,Step Functions,EventBridge","FSx,Storage Gateway"
+tech-302,Customer Service Application,Customer Service Application Worker,Go 1.20,Fiber,"MariaDB,Timestream,SQL Server",gRPC,"FSx,Backup,EBS"
+tech-303,Marketing Application 97,Marketing Application 97,Ruby 3.1,Flask,"Timestream,SQL Server","SNS,Kafka,WebSockets","S3,Backup"
+tech-304,Procurement Processor 98,Procurement Processor 98 API,Python 3.11,Nuxt.js,,"WebSockets,EventBridge,REST API","CloudFront,EBS,Glacier"
+tech-305,Procurement Processor 98,Procurement Processor 98 Processor,Python 3.10,Ruby on Rails,,"SNS,AMQP,GraphQL,RabbitMQ","FSx,Backup,EBS"
+tech-306,E-Commerce Tool,E-Commerce Tool API,.NET 8,Fiber,"MongoDB,Redis","Kafka,gRPC,Kinesis,Step Functions","Storage Gateway,Glacier,EFS"
+tech-307,E-Commerce Tool,E-Commerce Tool Processor,Go 1.21,FastAPI,"Aurora MySQL,Aurora PostgreSQL","SQS,MQTT",S3
+tech-308,E-Commerce Tool,E-Commerce Tool Processor,Ruby 3.1,React,"Aurora PostgreSQL,MongoDB,Aurora MySQL","WebSockets,RabbitMQ","Glacier,FSx,Backup"
+tech-309,E-Commerce Tool,E-Commerce Tool API,Python 3.10,Laravel,"DynamoDB,Aurora PostgreSQL","GraphQL,RabbitMQ,MQTT",EFS
+tech-310,E-Commerce Tool,E-Commerce Tool Service,Python 3.10,Flask,,Kinesis,"Storage Gateway,EFS"
+tech-311,Product Engine,Product Engine API,.NET 8,Laravel,SQL Server,"RabbitMQ,gRPC",CloudFront
+tech-312,Product Engine,Product Engine Worker,PHP 8.2,ASP.NET Core,"Aurora PostgreSQL,Neptune,Elasticsearch","GraphQL,Step Functions,Kafka",S3
+tech-313,Product Engine,Product Engine Service,Node.js 18,Express.js,SQL Server,SQS,"CloudFront,EBS"
+tech-314,Product Engine,Product Engine API,PHP 8.2,Ruby on Rails,,"AMQP,MQTT","EBS,Backup,FSx"
+tech-315,Product Engine,Product Engine API,Node.js 18,Echo,,"gRPC,Kafka,Kinesis,Cognito",EFS
+tech-316,Operations Processor 101,Operations Processor 101,Node.js 18,Solid.js,,Step Functions,"CloudFront,FSx,EFS"
+tech-317,Engineering Platform,Engineering Platform Backend,Python 3.9,FastAPI,DynamoDB,"REST API,Step Functions","FSx,Backup,Storage Gateway"
+tech-318,Engineering Platform,Engineering Platform Worker,Java 11,Solid.js,"PostgreSQL,Elasticsearch","Kafka,SNS","FSx,EFS,S3"
+tech-319,Engineering Platform,Engineering Platform API,Python 3.10,Spring Boot,,"Cognito,Step Functions","Backup,FSx"
+tech-320,Engineering Platform,Engineering Platform Service,Go 1.21,FastAPI,"DynamoDB,SQL Server,Neo4j","GraphQL,AMQP,SQS","Glacier,FSx"
+tech-321,Engineering Platform,Engineering Platform Backend,Go 1.21,Express.js,Elasticsearch,"gRPC,WebSockets",Storage Gateway
+tech-322,Operations Tracker,Operations Tracker Worker,.NET 7,Next.js,"DocumentDB,Redshift,SQL Server","WebSockets,SNS,RabbitMQ","Backup,CloudFront,Glacier"
+tech-323,Operations Tracker,Operations Tracker Frontend,Ruby 3.1,Ruby on Rails,Elasticsearch,"AMQP,Kafka,MQTT",EBS
+tech-324,Marketing Monitor,Marketing Monitor Backend,Ruby 3.1,Echo,"Aurora PostgreSQL,Aurora MySQL","EventBridge,GraphQL,RabbitMQ,gRPC","Storage Gateway,EBS,Glacier"
+tech-325,Marketing Monitor,Marketing Monitor API,Python 3.11,Ruby on Rails,DocumentDB,"Cognito,REST API,AMQP",EBS
+tech-326,Compliance Platform,Compliance Platform,Go 1.21,Flask,"PostgreSQL,Elasticsearch",Auth0,"Glacier,S3,FSx"
+tech-327,R&D Controller,R&D Controller Service,PHP 8.2,Ruby on Rails,"Neptune,Timestream,MongoDB","Step Functions,SQS,EventBridge","CloudFront,S3,Storage Gateway"
+tech-328,R&D Controller,R&D Controller Processor,Java 21,Svelte,"MySQL,SQL Server,Timestream","MQTT,Kafka,SNS","EBS,CloudFront,S3"
+tech-329,R&D Controller,R&D Controller Frontend,Go 1.21,Vue.js,"Redshift,PostgreSQL","SNS,REST API",EFS
+tech-330,R&D Controller,R&D Controller Processor,Python 3.10,Vue.js,MongoDB,"RabbitMQ,AMQP","EBS,FSx"
+tech-331,Business Development Analyzer,Business Development Analyzer,Node.js 20,Next.js,Neo4j,"WebSockets,SNS,Cognito","Storage Gateway,Backup"
+tech-332,Compliance Monitor,Compliance Monitor,Node.js 20,Django,,EventBridge,"EFS,S3"
+tech-333,Legal Engine,Legal Engine Worker,Go 1.20,Express.js,"PostgreSQL,Timestream","SNS,GraphQL,AMQP",CloudFront
+tech-334,Legal Engine,Legal Engine Backend,Python 3.9,Django,"Neo4j,DocumentDB,Cassandra","Cognito,RabbitMQ,Auth0,Step Functions","Backup,FSx,EFS"
+tech-335,Manufacturing Engine,Manufacturing Engine Worker,Go 1.21,ASP.NET Core,"MariaDB,CouchDB",SNS,"S3,Glacier,CloudFront"
+tech-336,Manufacturing Engine,Manufacturing Engine Processor,Ruby 3.0,Express.js,"DynamoDB,PostgreSQL",Kafka,"EFS,S3"
+tech-337,Procurement Engine,Procurement Engine Processor,.NET 6,Express.js,"Neptune,Aurora PostgreSQL","Auth0,SNS,Kinesis,EventBridge","FSx,S3"
+tech-338,Procurement Engine,Procurement Engine Backend,Java 21,Svelte,,"SNS,AMQP","Storage Gateway,Backup,FSx"
+tech-339,Procurement Engine,Procurement Engine Worker,Python 3.11,Laravel,"MySQL,Aurora MySQL","AMQP,gRPC,SQS,RabbitMQ","Glacier,Backup"
+tech-340,Engineering Processor 112,Engineering Processor 112 API,Python 3.11,Gin,,"EventBridge,Kafka",EBS
+tech-341,Engineering Processor 112,Engineering Processor 112 Service,Ruby 3.0,Vue.js,,"WebSockets,gRPC,REST API","S3,EBS,CloudFront"
+tech-342,Engineering Processor 112,Engineering Processor 112 Frontend,Java 21,Next.js,,"Step Functions,EventBridge","EFS,FSx"
+tech-343,Engineering Processor 112,Engineering Processor 112 Worker,Node.js 18,Solid.js,,"Kafka,SNS,WebSockets,MQTT",S3
+tech-344,Engineering Processor 112,Engineering Processor 112 API,Java 21,Angular,"MySQL,Neptune","WebSockets,REST API,RabbitMQ","EBS,Backup,CloudFront"
+tech-345,Procurement Tracker,Procurement Tracker Worker,Go 1.21,Next.js,Neptune,"SQS,REST API,Step Functions","EBS,Storage Gateway,Glacier"
+tech-346,Procurement Tracker,Procurement Tracker Worker,Java 21,Ruby on Rails,Neo4j,"Step Functions,SQS,gRPC","FSx,EFS,Backup"
+tech-347,Procurement Tracker,Procurement Tracker Backend,Ruby 3.1,Gin,MariaDB,GraphQL,S3
+tech-348,Manufacturing Management System 114,Manufacturing Management System 114,Node.js 18,Gin,,"GraphQL,SNS",Storage Gateway
+tech-349,R&D Processor,R&D Processor API,Node.js 18,Solid.js,,"SNS,AMQP,Kinesis,GraphQL",Glacier
+tech-350,R&D Processor,R&D Processor Processor,Java 11,Angular,"PostgreSQL,DocumentDB,MySQL","Kafka,SQS,GraphQL","Backup,Glacier"
+tech-351,Legal Engine,Legal Engine,Go 1.20,Next.js,"Elasticsearch,Cassandra,CouchDB","Step Functions,Auth0",EFS
+tech-352,Risk Management Service 117,Risk Management Service 117,Node.js 20,Fiber,"Timestream,DocumentDB","Kafka,RabbitMQ",Glacier
+tech-353,Product Gateway,Product Gateway API,Java 11,Angular,"Redshift,Neo4j","REST API,WebSockets,gRPC","Glacier,EFS"
+tech-354,Product Gateway,Product Gateway Backend,Python 3.11,Express.js,"Aurora MySQL,CouchDB,PostgreSQL",SQS,"EFS,Storage Gateway"
+tech-355,Engineering Monitor,Engineering Monitor Service,.NET 7,Angular,"DynamoDB,Oracle","gRPC,Cognito,REST API,GraphQL","EBS,Glacier,Storage Gateway"
+tech-356,Engineering Monitor,Engineering Monitor Service,Go 1.21,Angular,,"EventBridge,GraphQL,gRPC","Backup,EFS"
+tech-357,Customer Service Portal,Customer Service Portal Worker,Java 17,Laravel,,"AMQP,SNS,GraphQL,Cognito","S3,Glacier,Backup"
+tech-358,Customer Service Portal,Customer Service Portal API,Java 11,Express.js,,"EventBridge,MQTT",FSx
+tech-359,Customer Service Portal,Customer Service Portal API,Node.js 16,React,,EventBridge,"CloudFront,EBS,Backup"
+tech-360,Customer Service Portal,Customer Service Portal Processor,Node.js 20,Express.js,"Timestream,Aurora MySQL,CouchDB",EventBridge,CloudFront
+tech-361,Product Processor 121,Product Processor 121 API,Java 21,Solid.js,Redis,RabbitMQ,"Storage Gateway,S3"
+tech-362,Product Processor 121,Product Processor 121 Service,Go 1.21,Django,,"SQS,MQTT,Kafka,Auth0","S3,FSx"
+tech-363,Product Processor 121,Product Processor 121 Frontend,Node.js 20,FastAPI,Aurora PostgreSQL,Kafka,EBS
+tech-364,Product Processor 121,Product Processor 121 Service,Node.js 16,Laravel,,"gRPC,Kafka","EFS,Storage Gateway,Glacier"
+tech-365,Product Processor 121,Product Processor 121 API,Node.js 16,Django,,"Kafka,Auth0,AMQP,Cognito","Glacier,EBS,Storage Gateway"
+tech-366,Risk Management Service,Risk Management Service Frontend,.NET 7,Solid.js,,"GraphQL,Cognito,REST API","Glacier,EBS,S3"
+tech-367,Risk Management Service,Risk Management Service Frontend,Java 21,Vue.js,"MySQL,MongoDB,PostgreSQL",GraphQL,Glacier
+tech-368,Risk Management Service,Risk Management Service Service,PHP 8.2,Express.js,"MariaDB,Cassandra,Aurora MySQL","Step Functions,Auth0,AMQP,REST API","S3,CloudFront"
+tech-369,IT Dashboard,IT Dashboard Frontend,Python 3.12,Django,Redis,"Auth0,RabbitMQ","Glacier,CloudFront,S3"
+tech-370,IT Dashboard,IT Dashboard Worker,.NET 6,Solid.js,Aurora PostgreSQL,"gRPC,RabbitMQ,SNS,REST API","S3,CloudFront"
+tech-371,IT Dashboard,IT Dashboard Processor,Java 21,Express.js,"MySQL,MongoDB,Aurora MySQL","EventBridge,SQS,Step Functions","EFS,FSx,CloudFront"
+tech-372,IT Dashboard,IT Dashboard API,Python 3.12,Express.js,,"REST API,Kafka",Backup
+tech-373,IT Dashboard,IT Dashboard Backend,Ruby 3.0,Flask,"Aurora PostgreSQL,MongoDB","Auth0,REST API","S3,FSx,Backup"
+tech-374,Customer Service Analyzer,Customer Service Analyzer,Node.js 18,Remix,,Cognito,S3
+tech-375,Marketing Dashboard,Marketing Dashboard API,Python 3.9,Django,,"WebSockets,Kafka",Storage Gateway
+tech-376,Marketing Dashboard,Marketing Dashboard API,Java 11,Spring Boot,,Kinesis,FSx
+tech-377,Product Hub 126,Product Hub 126,Java 11,Laravel,"Oracle,Elasticsearch",REST API,"S3,Glacier"
+tech-378,Sales Tracker,Sales Tracker Service,PHP 8.1,Angular,,"Auth0,MQTT",S3
+tech-379,Sales Tracker,Sales Tracker API,Go 1.20,Django,"Elasticsearch,MongoDB,CouchDB","Cognito,gRPC,Kafka","FSx,EBS,S3"
+tech-380,Business Development Monitor 128,Business Development Monitor 128,.NET 6,Svelte,"Timestream,Cassandra","Auth0,RabbitMQ,MQTT,EventBridge",Storage Gateway
+tech-381,Analytics Platform 129,Analytics Platform 129,Java 11,Fiber,"DynamoDB,Neo4j","GraphQL,gRPC,MQTT,SNS",Glacier
+tech-382,IT Engine 130,IT Engine 130 API,Java 21,Express.js,,"Auth0,WebSockets","EFS,EBS,Storage Gateway"
+tech-383,IT Engine 130,IT Engine 130 API,Node.js 18,React,,"Step Functions,MQTT,REST API","CloudFront,FSx"
+tech-384,IT Engine 130,IT Engine 130 Processor,Node.js 16,FastAPI,DocumentDB,"REST API,WebSockets",EFS
+tech-385,Operations Processor,Operations Processor Service,Node.js 20,Django,"Redis,DocumentDB",WebSockets,"S3,Storage Gateway"
+tech-386,Operations Processor,Operations Processor Worker,Ruby 3.0,Ruby on Rails,"Neptune,DynamoDB,Elasticsearch","Auth0,SQS,SNS",EBS
+tech-387,Operations Processor,Operations Processor Worker,Ruby 3.1,Nuxt.js,"Cassandra,Redshift,Redis","Cognito,WebSockets","Backup,Storage Gateway"
+tech-388,Marketing Dashboard,Marketing Dashboard Frontend,Ruby 3.1,Echo,"PostgreSQL,SQL Server","MQTT,GraphQL,gRPC,WebSockets","Glacier,EFS"
+tech-389,Marketing Dashboard,Marketing Dashboard Frontend,Go 1.21,Solid.js,"MySQL,Neptune","SQS,SNS","CloudFront,FSx"
+tech-390,HR Engine,HR Engine Backend,Python 3.10,FastAPI,"Elasticsearch,PostgreSQL",RabbitMQ,"Backup,CloudFront"
+tech-391,HR Engine,HR Engine API,Ruby 3.1,Vue.js,"DocumentDB,Redis,Redshift","SNS,GraphQL,AMQP","FSx,EFS"
+tech-392,HR Engine,HR Engine Frontend,Ruby 3.0,Nuxt.js,DocumentDB,"SQS,EventBridge","Backup,CloudFront,EBS"
+tech-393,Customer Service Management System,Customer Service Management System Service,Ruby 3.1,Remix,Aurora MySQL,"SQS,SNS,Auth0,MQTT","Glacier,EBS,S3"
+tech-394,Customer Service Management System,Customer Service Management System Backend,.NET 6,ASP.NET Core,,"EventBridge,Kinesis,GraphQL,gRPC","FSx,Glacier"
+tech-395,Customer Service Management System,Customer Service Management System API,Ruby 3.1,Angular,"SQL Server,PostgreSQL","Step Functions,SNS,WebSockets,Cognito",EBS
+tech-396,Customer Service Management System,Customer Service Management System Backend,PHP 8.1,Next.js,"MySQL,Cassandra,Redshift","Step Functions,AMQP",Backup
+tech-397,R&D Gateway,R&D Gateway API,PHP 8.1,Vue.js,SQL Server,"Kafka,gRPC","EFS,Storage Gateway"
+tech-398,R&D Gateway,R&D Gateway Processor,Node.js 16,Gin,DynamoDB,"EventBridge,SNS,GraphQL",CloudFront
+tech-399,R&D Gateway,R&D Gateway Worker,PHP 8.1,Remix,,"Kafka,Auth0",Glacier
+tech-400,R&D Gateway,R&D Gateway Worker,Go 1.21,FastAPI,,Step Functions,"Glacier,EBS,Storage Gateway"
+tech-401,Manufacturing Tool,Manufacturing Tool Worker,Python 3.9,Angular,,WebSockets,"CloudFront,FSx"
+tech-402,Manufacturing Tool,Manufacturing Tool Worker,Node.js 20,Ruby on Rails,"Redis,Neptune,Aurora PostgreSQL","EventBridge,SQS","FSx,S3,Storage Gateway"
+tech-403,Manufacturing Tool,Manufacturing Tool Frontend,Python 3.11,FastAPI,,"Auth0,REST API","FSx,Storage Gateway,Glacier"
+tech-404,Manufacturing Tool,Manufacturing Tool API,Python 3.11,ASP.NET Core,MongoDB,Kafka,"S3,EBS"
+tech-405,Manufacturing Tool,Manufacturing Tool Backend,Python 3.9,Flask,,Kafka,"Storage Gateway,EBS"
+tech-406,Engineering Dashboard 137,Engineering Dashboard 137,PHP 8.1,Express.js,MongoDB,"Kafka,GraphQL,Step Functions,gRPC","FSx,CloudFront,EBS"
+tech-407,IT Controller 138,IT Controller 138 Frontend,.NET 6,Laravel,Redis,"GraphQL,MQTT","CloudFront,Storage Gateway"
+tech-408,IT Controller 138,IT Controller 138 Frontend,Python 3.10,Ruby on Rails,"SQL Server,Aurora MySQL","Kinesis,Auth0,GraphQL",FSx
+tech-409,Operations Management System 139,Operations Management System 139 Service,Ruby 3.1,Fiber,,"WebSockets,SNS,Step Functions","Storage Gateway,CloudFront,FSx"
+tech-410,Operations Management System 139,Operations Management System 139 Frontend,.NET 7,Flask,Cassandra,REST API,FSx
+tech-411,Operations Management System 139,Operations Management System 139 Processor,.NET 8,Spring Boot,"DynamoDB,Neo4j","RabbitMQ,Kafka,AMQP,WebSockets","S3,Glacier,CloudFront"
+tech-412,Operations Management System 139,Operations Management System 139 Service,Python 3.10,Gin,,"Kinesis,GraphQL,SQS,Kafka","EBS,FSx,EFS"
+tech-413,Legal Service,Legal Service,PHP 8.1,Spring Boot,"Timestream,MongoDB,PostgreSQL",SNS,"EBS,S3"
+tech-414,R&D Gateway,R&D Gateway Backend,Java 17,Gin,,REST API,"FSx,Storage Gateway,CloudFront"
+tech-415,R&D Gateway,R&D Gateway Processor,Ruby 3.1,Flask,"MySQL,DynamoDB","SNS,Step Functions,SQS,MQTT",FSx
+tech-416,Legal Engine,Legal Engine,Java 11,Fiber,Aurora PostgreSQL,Kinesis,Storage Gateway
+tech-417,Quality Assurance Platform,Quality Assurance Platform Processor,Python 3.10,Express.js,,"SQS,Kinesis",S3
+tech-418,Quality Assurance Platform,Quality Assurance Platform Frontend,PHP 8.1,Fiber,"Redis,Aurora PostgreSQL",EventBridge,"EBS,EFS"
+tech-419,Quality Assurance Platform,Quality Assurance Platform Frontend,Java 11,Express.js,"Aurora PostgreSQL,Redis",Kafka,"FSx,CloudFront,EFS"
+tech-420,Supply Chain Service,Supply Chain Service Service,Java 11,Fiber,"Neptune,Cassandra,MongoDB","GraphQL,Cognito,Kinesis","CloudFront,EFS"
+tech-421,Supply Chain Service,Supply Chain Service Backend,Java 17,Svelte,"SQL Server,PostgreSQL","AMQP,Cognito,Kinesis,Step Functions",EBS
+tech-422,Supply Chain Service,Supply Chain Service Backend,.NET 6,React,,"RabbitMQ,Kafka,Step Functions,gRPC","FSx,S3"
+tech-423,Supply Chain Service,Supply Chain Service Backend,.NET 7,Fiber,"Timestream,Redshift,DocumentDB","GraphQL,EventBridge,Cognito","EFS,CloudFront,S3"
+tech-424,Procurement Application 145,Procurement Application 145 API,Java 17,Django,"Aurora PostgreSQL,Neo4j,DocumentDB","AMQP,Kafka,Step Functions,Cognito","CloudFront,S3,Storage Gateway"
+tech-425,Procurement Application 145,Procurement Application 145 Service,Java 17,Laravel,Timestream,"Kafka,EventBridge,gRPC",EFS
+tech-426,Procurement Application 145,Procurement Application 145 Service,.NET 7,React,Timestream,"AMQP,EventBridge,Kafka,RabbitMQ",CloudFront
+tech-427,Product Processor,Product Processor Frontend,Node.js 18,Echo,,"MQTT,GraphQL","CloudFront,Glacier,EBS"
+tech-428,Product Processor,Product Processor API,Node.js 18,Ruby on Rails,Redis,"Kafka,MQTT","Glacier,Backup,S3"
+tech-429,Product Processor,Product Processor Worker,Java 21,Next.js,Timestream,"RabbitMQ,MQTT","Glacier,Backup"
+tech-430,Product Processor,Product Processor API,.NET 8,FastAPI,,"WebSockets,EventBridge","FSx,S3,EBS"
+tech-431,Product Processor,Product Processor Processor,Python 3.11,Django,"DocumentDB,DynamoDB","Step Functions,GraphQL","EFS,Storage Gateway"
+tech-432,Finance Analyzer,Finance Analyzer API,.NET 6,Echo,"CouchDB,Cassandra","WebSockets,AMQP","Backup,EFS"
+tech-433,Finance Analyzer,Finance Analyzer Worker,PHP 8.2,Echo,"Elasticsearch,DynamoDB","gRPC,MQTT,SQS",Backup
+tech-434,E-Commerce Management System,E-Commerce Management System Service,Python 3.11,Solid.js,"CouchDB,Elasticsearch",Step Functions,"EFS,FSx,Storage Gateway"
+tech-435,E-Commerce Management System,E-Commerce Management System Frontend,Python 3.10,React,"Neptune,Aurora PostgreSQL",SNS,"CloudFront,Backup"
+tech-436,Finance Management System,Finance Management System Processor,Java 21,Nuxt.js,,"Auth0,RabbitMQ",CloudFront
+tech-437,Finance Management System,Finance Management System Processor,Node.js 16,Ruby on Rails,"MongoDB,Redis","REST API,Kinesis,gRPC,Kafka",Storage Gateway
+tech-438,Finance Management System,Finance Management System Backend,Java 21,Svelte,"Redis,PostgreSQL,Aurora MySQL","SQS,Kafka,Cognito,GraphQL","CloudFront,EBS"
+tech-439,Marketing Gateway,Marketing Gateway API,Ruby 3.1,Gin,"Aurora MySQL,DynamoDB","AMQP,Kinesis,SNS",FSx
+tech-440,Marketing Gateway,Marketing Gateway Worker,.NET 8,React,CouchDB,WebSockets,"EFS,Backup,S3"
+tech-441,Marketing Gateway,Marketing Gateway Backend,.NET 8,Express.js,"Aurora PostgreSQL,MySQL,DynamoDB","Cognito,REST API","Glacier,FSx"
+tech-442,Marketing Gateway,Marketing Gateway Frontend,Node.js 16,Solid.js,"Aurora PostgreSQL,PostgreSQL",MQTT,EFS
+tech-443,Marketing Gateway,Marketing Gateway Backend,Java 21,Laravel,"Redshift,Neptune","RabbitMQ,Kinesis,Auth0,REST API",Glacier

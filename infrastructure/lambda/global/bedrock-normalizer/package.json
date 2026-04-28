@@ -1,0 +1,9 @@
+{
+  "name": "app-modex-bedrock-normalizer",
+  "version": "1.0.0",
+  "description": "Normalize technology names using Bedrock Agent",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-bedrock-agent-runtime": "^3.700.0"
+  }
+}
