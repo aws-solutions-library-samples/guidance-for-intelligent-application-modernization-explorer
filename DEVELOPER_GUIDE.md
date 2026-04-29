@@ -1507,10 +1507,10 @@ We welcome contributions to App-ModEx! Here's how you can help:
 
 ### Getting Started
 
-1. **Fork the repository** on GitLab
+1. **Fork the repository** on GitHub
 2. **Clone your fork** locally:
    ```bash
-   git clone https://gitlab.aws.dev/YOUR-USERNAME/app-modex-project.git
+   git clone https://github.com/aws-solutions-library-samples/guidance-for-intelligent-application-modernization-explorer.git
    cd app-modex-project
    ```
 3. **Add upstream remote**:
@@ -1561,7 +1561,7 @@ We welcome contributions to App-ModEx! Here's how you can help:
    git push origin feature/amazing-feature
    ```
 
-6. **Open a Merge Request** on GitLab:
+6. **Open a Pull Request** on GitHub:
    - Provide a clear description of the changes
    - Reference any related issues
    - Include screenshots for UI changes
@@ -1831,4 +1831,4 @@ Thank you to all the developers who have contributed to this project!
 **Last Updated:** February 2026  
 **Maintained By:** App-ModEx Development Team
 
-For questions or support, please open an issue on GitLab or contact the development team.
+For questions or support, please open an issue on GitHub or contact the development team.

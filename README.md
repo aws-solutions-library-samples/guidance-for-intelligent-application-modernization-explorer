@@ -82,7 +82,7 @@ Project Creation → DynamoDB Streams → Provisioning Lambda → CodeBuild → 
 
 ### Cost
 
-_You are responsible for the cost of the AWS services used while running this Guidance. As of February 2026, the cost for running this Guidance with the default settings in the US East (N. Virginia) region is approximately $14 per month (or as low as $9/month during the first year with AWS Free Tier) for a small deployment with 5 active users, 1 project, and 100 applications. Costs scale with usage - a larger deployment with 50 users, 10 projects, and 5,000 applications costs approximately $360 per month._
+_You are responsible for the cost of the AWS services used while running this Guidance. As of April 2026, the cost for running this Guidance with the default settings in the US East (N. Virginia) region is approximately $14 per month (or as low as $9/month during the first year with AWS Free Tier) for a small deployment with 5 active users, 1 project, and 100 applications. Costs scale with usage - a larger deployment with 50 users, 10 projects, and 5,000 applications costs approximately $360 per month._
 
 _We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) through [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this Guidance._
 
@@ -1081,7 +1081,7 @@ For feedback, questions, or suggestions, please use the [issues tab](https://git
 
 ## Revisions
 
-### Version 1.0 (February 2026)
+### Version 1.0 (April 2026)
 - Initial release of App-ModEx Guidance
 - Core infrastructure with 6 CDK stacks
 - Per-project automatic provisioning via CodeBuild
@@ -1092,17 +1092,6 @@ For feedback, questions, or suggestions, please use the [issues tab](https://git
 - Technology stack normalization with Bedrock
 - Export functionality with history tracking
 - Project sharing with granular access control
-
-### Future Enhancements (Planned)
-
-- **Email Notifications:** Project sharing notifications and process completion alerts
-- **Advanced Analytics:** Machine learning-based recommendations for modernization strategies
-- **Multi-Cloud Support:** Extend analysis to Azure and GCP workloads
-- **Integration Marketplace:** Pre-built connectors for popular enterprise tools
-- **Mobile Application:** iOS and Android apps for on-the-go access
-- **Advanced Reporting:** Customizable executive dashboards and reports
-- **Collaboration Features:** Comments, annotations, and team discussions
-- **Version Control:** Track changes to projects and analysis over time
 
 ## Notices
 
@@ -1126,7 +1115,7 @@ This Guidance uses the following open-source packages and libraries:
 - Amazon Bedrock Claude 3.7 Sonnet (AWS Service Terms)
 - Amazon Bedrock Nova Lite (AWS Service Terms)
 
-For complete license information, see the `LICENSE.md` file in this repository.
+For complete license information, see the `LICENSE` file in this repository.
 
 ### Trademarks
 
@@ -1149,7 +1138,7 @@ AWS, Amazon Web Services, and all related marks are trademarks of Amazon.com, In
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** February 2026  
+**Last Updated:** April 2026  
 **Guidance Version:** 1.0  
 **Repository:** https://github.com/aws-solutions-library-samples/guidance-for-intelligent-application-modernization-explorer
 
