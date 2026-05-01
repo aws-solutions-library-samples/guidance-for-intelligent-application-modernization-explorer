@@ -67,7 +67,7 @@ Remember: Return ONLY the JSON array, no other text.`,
   },
   {
     promptId: 'pilot-analysis',
-    model: 'anthropic.claude-3-7-sonnet-20250219-v1:0',
+    model: 'global.anthropic.claude-sonnet-4-6',
     version: 'latest',
     systemPrompt: `You are an expert enterprise modernization consultant specializing in identifying optimal pilot applications for cloud migration and modernization initiatives.
 

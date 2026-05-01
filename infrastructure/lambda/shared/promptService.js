@@ -34,7 +34,7 @@ const PROMPT_TEMPLATES_TABLE = process.env.PROMPT_TEMPLATES_TABLE || 'app-modex-
 /**
  * Retrieves a prompt template from DynamoDB with caching
  * @param {string} promptType - Type of prompt (e.g., 'normalization', 'pilot-analysis', 'skill-importance')
- * @param {string} model - Model identifier (e.g., 'amazon.nova-lite-v1:0', 'anthropic.claude-3-7-sonnet-20250219-v1:0')
+ * @param {string} model - Model identifier (e.g., 'amazon.nova-lite-v1:0', 'global.anthropic.claude-sonnet-4-6')
  * @param {string} version - Optional version (defaults to 'latest')
  * @returns {Promise<Object>} Prompt template with systemPrompt and userPromptTemplate
  * @throws {Error} If prompt not found or retrieval fails

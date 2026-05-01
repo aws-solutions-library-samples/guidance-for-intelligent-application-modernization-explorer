@@ -24,7 +24,7 @@ export interface AppModExPromptTemplatesStackProps extends cdk.StackProps {
  * 
  * Seed Data:
  * - Normalization prompts (Nova Lite)
- * - Pilot Analysis prompts (Claude 3.7 Sonnet)
+ * - Pilot Analysis prompts (Claude Sonnet 4.6)
  * - Skill Importance prompts (Nova Lite)
  */
 export class AppModExPromptTemplatesStack extends cdk.Stack {

@@ -850,7 +850,7 @@ aws cognito-idp describe-user-pool-client \
 > **💰 COST IMPACT: YES - AI model usage charges apply**
 > 
 > **New Costs:**
-> - Claude 3.7 Sonnet: ~$3.00 per 1M input tokens, ~$15.00 per 1M output tokens
+> - Claude Sonnet 4.6: ~$3.00 per 1M input tokens, ~$15.00 per 1M output tokens
 > - Nova Lite: ~$0.06 per 1M input tokens, ~$0.24 per 1M output tokens
 > - Model invocation charges per request
 > 
@@ -877,7 +877,7 @@ The Prompt Templates stack (`app-modex-prompt-templates-stack.ts`) deploys:
 
 **Current Configuration:**
 - **Normalization** (Nova Lite): Standardizes technology names
-- **Pilot Analysis** (Claude 3.7 Sonnet): Evaluates pilot candidates with context
+- **Pilot Analysis** (Claude Sonnet 4.6): Evaluates pilot candidates with context
 - **Skill Importance** (Nova Lite): Scores skill importance based on team weights
 
 ### Prompt Templates Configuration
@@ -980,7 +980,7 @@ Provide:
 
 **Current Models:**
 - **Normalization**: `amazon.nova-lite-v1:0` (cost-optimized)
-- **Pilot Analysis**: `anthropic.claude-3-7-sonnet-20250219-v1:0` (high-quality analysis)
+- **Pilot Analysis**: `global.anthropic.claude-sonnet-4-6` (high-quality analysis, via inference profile)
 - **Skill Importance**: `amazon.nova-lite-v1:0` (cost-optimized)
 
 **To Change Models:**
@@ -1004,6 +1004,7 @@ const MODEL_ID = 'anthropic.claude-3-opus-20240229-v1:0';  // Higher quality
 - `anthropic.claude-3-haiku-20240307-v1:0` - Fast, affordable Claude
 - `anthropic.claude-3-sonnet-20240229-v1:0` - Balanced Claude
 - `anthropic.claude-3-7-sonnet-20250219-v1:0` - Latest Claude (current default for pilot analysis)
+- `anthropic.claude-sonnet-4-6` - Claude Sonnet 4.6 (recommended replacement)
 - `anthropic.claude-3-opus-20240229-v1:0` - Highest quality Claude and refine agent instructions
 
 **Debug Commands:**
@@ -1258,7 +1259,7 @@ cd infrastructure
 
 # Test with sample inputs
 aws bedrock-runtime invoke-model \
-  --model-id anthropic.claude-3-7-sonnet-20250219-v1:0 \
+  --model-id global.anthropic.claude-sonnet-4-6 \
   --body '{"anthropic_version":"bedrock-2023-05-31","max_tokens":1024,"messages":[{"role":"user","content":"Test input with PII: john.doe@example.com"}]}' \
   --cli-binary-format raw-in-base64-out \
   --guardrail-identifier <guardrail-id> \
@@ -1460,22 +1461,23 @@ resource.addMethod('POST', integration, {
 > **Model Price Comparison (per 1,000 tokens):**
 > - Nova Lite: $0.00006 input, $0.00024 output (cheapest)
 > - Claude 3 Haiku: $0.00025 input, $0.00125 output
-> - Claude 3.7 Sonnet: $0.003 input, $0.015 output (current)
+> - Claude 3.7 Sonnet: $0.003 input, $0.015 output (legacy)
+> - Claude Sonnet 4.6: $0.003 input, $0.015 output (current)
 > - Claude 3 Opus: $0.015 input, $0.075 output (most expensive)
 
 The solution uses direct Bedrock model invocation with three different models. You can customize these based on your needs and budget.
 
 **Current Agent Configuration:**
 
-1. **Normalization Agent** (Claude 3.7 Sonnet)
+1. **Normalization Agent** (Claude Sonnet 4.6)
    - Purpose: Standardize technology names across data sources
-   - Model: `anthropic.claude-3-7-sonnet-20250219-v1:0`
+   - Model: `global.anthropic.claude-sonnet-4-6`
    - Use Case: Technology stack normalization
    - Cost: Moderate (high-quality normalization)
 
-2. **Pilot Analysis Agent** (Claude 3.7 Sonnet)
+2. **Pilot Analysis Agent** (Claude Sonnet 4.6)
    - Purpose: AI-enhanced pilot candidate evaluation
-   - Model: `anthropic.claude-3-7-sonnet-20250219-v1:0`
+   - Model: `global.anthropic.claude-sonnet-4-6`
    - Use Case: Three-stage pilot identification with context
    - Cost: Moderate (contextual analysis)
 
@@ -1489,8 +1491,8 @@ Edit `infrastructure/lib/app-modex-prompt-templates-stack.ts`:
 
 ```typescript
 // Current models:
-// 1. Normalization Agent: anthropic.claude-3-7-sonnet-20250219-v1:0 (high quality)
-// 2. Pilot Analysis Agent: anthropic.claude-3-7-sonnet-20250219-v1:0 (high quality)
+// 1. Normalization Agent: global.anthropic.claude-sonnet-4-6 (high quality, inference profile)
+// 2. Pilot Analysis Agent: global.anthropic.claude-sonnet-4-6 (high quality, inference profile)
 // 3. Skill Importance Agent: amazon.nova-lite-v1:0 (fast, cost-effective)
 
 // Option 1: Use Claude Haiku for cost optimization
@@ -1531,6 +1533,7 @@ const skillImportanceAgent = new bedrock.CfnAgent(this, 'SkillImportanceAgent', 
 - `anthropic.claude-3-haiku-20240307-v1:0` - Fast, affordable Claude
 - `anthropic.claude-3-sonnet-20240229-v1:0` - Balanced Claude
 - `anthropic.claude-3-7-sonnet-20250219-v1:0` - Latest Claude (current default for normalization and pilot analysis)
+- `anthropic.claude-sonnet-4-6` - Claude Sonnet 4.6 (recommended replacement)
 - `anthropic.claude-3-opus-20240229-v1:0` - Highest quality Claude
 
 ### Customizing Agent Instructions
@@ -4255,14 +4258,14 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
     availabilityZones: ['us-west-2a', 'us-west-2b', 'us-west-2c'],
     vpcCidr: '10.0.0.0/16',
     natGateways: 3,
-    bedrockModels: ['claude-3-7-sonnet', 'nova-lite'],
+    bedrockModels: ['claude-sonnet-4-6', 'nova-lite'],
   },
   'us-east-1': {
     region: 'us-east-1',
     availabilityZones: ['us-east-1a', 'us-east-1b', 'us-east-1c'],
     vpcCidr: '10.1.0.0/16',
     natGateways: 3,
-    bedrockModels: ['claude-3-7-sonnet', 'nova-lite'],
+    bedrockModels: ['claude-sonnet-4-6', 'nova-lite'],
   },
   'eu-west-1': {
     region: 'eu-west-1',
@@ -4364,7 +4367,7 @@ const projectsLambda = new lambda.Function(this, 'ProjectsFunction', {
     
     // Bedrock Model Configuration
     NORMALIZATION_MODEL_ID: 'amazon.nova-lite-v1:0',
-    PILOT_ANALYSIS_MODEL_ID: 'anthropic.claude-3-7-sonnet-20250219-v1:0',
+    PILOT_ANALYSIS_MODEL_ID: 'global.anthropic.claude-sonnet-4-6',
     PILOT_ANALYSIS_AGENT_ID: pilotAnalysisAgentId,
     PILOT_ANALYSIS_AGENT_ALIAS_ID: pilotAnalysisAgentAliasId,
     
@@ -4746,7 +4749,7 @@ const normalizationAgent = new bedrock.CfnAgent(this, 'NormalizationAgent', {
 
 // Use expensive models only for complex tasks
 const pilotAnalysisAgent = new bedrock.CfnAgent(this, 'PilotAnalysisAgent', {
-  foundationModel: 'anthropic.claude-3-7-sonnet-20250219-v1:0',  // High quality
+  foundationModel: 'global.anthropic.claude-sonnet-4-6',  // High quality, inference profile
   // ... rest of config
 });
 

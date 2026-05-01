@@ -2478,7 +2478,10 @@ export class AppModExBackendStack extends cdk.Stack {
     }));
     pilotIdentificationAsyncRole.addToPolicy(new iam.PolicyStatement({
       actions: ['bedrock:InvokeModel'],
-      resources: [`arn:aws:bedrock:${this.region}::foundation-model/anthropic.claude-3-7-sonnet-*`]
+      resources: [
+        `arn:aws:bedrock:${this.region}:${this.account}:inference-profile/global.anthropic.claude-sonnet-4-6`,
+        `arn:aws:bedrock:*::foundation-model/anthropic.claude-sonnet-4-6`
+      ]
     }));
 
     // ===== SIMILARITY AND PILOT ANALYSIS LAMBDA FUNCTIONS =====
@@ -2723,7 +2726,8 @@ export class AppModExBackendStack extends cdk.Stack {
         'bedrock:InvokeModel'
       ],
       resources: [
-        `arn:aws:bedrock:${this.region}::foundation-model/anthropic.claude-3-7-sonnet-20250219-v1:0`
+        `arn:aws:bedrock:${this.region}:${this.account}:inference-profile/global.anthropic.claude-sonnet-4-6`,
+        `arn:aws:bedrock:*::foundation-model/anthropic.claude-sonnet-4-6`
       ]
     }));
 

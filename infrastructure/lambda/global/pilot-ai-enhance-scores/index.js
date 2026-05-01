@@ -9,7 +9,7 @@ const DEPLOYMENT_TIMESTAMP = '2026-01-20T11:32:39.3NZ';
  * - Prompts stored in DynamoDB for centralized management
  * - Supports versioning and runtime updates without redeployment
  * 
- * Uses direct Claude 3.7 Sonnet model to enhance pilot identification scores 
+ * Uses direct Claude Sonnet 4.6 model to enhance pilot identification scores 
  * with contextual intelligence from technology vision, skills, and similarity data.
  */
 
@@ -22,7 +22,7 @@ const bedrockClient = new BedrockRuntimeClient({ region: process.env.AWS_REGION 
 const dynamoClient = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(dynamoClient);
 
-const MODEL_ID = 'anthropic.claude-3-7-sonnet-20250219-v1:0';
+const MODEL_ID = 'global.anthropic.claude-sonnet-4-6';
 
 exports.handler = async (event) => {
   console.log('AI Enhance Scores - Event:', JSON.stringify(sanitizeEvent(event), null, 2));

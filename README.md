@@ -75,7 +75,7 @@ Project Creation → DynamoDB Streams → Provisioning Lambda → CodeBuild → 
 ```
 
 **AI Integration:**
-- Amazon Bedrock (Claude 3.7 Sonnet) for pilot identification and contextual analysis
+- Amazon Bedrock (Claude Sonnet 4.6) for pilot identification and contextual analysis
 - Amazon Bedrock (Nova Lite) for technology normalization and skill importance scoring
 - Direct model invocation via BedrockRuntimeClient for cost optimization
 - Prompt templates stored in DynamoDB with 1-hour caching
@@ -98,7 +98,7 @@ _We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/la
 | AWS Lambda | 50,000 invocations, 200 GB-seconds compute (within free tier) | $0.00 | $0.00 |
 | Amazon DynamoDB | 2 GB storage, 15,000 read units, 3,000 write units (on-demand) | $0.51 | $0.51 |
 | Amazon Cognito | 5 monthly active users (within free tier of 50,000 MAU) | $0.00 | $0.00 |
-| Amazon Bedrock | Claude 3.7 Sonnet: 200K input/40K output tokens; Nova Lite: 70K input/15K output tokens | $1.21 | $1.21 |
+| Amazon Bedrock | Claude Sonnet 4.6: 200K input/40K output tokens; Nova Lite: 70K input/15K output tokens | $1.21 | $1.21 |
 | AWS Step Functions | 148 state transitions (within free tier of 4,000/month) | $0.00 | $0.00 |
 | Amazon Athena | 5 GB data scanned per month | $0.03 | $0.03 |
 | AWS Glue | Data Catalog: 1 database, 50 tables stored | $0.50 | $0.50 |
@@ -184,7 +184,7 @@ No additional third-party tools are required beyond the standard AWS SDK and CDK
    - EventBridge rules
 
 2. **Amazon Bedrock Model Access** - Enable access to:
-   - Anthropic Claude 3.7 Sonnet (for pilot identification and contextual analysis)
+   - Anthropic Claude Sonnet 4.6 (for pilot identification and contextual analysis)
    - Amazon Nova Lite (for technology normalization and skill importance scoring)
    - Navigate to Amazon Bedrock console → Model access → Request access for required models
 
@@ -225,7 +225,7 @@ aws cloudformation describe-stacks --stack-name CDKToolkit --profile app-modex-p
 **Critical Service Limits:**
 
 1. **Amazon Bedrock Throttling:**
-   - Claude 3.7 Sonnet: Default 10 requests per minute
+   - Claude Sonnet 4.6: Default 10 requests per minute
    - Nova Lite: Default 100 requests per minute
    - The Guidance implements conservative throttling to stay within limits
    - For high-volume usage, request quota increases via AWS Service Quotas console
@@ -252,7 +252,7 @@ aws cloudformation describe-stacks --stack-name CDKToolkit --profile app-modex-p
 - eu-west-1 (Ireland) - Full feature support
 - eu-west-2 (London) - Full feature support
 
-**Note:** Verify Amazon Bedrock model availability in your chosen region. Claude 3.7 Sonnet and Nova Lite must be available.
+**Note:** Verify Amazon Bedrock model availability in your chosen region. Claude Sonnet 4.6 and Nova Lite must be available.
 
 ## Deployment Steps
 
@@ -594,7 +594,7 @@ Status should show **Deployed**.
 Three tabs with different analysis results:
 - **Consolidated** (Recommended): Intelligent combination of rule-based and AI analysis
 - **Rule-Based**: Pure algorithmic scoring
-- **AI-Enhanced**: Context-aware analysis with Bedrock Claude 3.7 Sonnet
+- **AI-Enhanced**: Context-aware analysis with Bedrock Claude Sonnet 4.6
 
 Each candidate shows:
 - Application name and overall score (0-100)
@@ -937,7 +937,7 @@ A: Core infrastructure deployment takes approximately 15-20 minutes. Per-project
 A: Yes, the backend can be deployed to any supported region. However, the frontend must be deployed to us-east-1 for WAF protection.
 
 **Q: What are the Bedrock model requirements?**
-A: You need access to Claude 3.7 Sonnet and Nova Lite models in your deployment region. Request access via the Bedrock console.
+A: You need access to Claude Sonnet 4.6 and Nova Lite models in your deployment region. Request access via the Bedrock console.
 
 **Q: How much does it cost to run this Guidance?**
 A: Costs vary based on usage. For a small deployment (5 users, 1 project, 100 applications), expect $9-$14 per month. Use AWS Cost Explorer for accurate estimates.
@@ -1112,7 +1112,7 @@ This Guidance uses the following open-source packages and libraries:
 - AWS SDK for JavaScript (Apache 2.0)
 
 **AI Models:**
-- Amazon Bedrock Claude 3.7 Sonnet (AWS Service Terms)
+- Amazon Bedrock Claude Sonnet 4.6 (AWS Service Terms)
 - Amazon Bedrock Nova Lite (AWS Service Terms)
 
 For complete license information, see the `LICENSE` file in this repository.

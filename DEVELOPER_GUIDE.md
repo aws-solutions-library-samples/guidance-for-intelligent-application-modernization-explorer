@@ -42,7 +42,7 @@ This guide provides comprehensive developer documentation for contributing to or
 - **CDN**: Amazon CloudFront with WAF protection
 - **AI/ML**: Amazon Bedrock Runtime API with direct model invocation:
   - **Normalization** (Nova Lite): Technology stack standardization
-  - **Pilot Analysis** (Claude 3.7 Sonnet): AI-enhanced pilot candidate evaluation
+  - **Pilot Analysis** (Claude Sonnet 4.6): AI-enhanced pilot candidate evaluation
   - **Skill Importance** (Nova Lite): Intelligent skill importance assessment
   - **Prompt Templates**: Stored in DynamoDB with versioning and 1-hour caching
 - **Orchestration**: AWS Step Functions for complex workflows:
@@ -450,7 +450,7 @@ The Pilot Identification page uses a revolutionary three-stage AI-enhanced appro
 
 **Three-Stage Analysis:**
 1. **Rule-Based Results**: Algorithmic scoring based on business drivers and technical feasibility
-2. **AI-Enhanced Results**: Context-aware analysis using Amazon Bedrock (Claude 3.7 Sonnet)
+2. **AI-Enhanced Results**: Context-aware analysis using Amazon Bedrock (Claude Sonnet 4.6)
 3. **Consolidated Results**: Intelligent weighted combination optimized by AI confidence levels
 
 **Key Features:**
@@ -1172,8 +1172,8 @@ The solution uses **direct Bedrock Runtime API calls** instead of Bedrock Agents
    - Invocation: Synchronous via `InvokeModelCommand`
    - Cost: ~$0.06 per 1M input tokens
 
-2. **Pilot Analysis** (Claude 3.7 Sonnet)
-   - Model: `anthropic.claude-3-7-sonnet-20250219-v1:0`
+2. **Pilot Analysis** (Claude Sonnet 4.6)
+   - Model: `global.anthropic.claude-sonnet-4-6` (via inference profile)
    - Purpose: AI-enhanced pilot candidate evaluation
    - Invocation: Synchronous via `InvokeModelCommand`
    - Cost: ~$3.00 per 1M input tokens
@@ -1447,7 +1447,7 @@ exports.handler = async (event) => {
 - AI-enhanced analysis with context integration (similarities, skills, vision)
 - Consolidated results with confidence-based weighting
 - Parallel processing with AWS Step Functions Map state
-- Direct Bedrock model invocation (Claude 3.7 Sonnet) for contextual insights
+- Direct Bedrock model invocation (Claude Sonnet 4.6) for contextual insights
 - Prompts managed via DynamoDB with runtime updates without redeployment
 
 **Documentation Architecture Update (October 2025)**

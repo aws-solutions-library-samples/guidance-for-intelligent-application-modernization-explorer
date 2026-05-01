@@ -21,7 +21,7 @@ const aws_cdk_lib_1 = require("aws-cdk-lib");
  *
  * Seed Data:
  * - Normalization prompts (Nova Lite)
- * - Pilot Analysis prompts (Claude 3.7 Sonnet)
+ * - Pilot Analysis prompts (Claude Sonnet 4.6)
  * - Skill Importance prompts (Nova Lite)
  */
 class AppModExPromptTemplatesStack extends cdk.Stack {

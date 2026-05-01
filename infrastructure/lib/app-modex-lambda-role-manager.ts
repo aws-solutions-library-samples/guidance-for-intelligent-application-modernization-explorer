@@ -269,6 +269,7 @@ export class LambdaRoleManager {
         actions,
         resources: [
           `arn:aws:bedrock:${this.region}::foundation-model/*`,
+          `arn:aws:bedrock:${this.region}:${this.account}:inference-profile/*`,
           `arn:aws:bedrock:${this.region}:${this.account}:agent/*`
         ]
       }));

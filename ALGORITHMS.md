@@ -240,7 +240,7 @@ Final score: (0.25 × 1.0) + (0.25 × 1.0) + (0.20 × 0.33) = 0.566
 - **Orchestration**: AWS Step Functions - `app-modex-pilot-analysis-{projectId}` (defined in `infrastructure/stepfunctions/project-specific/pilot-analysis.json`)
 
 **Bedrock Integration**: Direct model invocation using BedrockRuntimeClient and InvokeModelCommand
-- **Model**: Claude 3.7 Sonnet (anthropic.claude-3-7-sonnet-20250219-v1:0)
+- **Model**: Claude Sonnet 4.6 (global.anthropic.claude-sonnet-4-6 via inference profile)
 - **Prompt Management**: DynamoDB table `app-modex-prompt-templates` with versioning and 1-hour caching via `app-modex-shared` module
 - **Guardrails**: Optional Bedrock Guardrails integration for content filtering
 
@@ -263,7 +263,7 @@ The pilot identification algorithm uses a revolutionary three-stage approach tha
 - Provides baseline scores for comparison
 
 **Stage 2: AI-Enhanced Contextual Analysis**
-- Amazon Bedrock (Claude 3.7 Sonnet) direct model invocation
+- Amazon Bedrock (Claude Sonnet 4.6) direct model invocation
 - Incorporates organizational context (skills, technology vision, similarities)
 - Adjusts scores based on team capabilities and strategic alignment
 - Provides natural language insights and recommendations
@@ -461,7 +461,7 @@ Where:
 **Stage 2: AI-Enhanced Score**
 ```
 AIEnhancedScore(app) = BedrockInvoke(
-    model_id = "anthropic.claude-3-7-sonnet-20250219-v1:0",
+    model_id = "global.anthropic.claude-sonnet-4-6",
     system_prompt = prompt_template.systemPrompt,
     user_prompt = buildComprehensivePrompt(app, criteria, contextData),
     max_tokens = 2048,
@@ -653,7 +653,7 @@ Context Provided to Bedrock:
   - Redis (minor gap, 2 team members need training)
 
 Bedrock Model Invocation:
-- Model: anthropic.claude-3-7-sonnet-20250219-v1:0
+- Model: global.anthropic.claude-sonnet-4-6
 - Temperature: 0.3
 - Max tokens: 2048
 - Timeout: 30 seconds
@@ -784,7 +784,7 @@ Final Output:
 **Cost Optimization:**
 - Context data gathered once and reused across all AI partitions
 - Parallel processing reduces total execution time significantly
-- Bedrock API calls use Claude 3.7 Sonnet (optimized for reasoning)
+- Bedrock API calls use Claude Sonnet 4.6 (optimized for reasoning)
 - Prompt templates cached for 1 hour via `app-modex-shared` module
 - DynamoDB on-demand pricing for variable workloads
 - Immediate storage of AI results prevents data loss on failures
@@ -797,7 +797,7 @@ Final Output:
 
 #### Integration Points
 
-- **Amazon Bedrock**: Claude 3.7 Sonnet for AI-enhanced analysis
+- **Amazon Bedrock**: Claude Sonnet 4.6 for AI-enhanced analysis
 - **Application Similarity**: Leverages similarity scores for context
 - **Component Similarity**: Uses technology patterns for insights
 - **Team Skills (Athena)**: Queries skills inventory for capability matching
@@ -1165,7 +1165,7 @@ ORDER BY importance_score DESC, gap DESC
 - **Team Estimates**: React state management with on-demand calculations (client-side JavaScript)
 - **AI Integration**: Direct Bedrock model invocation via BedrockRuntimeClient and InvokeModelCommand
   - Nova Lite for normalization and skill importance (cost-effective)
-  - Claude 3.7 Sonnet for pilot analysis (contextual insights)
+  - Claude Sonnet 4.6 for pilot analysis (contextual insights)
 - **Prompt Management**: DynamoDB-based with versioning and 1-hour caching
 
 #### AI Prompt Engineering
@@ -1173,7 +1173,7 @@ ORDER BY importance_score DESC, gap DESC
 **Prompt Template Management:**
 - **Storage**: DynamoDB table `app-modex-prompt-templates`
 - **Template ID**: `pilot-analysis`
-- **Model ID**: `anthropic.claude-3-7-sonnet-20250219-v1:0`
+- **Model ID**: `global.anthropic.claude-sonnet-4-6`
 - **Caching**: 1-hour TTL via `app-modex-shared` module's `getPrompt()` function
 - **Versioning**: Supports multiple versions per template
 - **Runtime Updates**: Prompts can be updated without Lambda redeployment
@@ -1202,7 +1202,7 @@ The AI enhancement uses a carefully crafted prompt that provides:
 **Bedrock Invocation Parameters:**
 ```javascript
 {
-  modelId: "anthropic.claude-3-7-sonnet-20250219-v1:0",
+  modelId: "global.anthropic.claude-sonnet-4-6",
   contentType: "application/json",
   accept: "application/json",
   guardrailIdentifier: process.env.BEDROCK_GUARDRAIL_ID,  // Optional

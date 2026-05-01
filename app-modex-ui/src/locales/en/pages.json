@@ -348,7 +348,7 @@
     "topCandidate": "Top Candidate",
     "none": "None",
     "aiEnhancedResults": "AI-Enhanced Results",
-    "aiEnhancedDescription": "These scores leverage Amazon Bedrock (Claude 3.7 Sonnet) to analyze strategic technology alignment, skills-aware feasibility, organizational impact, and learning value. AI provides nuanced insights beyond rule-based calculations.",
+    "aiEnhancedDescription": "These scores leverage Amazon Bedrock (Claude Sonnet 4.6) to analyze strategic technology alignment, skills-aware feasibility, organizational impact, and learning value. AI provides nuanced insights beyond rule-based calculations.",
     "avgConfidence": "Avg Confidence",
     "applicationName": "Application Name",
     "department": "Department",
